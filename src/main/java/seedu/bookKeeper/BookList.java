@@ -10,6 +10,10 @@ public class BookList {
         this.listName = listName;
         this.bookList = new ArrayList<Book>();
     }
+
+    public String getlistName() {
+        return listName;
+    }
     
     public void addBook(Book book) {
         bookList.add(book);
