@@ -24,6 +24,12 @@ public class BookList {
     }
 
     public void viewBookList() {
-        //Add Implementation
+        for (int i = 0; i < bookList.size(); i++) {
+            System.out.println("Title: " + bookList.get(i).getTitle());
+            System.out.println("Title: " + bookList.get(i).getAuthor());
+            System.out.println("Title: " + bookList.get(i).getCategory());
+            System.out.println("Title: " + bookList.get(i).getCondition());
+            System.out.println("Title: " + bookList.get(i).getOnLoan());
+        }
     }
 }

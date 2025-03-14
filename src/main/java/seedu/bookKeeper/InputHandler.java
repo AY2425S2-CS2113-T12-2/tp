@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class InputHandler {
-    private ArrayList<Book> bookList;
-    private ArrayList<Loan> loanList;
+    private BookList bookList;
+    private LoanList loanList;
 
     public InputHandler() {
-        this.bookList = new ArrayList<Book>();
-        this.loanList = new ArrayList<Loan>();
+        this.bookList = new BookList("Inventory");
+        this.loanList = new LoanList("Loan List");
     }
 
     public void askInput() {
@@ -29,8 +29,10 @@ public class InputHandler {
                 String[] commandArgs = InputParser.extractCommandArgs(userInputLine);
                 switch (commandArgs[0]) {
                 case "add-book":
+                    bookList.addBook(new Book(commandArgs[1],commandArgs[2], commandArgs[3], commandArgs[4]));
                     break;
                 case "view-inventory":
+                    bookList.viewBookList();
                     break;
                 case "remove-book":
                     break;
