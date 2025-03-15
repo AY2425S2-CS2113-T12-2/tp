@@ -1,3 +1,5 @@
+package bookkeeper;
+
 public class Loan {
     private Book book;
     private String loanDate;

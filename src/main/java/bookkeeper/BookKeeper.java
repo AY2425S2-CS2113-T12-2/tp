@@ -1,3 +1,5 @@
+package bookkeeper;
+
 public class BookKeeper {
     /**
      * Main entry-point for the BookKeeper application.
