@@ -15,8 +15,8 @@ public class LoanList {
         return listName;
     }
     
-    public void addLoan(Loan loan, String borrowerName, String date) {
-        //Add Implementation 
+    public void addLoan(Loan loan) {
+        loanList.add(loan);
     }
     
     public void deleteLoan(Loan loan, String bookTitle, String borrowerName) {

@@ -36,6 +36,7 @@ public class InputHandler {
                     case "remove-book":
                         break;
                     case "add-loan":
+                        addLoan(commandArgs);
                         break;
                     case "delete-loan":
                         break;
@@ -52,6 +53,27 @@ public class InputHandler {
                     System.out.println(e.getMessage());
                 }
             }
+        }
+    }
+
+    /**
+     * Extract arguments needed to create loan object and adds loan object to loan list.
+     *
+     * @param commandArgs The parsed command arguments.
+     */
+    private void addLoan(String[] commandArgs) {
+        try {
+            String[] loanArgs = InputParser.extractAddLoanArgs(commandArgs[1]);
+            Book loanedBook = bookList.findBookByTitle(loanArgs[0]);
+            if (loanedBook == null) {
+                System.out.println("Book not found in inventory: " + loanArgs[0]);
+            } else {
+                Loan loan = new Loan(loanedBook, loanArgs[2], loanArgs[1]);
+                loanList.addLoan(loan);
+                System.out.println("Loan added successfully for book: " + loanedBook.getTitle());
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
         }
     }
 }
