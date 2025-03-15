@@ -5,7 +5,7 @@ public class Book {
     private String author;
     private String category;
     private String condition;
-    private boolean onLoan; 
+    private boolean onLoan;
 
     public Book(String title, String author, String category, String condition) {
         this.title = title;
@@ -14,11 +14,11 @@ public class Book {
         this.condition = condition;
         onLoan = false;
     }
-    
+
     public String getTitle() {
         return title;
     }
-    
+
     public String getAuthor() {
         return author;
     }
@@ -26,7 +26,7 @@ public class Book {
     public String getCategory() {
         return category;
     }
-    
+
     public String getCondition() {
         return condition;
     }

@@ -14,7 +14,7 @@ public class BookList {
     public String getlistName() {
         return listName;
     }
-    
+
     public void addBook(Book book) {
         bookList.add(book);
     }
@@ -27,7 +27,7 @@ public class BookList {
         }
         return null;
     }
-    
+
     public void removeBook(String title) {
         //Add Implementation 
     }
