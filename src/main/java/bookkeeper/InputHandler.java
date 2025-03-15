@@ -99,7 +99,12 @@ public class InputHandler {
         System.out.println("New book added: " + newBook.getTitle());
     }
 
-
+    /**
+     * Extract arguments needed to delete loan and delete loan
+     * Checks if book and loan exist before deleting
+     * 
+     * @param commandArgs The parsed command arguments.
+     */
     private void deleteLoan(String[] commandArgs) {
         try {
             String[] deleteLoanArgs = InputParser.extractDeleteLoanArgs(commandArgs[1]);
