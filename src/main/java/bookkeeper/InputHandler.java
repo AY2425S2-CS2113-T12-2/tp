@@ -104,6 +104,11 @@ public class InputHandler {
         System.out.println("New book added: " + newBook.getTitle());
     }
 
+    /**
+     * Extract arguments needed to remove book object and removes book object from book list.
+     *
+     * @param commandArgs The parsed command arguments.
+     */
     private void removeBook(String[] commandArgs) {
         if (commandArgs.length != 2) {
             throw new IllegalArgumentException("Invalid format for remove-book. " +
