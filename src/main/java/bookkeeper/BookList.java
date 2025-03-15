@@ -14,11 +14,20 @@ public class BookList {
     public String getlistName() {
         return listName;
     }
-    
+
     public void addBook(Book book) {
         bookList.add(book);
     }
-    
+
+    public Book findBookByTitle(String title) {
+        for (int i = 0; i < bookList.size(); i++) {
+            if (bookList.get(i).getTitle().equals(title)) {
+                return bookList.get(i);
+            }
+        }
+        return null;
+    }
+
     public void removeBook(String title) {
         //Add Implementation 
     }

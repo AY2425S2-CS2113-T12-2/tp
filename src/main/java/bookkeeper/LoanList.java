@@ -14,16 +14,18 @@ public class LoanList {
     public String getlistName() {
         return listName;
     }
-    
-    public void addLoan(Loan loan, String borrowerName, String date) {
-        //Add Implementation 
+
+    public void addLoan(Loan loan) {
+        loanList.add(loan);
     }
-    
+
     public void deleteLoan(Loan loan, String bookTitle, String borrowerName) {
         //Add Implementation 
     }
 
-    public void viewBookList() {
-        //Add Implementation
+    public void viewLoanList() {
+        for (int i = 0; i < loanList.size(); i++) {
+            System.out.println((i + 1) + ". " + loanList.get(i).toString());
+        }
     }
 }
