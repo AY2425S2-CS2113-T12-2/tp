@@ -1,7 +1,7 @@
 public class InputParser {
 
     public static String[] extractCommandArgs(String input) throws IllegalArgumentException {
-        return input.strip().split(" ", 2);
+        return input.trim().split(" ", 2);
     }
 
     public static String[] extractXXXX(String input) {
