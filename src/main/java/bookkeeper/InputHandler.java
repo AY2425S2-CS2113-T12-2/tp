@@ -110,6 +110,10 @@ public class InputHandler {
      * @param commandArgs The parsed command arguments.
      */
     private void deleteLoan(String[] commandArgs) {
+        if (commandArgs.length < 2) {
+            throw new IllegalArgumentException("Invalid format for add-book. " +
+                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION");
+        }
         try {
             String[] deleteLoanArgs = InputParser.extractDeleteLoanArgs(commandArgs[1]);
             String bookTitle = deleteLoanArgs[0];
