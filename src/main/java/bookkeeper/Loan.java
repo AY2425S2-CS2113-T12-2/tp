@@ -30,4 +30,9 @@ public class Loan {
     public void setBorrowerName(String borrowerName) {
         this.borrowerName = borrowerName;
     }
+
+    @Override 
+    public String toString() {
+        return "Title: " + getTitle() + ", Borrower: " + getBorrowerName() + ", Return Date: " + getLoanDate();
+    }
 }

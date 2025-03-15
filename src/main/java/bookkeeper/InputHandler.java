@@ -41,6 +41,7 @@ public class InputHandler {
                     case "delete-loan":
                         break;
                     case "view-loans":
+                        loanList.viewLoanList();
                         break;
                     case "exit":
                         System.out.println("Exiting BookKeeper...");
