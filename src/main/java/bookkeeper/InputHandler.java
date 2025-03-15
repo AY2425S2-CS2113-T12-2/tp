@@ -64,6 +64,10 @@ public class InputHandler {
      * @param commandArgs The parsed command arguments.
      */
     private void addLoan(String[] commandArgs) {
+        if (commandArgs.length < 2) {
+            throw new IllegalArgumentException("Invalid format for add-loan. " +
+                    "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE");
+        }
         try {
             String[] loanArgs = InputParser.extractAddLoanArgs(commandArgs[1]);
             Book loanedBook = bookList.findBookByTitle(loanArgs[0]);

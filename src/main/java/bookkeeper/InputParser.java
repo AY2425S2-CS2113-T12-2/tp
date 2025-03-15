@@ -47,11 +47,22 @@ public class InputParser {
      * @throws IllegalArgumentException if the input format is invalid.
      */
     public static String[] extractAddLoanArgs(String input) {
+        String[] commandArgs = new String[3];
+
         String[] splitInput = input.trim().split("( n/)|( d/)", 3);
-        if (splitInput.length < 3) {
+        if (splitInput.length != 3) {
             throw new IllegalArgumentException("Invalid format for add-loan. " +
                     "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE");
         }
-        return splitInput;
+
+        for (int i = 0; i < splitInput.length; i++) {
+            if(splitInput[i].isBlank()){
+                throw new IllegalArgumentException("Invalid format for add-loan. " +
+                    "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE");
+            }
+            commandArgs[i] = splitInput[i].trim();
+        }
+
+        return commandArgs;
     }
 }
