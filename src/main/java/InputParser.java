@@ -10,7 +10,7 @@ public class InputParser {
     }
 
     public static String[] extractAddBook(String input) {
-        String commandArgs[] = new String[5];
+        String[] commandArgs = new String[5];
 
         String[] splitInput = input.strip().split("( a/)|( cat/)|( cond/)", 4);
         // Strip each element in the array
