@@ -28,4 +28,20 @@ public class InputParser {
 
         return commandArgs;
     }
+
+    public static String[] extractAddLoan(String input) {
+        String[] commandArgs = new String[4];
+
+        String[] splitInput = input.trim().split("( n/)|( d/)", 3);
+        if (splitInput.length < 3) {
+            throw new IllegalArgumentException("Invalid format for add-loan. Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE");
+        }
+
+        commandArgs[0] = "add-loan";
+        commandArgs[1] = splitInput[0]; // BOOK_TITLE
+        commandArgs[2] = splitInput[1]; // BORROWER_NAME
+        commandArgs[3] = splitInput[2]; // RETURN_DATE
+
+        return commandArgs;
+    }
 }
