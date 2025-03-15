@@ -37,9 +37,9 @@ public class InputParser {
      *
      * @param input The user input for the add-loan command.
      * @return An array of strings containing the arguments for the add-loan command:
-     * [0] - Book title
-     * [1] - Borrower's name
-     * [2] - Return date
+     *      [0] - Book title
+     *      [1] - Borrower's name
+     *      [2] - Return date
      * @throws IllegalArgumentException if the input format is invalid.
      */
     public static String[] extractAddLoanArgs(String input) {
