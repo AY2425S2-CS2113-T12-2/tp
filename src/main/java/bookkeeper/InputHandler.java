@@ -58,8 +58,8 @@ public class InputHandler {
     }
 
     /**
-     * Extract arguments needed to create loan object and adds loan object to loan list.
-     * The book involved in loan must exist in bookList and be available for loan.
+     * Adds loan object to loanList by first extracting arguments needed to create loan object.
+     * Before adding, book has to exist in bookList and is available for loan.
      *
      * @param commandArgs The parsed command arguments.
      */
