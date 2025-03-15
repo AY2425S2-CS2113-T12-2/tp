@@ -59,6 +59,7 @@ public class InputHandler {
 
     /**
      * Extract arguments needed to create loan object and adds loan object to loan list.
+     * The book involved in loan must exist in bookList and be available for loan.
      *
      * @param commandArgs The parsed command arguments.
      */
@@ -68,6 +69,8 @@ public class InputHandler {
             Book loanedBook = bookList.findBookByTitle(loanArgs[0]);
             if (loanedBook == null) {
                 System.out.println("Book not found in inventory: " + loanArgs[0]);
+            } else if (loanedBook.getOnLoan()) {
+                System.out.println("The book " + loanArgs[0] + "is currently out on loan.");
             } else {
                 Loan loan = new Loan(loanedBook, loanArgs[2], loanArgs[1]);
                 loanList.addLoan(loan);
