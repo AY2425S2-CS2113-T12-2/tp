@@ -26,6 +26,8 @@ public class InputHandler {
             } else {
                 try {
                     String[] commandArgs = InputParser.extractCommandArgs(userInputLine);
+                    assert commandArgs.length > 0 : "commandArgs should have at least one element";
+
                     switch (commandArgs[0]) {
                     case "add-book":
                         addBook(commandArgs);
@@ -67,8 +69,7 @@ public class InputHandler {
      */
     private void addLoan(String[] commandArgs) {
         if (commandArgs.length < 2) {
-            throw new IllegalArgumentException("Invalid format for add-loan. " +
-                    "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE");
+            throw new IllegalArgumentException("Invalid format for add-loan. " + "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE");
         }
         try {
             String[] loanArgs = InputParser.extractAddLoanArgs(commandArgs[1]);
@@ -76,6 +77,7 @@ public class InputHandler {
             if (loanedBook == null) {
                 System.out.println("Book not found in inventory: " + loanArgs[0]);
             } else if (loanedBook.getOnLoan()) {
+                assert loanedBook.getTitle() != null : "Loaned book must have a title";
                 System.out.println("The book " + loanArgs[0] + "is currently out on loan.");
             } else {
                 Loan loan = new Loan(loanedBook, loanArgs[2], loanArgs[1]);
@@ -95,10 +97,12 @@ public class InputHandler {
      */
     private void addBook(String[] commandArgs) {
         if (commandArgs.length < 2) {
-            throw new IllegalArgumentException("Invalid format for add-book. " +
-                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION");
+            throw new IllegalArgumentException("Invalid format for add-book. " + "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION");
         }
         String[] bookArgs = InputParser.extractAddBookArgs(commandArgs[1]);
+        assert bookArgs.length == 4 : "Book arguments should contain exactly 4 elements";
+        assert bookArgs[0] != null && !bookArgs[0].isEmpty() : "Book title cannot be null or empty";
+
         Book newBook = new Book(bookArgs[0], bookArgs[1], bookArgs[2], bookArgs[3]);
         bookList.addBook(newBook);
         System.out.println("New book added: " + newBook.getTitle());
@@ -111,15 +115,15 @@ public class InputHandler {
      */
     private void removeBook(String[] commandArgs) {
         if (commandArgs.length != 2) {
-            throw new IllegalArgumentException("Invalid format for remove-book. " +
-                    "Expected format: remove-book BOOK_TITLE");
+            throw new IllegalArgumentException("Invalid format for remove-book. " + "Expected format: remove-book BOOK_TITLE");
         }
         String bookTitle = commandArgs[1];
         Book toRemove = bookList.findBookByTitle(bookTitle);
+
         if (toRemove == null) {
             System.out.println("Book not found in inventory: " + bookTitle);
-        }
-        else {
+        } else {
+            assert toRemove.getTitle() != null : "Book to remove must have a valid title";
             bookList.removeBook(toRemove);
             System.out.println("Removed book: " + toRemove.getTitle());
         }
@@ -128,20 +132,19 @@ public class InputHandler {
     /**
      * Extract arguments needed to delete loan and delete loan
      * Checks if book and loan exist before deleting
-     * 
+     *
      * @param commandArgs The parsed command arguments.
      */
     private void deleteLoan(String[] commandArgs) {
         if (commandArgs.length < 2) {
-            throw new IllegalArgumentException("Invalid format for delete-loan. " +
-                    "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME");
+            throw new IllegalArgumentException("Invalid format for delete-loan. " + "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME");
         }
         try {
             String[] deleteLoanArgs = InputParser.extractDeleteLoanArgs(commandArgs[1]);
             String bookTitle = deleteLoanArgs[0];
             String borrowerName = deleteLoanArgs[1];
             Book loanedBook = bookList.findBookByTitle(bookTitle);
-            Loan loan = loanList.findLoan(loanedBook, borrowerName); 
+            Loan loan = loanList.findLoan(loanedBook, borrowerName);
             if (loanedBook == null) {
                 System.out.println("Book not found in inventory: " + bookTitle);
             } else if (!loanedBook.getOnLoan()) {
