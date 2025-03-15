@@ -111,8 +111,8 @@ public class InputHandler {
      */
     private void deleteLoan(String[] commandArgs) {
         if (commandArgs.length < 2) {
-            throw new IllegalArgumentException("Invalid format for add-book. " +
-                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION");
+            throw new IllegalArgumentException("Invalid format for delete-loan. " +
+                    "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME");
         }
         try {
             String[] deleteLoanArgs = InputParser.extractDeleteLoanArgs(commandArgs[1]);
