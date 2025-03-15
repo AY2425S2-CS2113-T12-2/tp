@@ -89,6 +89,10 @@ public class InputHandler {
      * @param commandArgs The parsed command arguments.
      */
     private void addBook(String[] commandArgs) {
+        if (commandArgs.length < 2) {
+            throw new IllegalArgumentException("Invalid format for add-book. " +
+                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION");
+        }
         String[] bookArgs = InputParser.extractAddBookArgs(commandArgs[1]);
         Book newBook = new Book(bookArgs[0], bookArgs[1], bookArgs[2], bookArgs[3]);
         bookList.addBook(newBook);
