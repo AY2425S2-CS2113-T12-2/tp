@@ -32,13 +32,18 @@ public class BookList {
         //Add Implementation 
     }
 
+    /**
+     * Prints all books in the bookList.
+     * First prints the book title, followed by the remaining attributes indented. 
+     */
     public void viewBookList() {
         for (int i = 0; i < bookList.size(); i++) {
-            System.out.println("Title: " + bookList.get(i).getTitle());
-            System.out.println("Title: " + bookList.get(i).getAuthor());
-            System.out.println("Title: " + bookList.get(i).getCategory());
-            System.out.println("Title: " + bookList.get(i).getCondition());
-            System.out.println("Title: " + bookList.get(i).getOnLoan());
+            Book currentBook = bookList.get(i);
+            System.out.println(i + ". " + currentBook.getTitle()
+                    + System.lineSeparator() + "    Author: " + currentBook.getAuthor()
+                    + System.lineSeparator() + "    Category: " + currentBook.getCategory()
+                    + System.lineSeparator() + "    Condition: " + currentBook.getCondition()
+                    + System.lineSeparator() + "    Title: " + currentBook.getOnLoan());
         }
     }
 }
