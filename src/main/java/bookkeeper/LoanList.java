@@ -24,6 +24,9 @@ public class LoanList {
     }
 
     public void viewLoanList() {
+        if(loanList.isEmpty()) {
+            System.out.println("Loan List Empty!");
+        }
         for (int i = 0; i < loanList.size(); i++) {
             System.out.println((i + 1) + ". " + loanList.get(i).toString());
         }

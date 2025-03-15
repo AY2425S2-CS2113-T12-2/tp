@@ -28,9 +28,7 @@ public class BookList {
         return null;
     }
 
-    public void removeBook(String title) {
-        //Add Implementation 
-    }
+    public void removeBook(Book book) { bookList.remove(book); }
 
     /**
      * Prints all books in the bookList.
@@ -38,7 +36,7 @@ public class BookList {
      */
     public void viewBookList() {
 
-        if(bookList.size() == 0){
+        if(bookList.isEmpty()) {
             System.out.println("Book List Empty!");
         }
 
