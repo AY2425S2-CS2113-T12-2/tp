@@ -14,10 +14,10 @@ public class InputParser {
     public static String[] extractAddBook(String input) {
         String[] commandArgs = new String[5];
 
-        String[] splitInput = input.strip().split("( a/)|( cat/)|( cond/)", 4);
+        String[] splitInput = input.trim().split("( a/)|( cat/)|( cond/)", 4);
         // Strip each element in the array
         for (int i = 0; i < splitInput.length; i++) {
-            splitInput[i] = splitInput[i].strip();
+            splitInput[i] = splitInput[i].trim();
         }
 
         commandArgs[0] = "add-book";
