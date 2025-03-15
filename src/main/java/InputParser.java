@@ -1,5 +1,3 @@
-package seedu.bookKeeper;
-
 public class InputParser {
 
     public static String[] extractCommandArgs(String input) throws IllegalArgumentException {

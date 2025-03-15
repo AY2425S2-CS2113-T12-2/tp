@@ -1,4 +1,3 @@
-package seedu.bookKeeper;
 public class Loan {
     private Book book;
     private String loanDate;

@@ -1,7 +1,3 @@
-package seedu.bookKeeper;
-
-import java.util.Scanner;
-
 public class BookKeeper {
     /**
      * Main entry-point for the BookKeeper application.

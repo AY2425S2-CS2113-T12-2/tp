@@ -1,5 +1,3 @@
-package seedu.bookKeeper;
-
 import java.util.Scanner;
 
 public class InputHandler {
