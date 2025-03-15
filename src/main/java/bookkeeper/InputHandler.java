@@ -28,7 +28,7 @@ public class InputHandler {
                     String[] commandArgs = InputParser.extractCommandArgs(userInputLine);
                     switch (commandArgs[0]) {
                     case "add-book":
-                        bookList.addBook(new Book(commandArgs[1], commandArgs[2], commandArgs[3], commandArgs[4]));
+                        addBook(commandArgs);
                         break;
                     case "view-inventory":
                         bookList.viewBookList();
@@ -58,8 +58,8 @@ public class InputHandler {
     }
 
     /**
-     * Extract arguments needed to create loan object and adds loan object to loan list.
-     * The book involved in loan must exist in bookList and be available for loan.
+     * Adds loan object to loanList by first extracting arguments needed to create loan object.
+     * Before adding, book has to exist in bookList and is available for loan.
      *
      * @param commandArgs The parsed command arguments.
      */
@@ -79,5 +79,17 @@ public class InputHandler {
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    /**
+     * Extract arguments needed to create book object and adds book object to book list.
+     *
+     * @param commandArgs The parsed command arguments.
+     */
+    private void addBook(String[] commandArgs) {
+        String[] bookArgs = InputParser.extractAddBookArgs(commandArgs[1]);
+        Book newBook = new Book(bookArgs[0], bookArgs[1], bookArgs[2], bookArgs[3]);
+        bookList.addBook(newBook);
+        System.out.println("New book added: " + newBook.getTitle());
     }
 }
