@@ -1,6 +1,4 @@
-package seedu.bookKeeper;
-
-import java.util.Scanner;
+package bookkeeper;
 
 public class BookKeeper {
     /**

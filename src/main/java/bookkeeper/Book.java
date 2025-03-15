@@ -1,4 +1,5 @@
-package seedu.bookKeeper;
+package bookkeeper;
+
 public class Book {
     private String title;
     private String author;

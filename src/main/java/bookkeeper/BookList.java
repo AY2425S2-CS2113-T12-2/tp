@@ -1,4 +1,4 @@
-package seedu.bookKeeper;
+package bookkeeper;
 
 import java.util.ArrayList;
 
