@@ -11,21 +11,20 @@ public class InputParser {
         return null;
     }
 
-    public static String[] extractAddBook(String input) {
-        String[] commandArgs = new String[5];
-
+    public static String[] extractAddBookArgs(String input) {
+        String[] commandArgs = new String[4];
+        
         String[] splitInput = input.trim().split("( a/)|( cat/)|( cond/)", 4);
-        // Strip each element in the array
-        for (int i = 0; i < splitInput.length; i++) {
-            splitInput[i] = splitInput[i].trim();
+
+        if (splitInput.length < 3) {
+            throw new IllegalArgumentException("Invalid format for add-book. " +
+                    "Expected format: add-loan BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION");
         }
 
-        commandArgs[0] = "add-book";
-        commandArgs[1] = splitInput[0];
-        commandArgs[2] = splitInput[1];
-        commandArgs[3] = splitInput[2];
-        commandArgs[4] = splitInput[3];
-
+        // Strip each element in the array
+        for (int i = 0; i < splitInput.length; i++) {
+            commandArgs[i] = splitInput[i].trim();
+        }
         return commandArgs;
     }
 
