@@ -37,13 +37,19 @@ public class BookList {
      * First prints the book title, followed by the remaining attributes indented. 
      */
     public void viewBookList() {
+
+        if(bookList.size() == 0){
+            System.out.println("Book List Empty!");
+        }
+
+
         for (int i = 0; i < bookList.size(); i++) {
             Book currentBook = bookList.get(i);
-            System.out.println(i + ". " + currentBook.getTitle()
+            System.out.println((i + 1) + ". " + currentBook.getTitle()
                     + System.lineSeparator() + "    Author: " + currentBook.getAuthor()
                     + System.lineSeparator() + "    Category: " + currentBook.getCategory()
                     + System.lineSeparator() + "    Condition: " + currentBook.getCondition()
-                    + System.lineSeparator() + "    Title: " + currentBook.getOnLoan());
+                    + System.lineSeparator() + "    On Loan: " + currentBook.getOnLoan());
         }
     }
 }

@@ -16,15 +16,20 @@ public class InputParser {
         
         String[] splitInput = input.trim().split("( a/)|( cat/)|( cond/)", 4);
 
-        if (splitInput.length < 3) {
+        if (splitInput.length != 4) {
             throw new IllegalArgumentException("Invalid format for add-book. " +
-                    "Expected format: add-loan BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION");
+                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION");
         }
 
-        // Strip each element in the array
+        // Strip each element in the array and check if it is blank
         for (int i = 0; i < splitInput.length; i++) {
+            if(splitInput[i].isBlank()){
+                throw new IllegalArgumentException("Invalid format for add-book. " +
+                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION");
+            }
             commandArgs[i] = splitInput[i].trim();
         }
+        
         return commandArgs;
     }
 
