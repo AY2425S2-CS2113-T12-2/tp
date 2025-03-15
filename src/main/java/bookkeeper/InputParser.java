@@ -47,7 +47,16 @@ public class InputParser {
         if (splitInput.length < 3) {
             throw new IllegalArgumentException("Invalid format for add-loan. " +
                     "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE");
-        }
+        } 
         return splitInput;
+    }
+
+    public static String[] extractDeleteLoanArgs(String input) {
+        String[] splitInput = input.trim().split( "( n/)",2);
+        if (splitInput.length < 2) {
+            throw new IllegalArgumentException("Invalid format for delete-loan. " +
+                    "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME");
+        }
+        return splitInput; 
     }
 }

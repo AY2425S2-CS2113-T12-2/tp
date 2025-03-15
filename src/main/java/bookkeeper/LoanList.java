@@ -19,13 +19,24 @@ public class LoanList {
         loanList.add(loan);
     }
 
-    public void deleteLoan(Loan loan, String bookTitle, String borrowerName) {
-        //Add Implementation 
+    public void deleteLoan(Loan loan) {
+        loanList.remove(loan); 
     }
 
     public void viewLoanList() {
         for (int i = 0; i < loanList.size(); i++) {
             System.out.println((i + 1) + ". " + loanList.get(i).toString());
         }
+    }
+
+    public Loan findLoan(Book book, String borrower){
+        for (int i = 0; i < loanList.size(); i++) {
+            Book bookIter = loanList.get(i).getBook();
+            String borrowerName = loanList.get(i).getBorrowerName();
+            if ((bookIter.equals(book)) && (borrowerName.equals(borrower))) {
+                return loanList.get(i);
+            }
+        }
+        return null;
     }
 }

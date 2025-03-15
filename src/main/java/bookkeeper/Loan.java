@@ -11,6 +11,10 @@ public class Loan {
         this.borrowerName = borrowerName;
     }
 
+    public Book getBook() {
+        return book;
+    }
+
     public String getTitle() {
         return book.getTitle();
     }
