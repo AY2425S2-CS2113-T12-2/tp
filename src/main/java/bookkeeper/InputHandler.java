@@ -39,6 +39,7 @@ public class InputHandler {
                         addLoan(commandArgs);
                         break;
                     case "delete-loan":
+                        deleteLoan(commandArgs);
                         break;
                     case "view-loans":
                         loanList.viewLoanList();
@@ -78,6 +79,7 @@ public class InputHandler {
             } else {
                 Loan loan = new Loan(loanedBook, loanArgs[2], loanArgs[1]);
                 loanList.addLoan(loan);
+                loanedBook.setOnLoan(true);
                 System.out.println("Loan added successfully for book: " + loanedBook.getTitle());
             }
         } catch (IllegalArgumentException e) {
@@ -99,5 +101,38 @@ public class InputHandler {
         Book newBook = new Book(bookArgs[0], bookArgs[1], bookArgs[2], bookArgs[3]);
         bookList.addBook(newBook);
         System.out.println("New book added: " + newBook.getTitle());
+    }
+
+    /**
+     * Extract arguments needed to delete loan and delete loan
+     * Checks if book and loan exist before deleting
+     * 
+     * @param commandArgs The parsed command arguments.
+     */
+    private void deleteLoan(String[] commandArgs) {
+        if (commandArgs.length < 2) {
+            throw new IllegalArgumentException("Invalid format for delete-loan. " +
+                    "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME");
+        }
+        try {
+            String[] deleteLoanArgs = InputParser.extractDeleteLoanArgs(commandArgs[1]);
+            String bookTitle = deleteLoanArgs[0];
+            String borrowerName = deleteLoanArgs[1];
+            Book loanedBook = bookList.findBookByTitle(bookTitle);
+            Loan loan = loanList.findLoan(loanedBook, borrowerName); 
+            if (loanedBook == null) {
+                System.out.println("Book not found in inventory: " + bookTitle);
+            } else if (!loanedBook.getOnLoan()) {
+                System.out.println("The book " + bookTitle + " is not currently out on loan.");
+            } else if (loan == null) {
+                System.out.println("No such loan with book title " + bookTitle + " and borrower " + borrowerName);
+            } else {
+                loanList.deleteLoan(loan);
+                loanedBook.setOnLoan(false);
+                System.out.println("Loan deleted successfully for book: " + loanedBook.getTitle());
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

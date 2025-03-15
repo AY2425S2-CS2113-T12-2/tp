@@ -65,4 +65,25 @@ public class InputParser {
 
         return commandArgs;
     }
+
+    /**
+     * Extracts the arguments for the delete-loan command.
+     * <p>
+     * The expected input format is: BOOK_TITLE n/BORROWER_NAME
+     * Example: "The Great Gatsby n/John Doe"
+     *
+     * @param input The user input for the delete-loan command.
+     * @return An array of strings containing the arguments for the add-loan command:
+     *      [0] - Book title
+     *      [1] - Borrower's name
+     * @throws IllegalArgumentException if the input format is invalid.
+     */
+    public static String[] extractDeleteLoanArgs(String input) {
+        String[] splitInput = input.trim().split( "( n/)",2);
+        if (splitInput.length < 2) {
+            throw new IllegalArgumentException("Invalid format for delete-loan. " +
+                    "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME");
+        }
+        return splitInput; 
+    }
 }
