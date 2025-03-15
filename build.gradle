@@ -29,7 +29,7 @@ test {
 }
 
 application {
-    mainClass.set("BookKeeper")
+    mainClass.set("bookkeeper.BookKeeper")
 }
 
 shadowJar {

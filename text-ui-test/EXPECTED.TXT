@@ -1,1 +1,2 @@
+Welcome to BookKeeper.
 Unknown command: James
