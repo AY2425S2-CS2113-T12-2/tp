@@ -75,6 +75,7 @@ public class InputHandler {
             } else {
                 Loan loan = new Loan(loanedBook, loanArgs[2], loanArgs[1]);
                 loanList.addLoan(loan);
+                loanedBook.setOnLoan(true);
                 System.out.println("Loan added successfully for book: " + loanedBook.getTitle());
             }
         } catch (IllegalArgumentException e) {
@@ -101,12 +102,14 @@ public class InputHandler {
             String bookTitle = deleteLoanArgs[0];
             String borrowerName = deleteLoanArgs[1];
             Book loanedBook = bookList.findBookByTitle(bookTitle);
+            Loan loan = loanList.findLoan(loanedBook, borrowerName); 
             if (loanedBook == null) {
                 System.out.println("Book not found in inventory: " + bookTitle);
             } else if (!loanedBook.getOnLoan()) {
-                System.out.println("The book " + bookTitle + "is not currently out on loan.");
+                System.out.println("The book " + bookTitle + " is not currently out on loan.");
+            } else if (loan == null) {
+                System.out.println("No such loan with book title " + bookTitle + " and borrower " + borrowerName);
             } else {
-                Loan loan = loanList.findLoan(loanedBook, borrowerName); //assuming no loans should be created if book is not set to be loaned out
                 loanList.deleteLoan(loan);
                 loanedBook.setOnLoan(false);
                 System.out.println("Loan deleted successfully for book: " + loanedBook.getTitle());
