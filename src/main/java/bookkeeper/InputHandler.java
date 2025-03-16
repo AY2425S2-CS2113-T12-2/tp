@@ -69,7 +69,8 @@ public class InputHandler {
      */
     private void addLoan(String[] commandArgs) {
         if (commandArgs.length < 2) {
-            throw new IllegalArgumentException("Invalid format for add-loan. " + "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE");
+            throw new IllegalArgumentException("Invalid format for add-loan. " +
+                    "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE");
         }
         try {
             String[] loanArgs = InputParser.extractAddLoanArgs(commandArgs[1]);
@@ -97,7 +98,8 @@ public class InputHandler {
      */
     private void addBook(String[] commandArgs) {
         if (commandArgs.length < 2) {
-            throw new IllegalArgumentException("Invalid format for add-book. " + "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION");
+            throw new IllegalArgumentException("Invalid format for add-book. " +
+                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION");
         }
         String[] bookArgs = InputParser.extractAddBookArgs(commandArgs[1]);
         assert bookArgs.length == 4 : "Book arguments should contain exactly 4 elements";
@@ -115,7 +117,8 @@ public class InputHandler {
      */
     private void removeBook(String[] commandArgs) {
         if (commandArgs.length != 2) {
-            throw new IllegalArgumentException("Invalid format for remove-book. " + "Expected format: remove-book BOOK_TITLE");
+            throw new IllegalArgumentException("Invalid format for remove-book. " +
+                    "Expected format: remove-book BOOK_TITLE");
         }
         String bookTitle = commandArgs[1];
         Book toRemove = bookList.findBookByTitle(bookTitle);
@@ -137,7 +140,8 @@ public class InputHandler {
      */
     private void deleteLoan(String[] commandArgs) {
         if (commandArgs.length < 2) {
-            throw new IllegalArgumentException("Invalid format for delete-loan. " + "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME");
+            throw new IllegalArgumentException("Invalid format for delete-loan. " +
+                    "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME");
         }
         try {
             String[] deleteLoanArgs = InputParser.extractDeleteLoanArgs(commandArgs[1]);
