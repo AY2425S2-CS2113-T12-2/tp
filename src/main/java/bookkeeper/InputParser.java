@@ -1,9 +1,15 @@
 package bookkeeper;
 
+import bookkeeper.exceptions.IncorrectFormatException;
+
 public class InputParser {
 
-    public static String[] extractCommandArgs(String input) throws IllegalArgumentException {
-        return input.trim().split(" ", 2);
+    public static String[] extractCommandArgs(String input) throws IncorrectFormatException {
+        String[] commandArgs = input.trim().split(" ", 2);
+        if (commandArgs.length < 2) {
+            throw new IncorrectFormatException("Invalid command format. Expected: COMMAND ARGUMENTS");
+        }
+        return commandArgs;
     }
 
     public static String[] extractXXXX(String input) {
@@ -11,25 +17,23 @@ public class InputParser {
         return null;
     }
 
-    public static String[] extractAddBookArgs(String input) {
+    public static String[] extractAddBookArgs(String input) throws IncorrectFormatException {
         String[] commandArgs = new String[4];
-        
         String[] splitInput = input.trim().split("( a/)|( cat/)|( cond/)", 4);
 
         if (splitInput.length != 4) {
-            throw new IllegalArgumentException("Invalid format for add-book. " +
+            throw new IncorrectFormatException("Invalid format for add-book. " +
                     "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION");
         }
 
-        // Strip each element in the array and check if it is blank
         for (int i = 0; i < splitInput.length; i++) {
-            if(splitInput[i].isBlank()){
-                throw new IllegalArgumentException("Invalid format for add-book. " +
-                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION");
+            if (splitInput[i].isBlank()) {
+                throw new IncorrectFormatException("Invalid format for add-book. " +
+                        "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION");
             }
             commandArgs[i] = splitInput[i].trim();
         }
-        
+
         return commandArgs;
     }
 
@@ -44,21 +48,21 @@ public class InputParser {
      *      [0] - Book title
      *      [1] - Borrower's name
      *      [2] - Return date
-     * @throws IllegalArgumentException if the input format is invalid.
+     * @throws IncorrectFormatException if the input format is invalid.
      */
-    public static String[] extractAddLoanArgs(String input) {
+    public static String[] extractAddLoanArgs(String input) throws IncorrectFormatException {
         String[] commandArgs = new String[3];
-
         String[] splitInput = input.trim().split("( n/)|( d/)", 3);
+
         if (splitInput.length != 3) {
-            throw new IllegalArgumentException("Invalid format for add-loan. " +
+            throw new IncorrectFormatException("Invalid format for add-loan. " +
                     "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE");
         }
 
         for (int i = 0; i < splitInput.length; i++) {
-            if(splitInput[i].isBlank()){
-                throw new IllegalArgumentException("Invalid format for add-loan. " +
-                    "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE");
+            if (splitInput[i].isBlank()) {
+                throw new IncorrectFormatException("Invalid format for add-loan. " +
+                        "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE");
             }
             commandArgs[i] = splitInput[i].trim();
         }
@@ -76,14 +80,14 @@ public class InputParser {
      * @return An array of strings containing the arguments for the add-loan command:
      *      [0] - Book title
      *      [1] - Borrower's name
-     * @throws IllegalArgumentException if the input format is invalid.
+     * @throws IncorrectFormatException if the input format is invalid.
      */
-    public static String[] extractDeleteLoanArgs(String input) {
-        String[] splitInput = input.trim().split( "( n/)",2);
+    public static String[] extractDeleteLoanArgs(String input) throws IncorrectFormatException {
+        String[] splitInput = input.trim().split("( n/)", 2);
         if (splitInput.length < 2) {
-            throw new IllegalArgumentException("Invalid format for delete-loan. " +
+            throw new IncorrectFormatException("Invalid format for delete-loan. " +
                     "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME");
         }
-        return splitInput; 
+        return splitInput;
     }
 }

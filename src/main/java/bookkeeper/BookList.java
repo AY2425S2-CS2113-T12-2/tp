@@ -28,15 +28,17 @@ public class BookList {
         return null;
     }
 
-    public void removeBook(Book book) { bookList.remove(book); }
+    public void removeBook(Book book) {
+        bookList.remove(book);
+    }
 
     /**
      * Prints all books in the bookList.
-     * First prints the book title, followed by the remaining attributes indented. 
+     * First prints the book title, followed by the remaining attributes indented.
      */
     public void viewBookList() {
 
-        if(bookList.isEmpty()) {
+        if (bookList.isEmpty()) {
             System.out.println("Book List Empty!");
         }
 
