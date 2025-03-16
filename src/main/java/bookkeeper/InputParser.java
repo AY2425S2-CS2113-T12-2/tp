@@ -6,8 +6,8 @@ public class InputParser {
 
     public static String[] extractCommandArgs(String input) throws IncorrectFormatException {
         String[] commandArgs = input.trim().split(" ", 2);
-        if (commandArgs.length < 2) {
-            throw new IncorrectFormatException("Invalid command format. Expected: COMMAND ARGUMENTS");
+        if (commandArgs.length < 1) {
+            throw new IncorrectFormatException("Invalid command format. Expected: COMMAND [ARGUMENTS]");
         }
         return commandArgs;
     }
