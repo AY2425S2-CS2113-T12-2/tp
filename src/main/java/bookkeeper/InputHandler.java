@@ -118,8 +118,7 @@ public class InputHandler {
         Book toRemove = bookList.findBookByTitle(bookTitle);
         if (toRemove == null) {
             System.out.println("Book not found in inventory: " + bookTitle);
-        }
-        else {
+        } else {
             bookList.removeBook(toRemove);
             System.out.println("Removed book: " + toRemove.getTitle());
         }
@@ -128,7 +127,7 @@ public class InputHandler {
     /**
      * Extract arguments needed to delete loan and delete loan
      * Checks if book and loan exist before deleting
-     * 
+     *
      * @param commandArgs The parsed command arguments.
      */
     private void deleteLoan(String[] commandArgs) {
@@ -141,7 +140,7 @@ public class InputHandler {
             String bookTitle = deleteLoanArgs[0];
             String borrowerName = deleteLoanArgs[1];
             Book loanedBook = bookList.findBookByTitle(bookTitle);
-            Loan loan = loanList.findLoan(loanedBook, borrowerName); 
+            Loan loan = loanList.findLoan(loanedBook, borrowerName);
             if (loanedBook == null) {
                 System.out.println("Book not found in inventory: " + bookTitle);
             } else if (!loanedBook.getOnLoan()) {
