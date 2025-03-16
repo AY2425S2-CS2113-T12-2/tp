@@ -1,5 +1,8 @@
 package bookkeeper;
 
+import bookkeeper.exceptions.BookNotFoundException;
+import bookkeeper.exceptions.IncorrectFormatException;
+
 import java.util.Scanner;
 
 public class InputHandler {
@@ -50,9 +53,9 @@ public class InputHandler {
                         isAskingInput = false;
                         break;
                     default:
-                        throw new IllegalArgumentException("Unknown command: " + commandArgs[0]);
+                        throw new IncorrectFormatException("Unknown command: " + commandArgs[0]);
                     }
-                } catch (IllegalArgumentException e) {
+                } catch (IncorrectFormatException | BookNotFoundException e) {
                     System.out.println(e.getMessage());
                 }
             }
@@ -64,27 +67,25 @@ public class InputHandler {
      * Before adding, book has to exist in bookList and is available for loan.
      *
      * @param commandArgs The parsed command arguments.
+     * @throws IncorrectFormatException If the input format is invalid.
+     * @throws BookNotFoundException    If the book is not found in the inventory.
      */
-    private void addLoan(String[] commandArgs) {
+    private void addLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
         if (commandArgs.length < 2) {
-            throw new IllegalArgumentException("Invalid format for add-loan. " +
+            throw new IncorrectFormatException("Invalid format for add-loan. " +
                     "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE");
         }
-        try {
-            String[] loanArgs = InputParser.extractAddLoanArgs(commandArgs[1]);
-            Book loanedBook = bookList.findBookByTitle(loanArgs[0]);
-            if (loanedBook == null) {
-                System.out.println("Book not found in inventory: " + loanArgs[0]);
-            } else if (loanedBook.getOnLoan()) {
-                System.out.println("The book " + loanArgs[0] + "is currently out on loan.");
-            } else {
-                Loan loan = new Loan(loanedBook, loanArgs[2], loanArgs[1]);
-                loanList.addLoan(loan);
-                loanedBook.setOnLoan(true);
-                System.out.println("Loan added successfully for book: " + loanedBook.getTitle());
-            }
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+        String[] loanArgs = InputParser.extractAddLoanArgs(commandArgs[1]);
+        Book loanedBook = bookList.findBookByTitle(loanArgs[0]);
+        if (loanedBook == null) {
+            throw new BookNotFoundException("Book not found in inventory: " + loanArgs[0]);
+        } else if (loanedBook.getOnLoan()) {
+            throw new IncorrectFormatException("The book " + loanArgs[0] + " is currently out on loan.");
+        } else {
+            Loan loan = new Loan(loanedBook, loanArgs[2], loanArgs[1]);
+            loanList.addLoan(loan);
+            loanedBook.setOnLoan(true);
+            System.out.println("Loan added successfully for book: " + loanedBook.getTitle());
         }
     }
 
@@ -92,10 +93,11 @@ public class InputHandler {
      * Extract arguments needed to create book object and adds book object to book list.
      *
      * @param commandArgs The parsed command arguments.
+     * @throws IncorrectFormatException If the input format is invalid.
      */
-    private void addBook(String[] commandArgs) {
+    private void addBook(String[] commandArgs) throws IncorrectFormatException {
         if (commandArgs.length < 2) {
-            throw new IllegalArgumentException("Invalid format for add-book. " +
+            throw new IncorrectFormatException("Invalid format for add-book. " +
                     "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION");
         }
         String[] bookArgs = InputParser.extractAddBookArgs(commandArgs[1]);
@@ -108,53 +110,53 @@ public class InputHandler {
      * Extract arguments needed to remove book object and removes book object from book list.
      *
      * @param commandArgs The parsed command arguments.
+     * @throws IncorrectFormatException If the input format is invalid.
+     * @throws BookNotFoundException    If the book is not found in the inventory.
      */
-    private void removeBook(String[] commandArgs) {
+    private void removeBook(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
         if (commandArgs.length != 2) {
-            throw new IllegalArgumentException("Invalid format for remove-book. " +
+            throw new IncorrectFormatException("Invalid format for remove-book. " +
                     "Expected format: remove-book BOOK_TITLE");
         }
         String bookTitle = commandArgs[1];
         Book toRemove = bookList.findBookByTitle(bookTitle);
         if (toRemove == null) {
-            System.out.println("Book not found in inventory: " + bookTitle);
-        }
-        else {
+            throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
+        } else {
             bookList.removeBook(toRemove);
             System.out.println("Removed book: " + toRemove.getTitle());
         }
     }
 
     /**
-     * Extract arguments needed to delete loan and delete loan
-     * Checks if book and loan exist before deleting
-     * 
+     * Extract arguments needed to delete loan and delete loan.
+     * Checks if book and loan exist before deleting.
+     *
      * @param commandArgs The parsed command arguments.
+     * @throws IncorrectFormatException If the input format is invalid.
+     * @throws BookNotFoundException    If the book is not found in the inventory.
      */
-    private void deleteLoan(String[] commandArgs) {
+    private void deleteLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
         if (commandArgs.length < 2) {
-            throw new IllegalArgumentException("Invalid format for delete-loan. " +
+            throw new IncorrectFormatException("Invalid format for delete-loan. " +
                     "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME");
         }
-        try {
-            String[] deleteLoanArgs = InputParser.extractDeleteLoanArgs(commandArgs[1]);
-            String bookTitle = deleteLoanArgs[0];
-            String borrowerName = deleteLoanArgs[1];
-            Book loanedBook = bookList.findBookByTitle(bookTitle);
-            Loan loan = loanList.findLoan(loanedBook, borrowerName); 
-            if (loanedBook == null) {
-                System.out.println("Book not found in inventory: " + bookTitle);
-            } else if (!loanedBook.getOnLoan()) {
-                System.out.println("The book " + bookTitle + " is not currently out on loan.");
-            } else if (loan == null) {
-                System.out.println("No such loan with book title " + bookTitle + " and borrower " + borrowerName);
-            } else {
-                loanList.deleteLoan(loan);
-                loanedBook.setOnLoan(false);
-                System.out.println("Loan deleted successfully for book: " + loanedBook.getTitle());
-            }
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+        String[] deleteLoanArgs = InputParser.extractDeleteLoanArgs(commandArgs[1]);
+        String bookTitle = deleteLoanArgs[0];
+        String borrowerName = deleteLoanArgs[1];
+        Book loanedBook = bookList.findBookByTitle(bookTitle);
+        Loan loan = loanList.findLoan(loanedBook, borrowerName);
+        if (loanedBook == null) {
+            throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
+        } else if (!loanedBook.getOnLoan()) {
+            throw new IncorrectFormatException("The book " + bookTitle + " is not currently out on loan.");
+        } else if (loan == null) {
+            throw new IncorrectFormatException("No such loan with book title " + bookTitle +
+                    " and borrower " + borrowerName);
+        } else {
+            loanList.deleteLoan(loan);
+            loanedBook.setOnLoan(false);
+            System.out.println("Loan deleted successfully for book: " + loanedBook.getTitle());
         }
     }
 }
