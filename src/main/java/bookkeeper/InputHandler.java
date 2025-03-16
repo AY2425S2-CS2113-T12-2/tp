@@ -151,7 +151,8 @@ public class InputHandler {
         } else if (!loanedBook.getOnLoan()) {
             throw new IncorrectFormatException("The book " + bookTitle + " is not currently out on loan.");
         } else if (loan == null) {
-            throw new IncorrectFormatException("No such loan with book title " + bookTitle + " and borrower " + borrowerName);
+            throw new IncorrectFormatException("No such loan with book title " + bookTitle +
+                    " and borrower " + borrowerName);
         } else {
             loanList.deleteLoan(loan);
             loanedBook.setOnLoan(false);
