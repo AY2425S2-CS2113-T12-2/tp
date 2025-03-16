@@ -34,6 +34,7 @@ public class InputHandler {
                         bookList.viewBookList();
                         break;
                     case "remove-book":
+                        removeBook(commandArgs);
                         break;
                     case "add-loan":
                         addLoan(commandArgs);
@@ -101,6 +102,27 @@ public class InputHandler {
         Book newBook = new Book(bookArgs[0], bookArgs[1], bookArgs[2], bookArgs[3]);
         bookList.addBook(newBook);
         System.out.println("New book added: " + newBook.getTitle());
+    }
+
+    /**
+     * Extract arguments needed to remove book object and removes book object from book list.
+     *
+     * @param commandArgs The parsed command arguments.
+     */
+    private void removeBook(String[] commandArgs) {
+        if (commandArgs.length != 2) {
+            throw new IllegalArgumentException("Invalid format for remove-book. " +
+                    "Expected format: remove-book BOOK_TITLE");
+        }
+        String bookTitle = commandArgs[1];
+        Book toRemove = bookList.findBookByTitle(bookTitle);
+        if (toRemove == null) {
+            System.out.println("Book not found in inventory: " + bookTitle);
+        }
+        else {
+            bookList.removeBook(toRemove);
+            System.out.println("Removed book: " + toRemove.getTitle());
+        }
     }
 
     /**
