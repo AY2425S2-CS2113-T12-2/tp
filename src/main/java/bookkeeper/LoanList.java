@@ -11,6 +11,10 @@ public class LoanList {
         this.loanList = new ArrayList<Loan>();
     }
 
+    public ArrayList<Loan> getLoanList() {
+        return loanList;
+    }
+
     public String getlistName() {
         return listName;
     }

@@ -69,6 +69,7 @@ public class InputHandler {
      * @param commandArgs The parsed command arguments.
      * @throws IncorrectFormatException If the input format is invalid.
      * @throws BookNotFoundException    If the book is not found in the inventory.
+     * @throws BookNotFoundException    If the book is already on loan.
      */
     private void addLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
         if (commandArgs.length < 2) {
@@ -80,7 +81,7 @@ public class InputHandler {
         if (loanedBook == null) {
             throw new BookNotFoundException("Book not found in inventory: " + loanArgs[0]);
         } else if (loanedBook.getOnLoan()) {
-            throw new IncorrectFormatException("The book " + loanArgs[0] + " is currently out on loan.");
+            throw new BookNotFoundException("The book " + loanArgs[0] + " is currently out on loan.");
         } else {
             Loan loan = new Loan(loanedBook, loanArgs[2], loanArgs[1]);
             loanList.addLoan(loan);
