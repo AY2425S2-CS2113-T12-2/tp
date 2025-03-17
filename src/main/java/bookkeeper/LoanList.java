@@ -20,10 +20,12 @@ public class LoanList {
     }
 
     public void addLoan(Loan loan) {
+        assert loan != null : "Loan cannot be null";
         loanList.add(loan);
     }
 
     public void deleteLoan(Loan loan) {
+        assert loan != null : "Loan cannot be null";
         loanList.remove(loan);
     }
 

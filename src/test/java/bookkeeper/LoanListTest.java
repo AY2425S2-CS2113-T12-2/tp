@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class LoanListTest {
@@ -37,6 +38,28 @@ public class LoanListTest {
         Loan foundLoan = loanList.findLoan(book1, "John Doe");
         assertNotNull(foundLoan, "Loan should be added to the list");
         assertEquals(loan1, foundLoan, "The added loan should match the expected loan");
+    }
+
+    @Test
+    void addLoan_addNullLoan_expectAssertionError() {
+        // Expect an AssertionError when adding a null loan
+        AssertionError error = assertThrows(AssertionError.class, () -> {
+            loanList.addLoan(null);
+        }, "Adding a null loan should throw an AssertionError");
+
+        assertEquals("Loan cannot be null", error.getMessage(), 
+                "The error message should indicate that the loan cannot be null");
+    }
+
+    @Test
+    void deleteLoan_deleteNullLoan_expectAssertionError() {
+        AssertionError error = assertThrows(AssertionError.class, () -> {
+            loanList.addLoan(loan1);
+            loanList.deleteLoan(null);
+        }, "Deleting a null loan should throw an AssertionError");
+
+        assertEquals("Loan cannot be null", error.getMessage(),
+                "The error message should indicate that the loan cannot be null");
     }
 
     @Test
