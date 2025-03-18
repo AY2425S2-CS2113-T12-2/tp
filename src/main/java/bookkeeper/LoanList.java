@@ -1,14 +1,19 @@
 package bookkeeper;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LoanList {
+    private static final Logger logger = Logger.getLogger(LoanList.class.getName());
     private ArrayList<Loan> loanList;
     private String listName;
 
     public LoanList(String listName) {
+        LoggerConfig.configureLogger(logger); 
         this.listName = listName;
-        this.loanList = new ArrayList<Loan>();
+        this.loanList = new ArrayList<>();
+        logger.log(Level.INFO, "LoanList created with name: {0}", listName);
     }
 
     public ArrayList<Loan> getLoanList() {
@@ -22,11 +27,16 @@ public class LoanList {
     public void addLoan(Loan loan) {
         assert loan != null : "Loan cannot be null";
         loanList.add(loan);
+        logger.log(Level.INFO, "Loan added: {0}", loan);
     }
 
     public void deleteLoan(Loan loan) {
         assert loan != null : "Loan cannot be null";
-        loanList.remove(loan);
+        if (loanList.remove(loan)) {
+            logger.log(Level.INFO, "Loan removed: {0}", loan);
+        } else {
+            logger.log(Level.WARNING, "Attempted to remove a loan that does not exist: {0}", loan);
+        }
     }
 
     public void viewLoanList() {
