@@ -29,7 +29,7 @@ public class InputParserTest {
     @Test
     void extractAddBookArgs_missingAuthor_exceptionThrown()  {
         IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, () 
-        -> InputParser.extractAddBookArgs("The Great Gatsby cat/Fiction cond/Good"));
+                -> InputParser.extractAddBookArgs("The Great Gatsby cat/Fiction cond/Good"));
         assertEquals(exception.getMessage(), "Invalid format for add-book. " +
                 "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION");
     }
@@ -99,6 +99,6 @@ public class InputParserTest {
         IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, () 
                 -> InputParser.extractDeleteLoanArgs("The Great Gatsby"));
         assertEquals(exception.getMessage(), "Invalid format for delete-loan. " +
-                        "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME");
+                "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME");
     }
 }
