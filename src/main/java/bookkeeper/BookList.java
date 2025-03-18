@@ -34,7 +34,7 @@ public class BookList {
 
     /**
      * Prints all books in the bookList.
-     * First prints the book title, followed by the remaining attributes indented. 
+     * First prints the book title, followed by the remaining attributes indented.
      */
     public void viewBookList() {
 

@@ -11,20 +11,26 @@ public class LoanList {
         this.loanList = new ArrayList<Loan>();
     }
 
+    public ArrayList<Loan> getLoanList() {
+        return loanList;
+    }
+
     public String getlistName() {
         return listName;
     }
 
     public void addLoan(Loan loan) {
+        assert loan != null : "Loan cannot be null";
         loanList.add(loan);
     }
 
     public void deleteLoan(Loan loan) {
-        loanList.remove(loan); 
+        assert loan != null : "Loan cannot be null";
+        loanList.remove(loan);
     }
 
     public void viewLoanList() {
-        if(loanList.isEmpty()) {
+        if (loanList.isEmpty()) {
             System.out.println("Loan List Empty!");
         }
         for (int i = 0; i < loanList.size(); i++) {
@@ -32,7 +38,7 @@ public class LoanList {
         }
     }
 
-    public Loan findLoan(Book book, String borrower){
+    public Loan findLoan(Book book, String borrower) {
         for (int i = 0; i < loanList.size(); i++) {
             Book bookIter = loanList.get(i).getBook();
             String borrowerName = loanList.get(i).getBorrowerName();
