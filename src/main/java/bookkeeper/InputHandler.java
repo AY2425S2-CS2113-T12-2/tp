@@ -85,7 +85,7 @@ public class InputHandler {
                 System.out.println("Book not found in inventory: " + loanArgs[0]);
             } else if (loanedBook.getOnLoan()) {
                 assert loanedBook.getTitle() != null : "Loaned book must have a title";
-                System.out.println("The book " + loanArgs[0] + "is currently out on loan.");
+                System.out.println("The book " + loanArgs[0] + " is currently out on loan.");
             } else {
                 Loan loan = new Loan(loanedBook, loanArgs[2], loanArgs[1]);
                 loanList.addLoan(loan);
@@ -133,13 +133,17 @@ public class InputHandler {
         Book toRemove = bookList.findBookByTitle(bookTitle);
 
         if (toRemove == null) {
+            System.out.println("Book not found in inventory: " + bookTitle);
+        } else {
+            assert toRemove.getTitle() != null : "Book to remove must have a valid title";
             bookList.removeBook(toRemove);
             System.out.println("Removed book: " + toRemove.getTitle());
         }
     }
 
     /**
-     *
+     * Extract arguments needed to delete loan and delete loan
+     * Checks if book and loan exist before deleting
      * @param commandArgs The parsed command arguments.
      * @throws IncorrectFormatException If the input format is invalid.
      * @throws BookNotFoundException    If the book is not found in the inventory.
@@ -160,8 +164,7 @@ public class InputHandler {
             } else if (!loanedBook.getOnLoan()) {
                 System.out.println("The book " + bookTitle + " is not currently out on loan.");
             } else if (loan == null) {
-                System.out.println("No such loan with book title " + bookTitle +
-                                    " and borrower " + borrowerName);
+                System.out.println("No such loan with book title " + bookTitle + " and borrower " + borrowerName);
             } else {
                 loanList.deleteLoan(loan);
                 loanedBook.setOnLoan(false);
