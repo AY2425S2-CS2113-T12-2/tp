@@ -85,7 +85,7 @@ public class InputHandler {
                 System.out.println("Book not found in inventory: " + loanArgs[0]);
             } else if (loanedBook.getOnLoan()) {
                 assert loanedBook.getTitle() != null : "Loaned book must have a title";
-                System.out.println("The book " + loanArgs[0] + "is currently out on loan.");
+                System.out.println("The book " + loanArgs[0] + " is currently out on loan.");
             } else {
                 Loan loan = new Loan(loanedBook, loanArgs[2], loanArgs[1]);
                 loanList.addLoan(loan);
