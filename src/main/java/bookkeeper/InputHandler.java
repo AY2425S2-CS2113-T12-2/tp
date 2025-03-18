@@ -1,19 +1,22 @@
 package bookkeeper;
 
+import java.util.logging.Logger;
 import bookkeeper.exceptions.BookNotFoundException;
 import bookkeeper.exceptions.IncorrectFormatException;
 
 import java.util.Scanner;
 
 public class InputHandler {
+    private static final Logger logger = Logger.getLogger(InputHandler.class.getName());
     private BookList bookList;
     private LoanList loanList;
 
     public InputHandler() {
+        LoggerConfig.configureLogger(logger); // Configure the logger
         this.bookList = new BookList("Inventory");
         this.loanList = new LoanList("Loan List");
+        logger.info("InputHandler initialized");
     }
-
     public void askInput() {
         boolean isAskingInput = true;
         String userInputLine;
