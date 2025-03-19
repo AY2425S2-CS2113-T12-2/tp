@@ -58,4 +58,10 @@ public class LoanList {
         }
         return null;
     }
+
+    public void removeLoansByBook(Book book) {
+        assert book != null : "Book cannot be null";
+        loanList.removeIf(loan -> loan.getBook().equals(book));
+        logger.log(Level.INFO, "Removed all loans associated with book: {0}", book.getTitle());
+    }
 }

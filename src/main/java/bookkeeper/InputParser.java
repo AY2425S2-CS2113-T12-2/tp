@@ -12,11 +12,6 @@ public class InputParser {
         return commandArgs;
     }
 
-    public static String[] extractXXXX(String input) {
-        // Copy and Add Implementation
-        return null;
-    }
-
     public static String[] extractAddBookArgs(String input) throws IncorrectFormatException {
         String[] commandArgs = new String[4];
         String[] splitInput = input.trim().split("( a/)|( cat/)|( cond/)", 4);
@@ -93,7 +88,7 @@ public class InputParser {
         for (int i = 0; i < splitInput.length; i++) {
             if (splitInput[i].isBlank()) {
                 throw new IncorrectFormatException("Invalid format for delete-loan. " +
-                        "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME");
+                        "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME");
             }
             commandArgs[i] = splitInput[i].trim();
         }
