@@ -1,6 +1,7 @@
 package bookkeeper;
 
 import java.util.logging.Logger;
+
 import bookkeeper.exceptions.BookNotFoundException;
 import bookkeeper.exceptions.IncorrectFormatException;
 
@@ -17,6 +18,7 @@ public class InputHandler {
         this.loanList = new LoanList("Loan List");
         logger.info("InputHandler initialized");
     }
+
     public void askInput() {
         boolean isAskingInput = true;
         String userInputLine;
@@ -113,7 +115,16 @@ public class InputHandler {
         }
         String[] bookArgs = InputParser.extractAddBookArgs(commandArgs[1]);
         assert bookArgs.length == 4 : "Book arguments should contain exactly 4 elements";
-        assert bookArgs[0] != null && !bookArgs[0].isEmpty() : "Book title cannot be null or empty";
+
+        // Trim whitespaces from the book title
+        String bookTitle = bookArgs[0].trim();
+        assert bookTitle != null && !bookTitle.isEmpty() : "Book title cannot be null or empty";
+
+        // Check if book already exists in the inventory
+        if (bookList.findBookByTitle(bookTitle) != null) {
+            System.out.println("Book already exists in inventory: " + bookTitle);
+            return;
+        }
 
         Book newBook = new Book(bookArgs[0], bookArgs[1], bookArgs[2], bookArgs[3]);
         bookList.addBook(newBook);
@@ -148,6 +159,7 @@ public class InputHandler {
     /**
      * Extract arguments needed to delete loan and delete loan
      * Checks if book and loan exist before deleting
+     *
      * @param commandArgs The parsed command arguments.
      * @throws IncorrectFormatException If the input format is invalid.
      * @throws BookNotFoundException    If the book is not found in the inventory.
