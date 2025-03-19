@@ -83,11 +83,21 @@ public class InputParser {
      * @throws IncorrectFormatException if the input format is invalid.
      */
     public static String[] extractDeleteLoanArgs(String input) throws IncorrectFormatException {
+        String[] commandArgs = new String[2];
         String[] splitInput = input.trim().split("( n/)", 2);
         if (splitInput.length < 2) {
             throw new IncorrectFormatException("Invalid format for delete-loan. " +
                     "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME");
         }
-        return splitInput;
+
+        for (int i = 0; i < splitInput.length; i++) {
+            if (splitInput[i].isBlank()) {
+                throw new IncorrectFormatException("Invalid format for delete-loan. " +
+                        "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME");
+            }
+            commandArgs[i] = splitInput[i].trim();
+        }
+
+        return commandArgs;
     }
 }
