@@ -93,7 +93,7 @@ public class InputParser {
         for (int i = 0; i < splitInput.length; i++) {
             if (splitInput[i].isBlank()) {
                 throw new IncorrectFormatException("Invalid format for delete-loan. " +
-                        "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME");
+                        "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME");
             }
             commandArgs[i] = splitInput[i].trim();
         }
