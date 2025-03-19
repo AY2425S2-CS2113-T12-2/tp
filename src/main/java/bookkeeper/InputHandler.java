@@ -139,6 +139,7 @@ public class InputHandler {
             System.out.println("Book not found in inventory: " + bookTitle);
         } else {
             assert toRemove.getTitle() != null : "Book to remove must have a valid title";
+            loanList.removeLoansByBook(toRemove);
             bookList.removeBook(toRemove);
             System.out.println("Removed book: " + toRemove.getTitle());
         }
