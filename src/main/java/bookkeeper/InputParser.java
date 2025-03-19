@@ -12,11 +12,6 @@ public class InputParser {
         return commandArgs;
     }
 
-    public static String[] extractXXXX(String input) {
-        // Copy and Add Implementation
-        return null;
-    }
-
     public static String[] extractAddBookArgs(String input) throws IncorrectFormatException {
         String[] commandArgs = new String[4];
         String[] splitInput = input.trim().split("( a/)|( cat/)|( cond/)", 4);
