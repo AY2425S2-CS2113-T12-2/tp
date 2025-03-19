@@ -118,7 +118,6 @@ public class InputHandler {
 
         // Trim whitespaces from the book title
         String bookTitle = bookArgs[0].trim();
-        assert bookTitle != null && !bookTitle.isEmpty() : "Book title cannot be null or empty";
 
         // Check if book already exists in the inventory
         if (bookList.findBookByTitle(bookTitle) != null) {
