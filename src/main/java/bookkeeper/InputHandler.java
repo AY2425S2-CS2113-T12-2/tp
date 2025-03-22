@@ -55,6 +55,13 @@ public class InputHandler {
                     case "view-loans":
                         loanList.viewLoanList();
                         break;
+
+                    case "add-note":
+                        addNote(commandArgs);
+                        break;
+                    case "delete-note":
+                        deleteNote(commandArgs);
+                        break;
                     case "exit":
                         Formatter.printBorderedMessage("Exiting BookKeeper...");
                         isAskingInput = false;
@@ -115,19 +122,19 @@ public class InputHandler {
         }
         String[] bookArgs = InputParser.extractAddBookArgs(commandArgs[1]);
         assert bookArgs.length >= 4 : "Book arguments should contain at least 4 elements";
-    
+
         // Trim whitespaces from the book title
         String bookTitle = bookArgs[0].trim();
-    
+
         // Check if book already exists in the inventory
         if (bookList.findBookByTitle(bookTitle) != null) {
             Formatter.printBorderedMessage("Book already exists in inventory: " + bookTitle);
             return;
         }
-    
+
         // Handle optional note
         String note = bookArgs.length == 5 ? bookArgs[4] : ""; // Default to empty string if note is not provided
-    
+
         // Add the new book to the book list
         Book newBook = new Book(bookTitle, bookArgs[1], bookArgs[2], bookArgs[3], note);
         bookList.addBook(newBook);
@@ -193,5 +200,65 @@ public class InputHandler {
         } catch (IllegalArgumentException e) {
             Formatter.printBorderedMessage(e.getMessage());
         }
+    }
+
+    /**
+     * Adds a note to a specified book.
+     *
+     * @param commandArgs The parsed command arguments.
+     * @throws IncorrectFormatException If the input format is invalid.
+     * @throws BookNotFoundException    If the book is not found in the inventory.
+     */
+    private void addNote(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
+        if (commandArgs.length < 2) {
+            throw new IncorrectFormatException("Invalid format for add-note.\n" +
+                    "Expected format: add-note BOOK_TITLE note/NOTE");
+        }
+    
+        String[] noteArgs = InputParser.extractAddNoteArgs(commandArgs[1]);
+        String bookTitle = noteArgs[0];
+        String note = noteArgs[1];
+    
+        Book book = bookList.findBookByTitle(bookTitle);
+        if (book == null) {
+            throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
+        }
+    
+        if (!book.getNote().isEmpty()) {
+            Formatter.printBorderedMessage("Book already has a note:\n" + book.getNote());
+            return;
+        }
+    
+        book.setNote(note);
+        Formatter.printBorderedMessage("Note added to book: " + bookTitle);
+    }
+
+    /**
+     * Deletes the note from a specified book.
+     *
+     * @param commandArgs The parsed command arguments.
+     * @throws IncorrectFormatException If the input format is invalid.
+     * @throws BookNotFoundException    If the book is not found in the inventory.
+     */
+    private void deleteNote(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
+        if (commandArgs.length != 2) {
+            throw new IncorrectFormatException("Invalid format for delete-note.\n" +
+                    "Expected format: delete-note BOOK_TITLE");
+        }
+
+        String bookTitle = commandArgs[1].trim();
+
+        Book book = bookList.findBookByTitle(bookTitle);
+        if (book == null) {
+            throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
+        }
+
+        if (book.getNote().isEmpty()) {
+            Formatter.printBorderedMessage("No note exists for the book: " + bookTitle);
+            return;
+        }
+
+        book.setNote("");
+        Formatter.printBorderedMessage("Note deleted for book: " + bookTitle);
     }
 }

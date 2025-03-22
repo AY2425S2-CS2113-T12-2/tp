@@ -8,11 +8,6 @@ public class Book {
     private boolean onLoan;
     private String note;
 
-    // Constructor with optional note
-    public Book(String title, String author, String category, String condition) {
-        this(title, author, category, condition, ""); // Default note is an empty string
-    }
-
     // Constructor with note
     public Book(String title, String author, String category, String condition, String note) {
         this.title = title;
@@ -21,6 +16,11 @@ public class Book {
         this.condition = condition;
         this.note = note;
         this.onLoan = false;
+    }
+
+    // Constructor with optional note
+    public Book(String title, String author, String category, String condition) {
+        this(title, author, category, condition, ""); // Default note is an empty string
     }
 
     public String getTitle() {
@@ -45,6 +45,10 @@ public class Book {
 
     public String getNote() {
         return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public void setOnLoan(boolean onLoan) {
