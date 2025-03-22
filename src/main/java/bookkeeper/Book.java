@@ -38,4 +38,13 @@ public class Book {
     public void setOnLoan(boolean onLoan) {
         this.onLoan = onLoan;
     }
+
+    @Override
+    public String toString() {
+        return "Title: " + getTitle() + System.lineSeparator()
+                + "    Author: " + getAuthor() + System.lineSeparator()
+                + "    Category: " + getCategory() + System.lineSeparator()
+                + "    Condition: " + getCondition() + System.lineSeparator()
+                + "    On Loan: " + getOnLoan();
+    }
 }
