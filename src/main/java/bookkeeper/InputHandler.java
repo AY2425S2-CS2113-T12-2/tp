@@ -55,12 +55,14 @@ public class InputHandler {
                     case "view-loans":
                         loanList.viewLoanList();
                         break;
-
                     case "add-note":
                         addNote(commandArgs);
                         break;
                     case "delete-note":
                         deleteNote(commandArgs);
+                        break;
+                    case "help":
+                        displayHelp();
                         break;
                     case "exit":
                         Formatter.printBorderedMessage("Exiting BookKeeper...");
@@ -74,6 +76,18 @@ public class InputHandler {
                 }
             }
         }
+    }
+
+    private void displayHelp() {
+        System.out.println("""
+                | Action         | Format                                                      |
+                |----------------|-------------------------------------------------------------|
+                | Add a Book     | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION`  |
+                | View Inventory | `view-inventory`                                            |
+                | Remove a Book  | `remove-book BOOK_TITLE`                                    |
+                | Add a Loan     | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE`         |
+                | Delete a Loan  | `delete-loan BOOK_TITLE n/BORROWER_NAME`                    |
+                | View Loans     | `view-loans`                                                |""");
     }
 
     /**
@@ -214,21 +228,21 @@ public class InputHandler {
             throw new IncorrectFormatException("Invalid format for add-note.\n" +
                     "Expected format: add-note BOOK_TITLE note/NOTE");
         }
-    
+
         String[] noteArgs = InputParser.extractAddNoteArgs(commandArgs[1]);
         String bookTitle = noteArgs[0];
         String note = noteArgs[1];
-    
+
         Book book = bookList.findBookByTitle(bookTitle);
         if (book == null) {
             throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
         }
-    
+
         if (!book.getNote().isEmpty()) {
             Formatter.printBorderedMessage("Book already has a note:\n" + book.getNote());
             return;
         }
-    
+
         book.setNote(note);
         Formatter.printBorderedMessage("Note added to book: " + bookTitle);
     }
