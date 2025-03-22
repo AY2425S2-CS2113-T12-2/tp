@@ -65,6 +65,9 @@ public class InputHandler {
                     case "delete-note":
                         deleteNote(commandArgs);
                         break;
+                    case "update-book":
+                        updateBook(commandArgs);
+                        break;
                     case "help":
                         displayHelp();
                         break;
@@ -284,4 +287,37 @@ public class InputHandler {
         book.setNote("");
         Formatter.printBorderedMessage("Note deleted for book: " + bookTitle);
     }
+
+    /**
+     * Updates details of an existing book.
+     *
+     * @param commandArgs The parsed command arguments.
+     * @throws IncorrectFormatException If the input format is invalid.
+     * @throws BookNotFoundException    If the book is not found in the inventory.
+     */
+    private void updateBook(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
+        if (commandArgs.length < 2) {
+            throw new IncorrectFormatException("Invalid format for update-book.\n" +
+                    "Expected format: update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]");
+        }
+        String[] bookArgs = InputParser.extractUpdateBookArgs(commandArgs[1]);
+        assert bookArgs.length >= 4 : "Book arguments should contain at least 4 elements";
+
+        String bookTitle = bookArgs[0].trim();
+
+        // Check if book already exists in the inventory
+        Book book = bookList.findBookByTitle(bookTitle);
+        if (book == null) {
+            throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
+        }
+
+        book.setAuthor(bookArgs[1]);
+        book.setCategory(bookArgs[2]);
+        book.setCondition(bookArgs[3]);
+        if(bookArgs.length == 5 && !bookArgs[4].isBlank()) {
+            book.setNote(bookArgs[4]);
+        }
+        Formatter.printBorderedMessage("Book Updated:\n" + book.toString());
+    }
+
 }

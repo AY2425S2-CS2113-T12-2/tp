@@ -45,6 +45,41 @@ public class InputParserTest {
                 exception.getMessage());
     }
 
+    // extractUpdateBookArgs gives us 5 arguments: name, author, category, condition, note("" if not provided)
+    @Test
+    void extractUpdateBookArgs_validInput_fiveArgumentStringArray() throws IncorrectFormatException {
+        String[] arguments = InputParser.extractUpdateBookArgs("The Great Gatsby " +
+                "a/F. Scott Fitzgerald cat/Fiction cond/Good");
+        String[] output = new String[]{"The Great Gatsby", "F. Scott Fitzgerald", "Fiction", "Good", ""};
+        assertArrayEquals(arguments, output);
+    }
+
+    @Test
+    void extractUpdateBookArgs_inputWithExtraSpace_fiveArgumentStringArray() throws IncorrectFormatException {
+        String[] arguments = InputParser.extractUpdateBookArgs("The Great Gatsby " +
+                "a/F. Scott Fitzgerald    cat/Fiction cond/Good   ");
+        String[] output = new String[]{"The Great Gatsby", "F. Scott Fitzgerald", "Fiction", "Good", ""};
+        assertArrayEquals(arguments, output);
+    }
+
+    @Test
+    void extractUpdateBookArgs_missingAuthor_exceptionThrown() {
+        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, ()
+                -> InputParser.extractUpdateBookArgs("The Great Gatsby cat/Fiction cond/Good"));
+        assertEquals("Invalid format for update-book.\n" +
+                        "Expected format: update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]",
+                exception.getMessage());
+    }
+
+    @Test
+    void extractUpdateBookArgs_missingBookName_exceptionThrown() {
+        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, ()
+                -> InputParser.extractUpdateBookArgs("a/F. Scott Fitzgerald cat/Fiction cond/Good"));
+        assertEquals("Invalid format for update-book.\n" +
+                        "Expected format: update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]",
+                exception.getMessage());
+    }
+
     @Test
     void extractAddLoanArgs_validInput_threeArgumentStringArray() throws IncorrectFormatException {
         String[] arguments = InputParser.extractAddLoanArgs("The Great Gatsby n/Mary d/12-Mar-2025");

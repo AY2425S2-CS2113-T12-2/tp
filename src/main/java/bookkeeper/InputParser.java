@@ -12,6 +12,23 @@ public class InputParser {
         return commandArgs;
     }
 
+
+    /**
+     * Extracts the arguments for the add-book command.
+     * <p>
+     * The expected input format is: 
+     * BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]
+     * Example: "Cheese Chronicles a/Mouse cat/Adventure cond/Good"
+     *
+     * @param input The user input for the add-book command.
+     * @return An array of strings containing the arguments for the add-book command:
+     *      [0] - Book title
+     *      [1] - Author
+     *      [2] - Category
+     *      [3] - Condition
+     *      [4] - Note (Optional)
+     * @throws IncorrectFormatException if the input format is invalid.
+     */
     public static String[] extractAddBookArgs(String input) throws IncorrectFormatException {
         // Split the input into required fields and optional note
         String[] splitInput = input.trim().split("( a/)|( cat/)|( cond/)", 4);
@@ -38,6 +55,55 @@ public class InputParser {
         // Validate required fields
         if (bookTitle.isBlank() || author.isBlank() || category.isBlank() || condition.isBlank()) {
             throw new IncorrectFormatException("Invalid format for add-book.\n" +
+                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]");
+        }
+    
+        // Return all fields, including the optional note
+        return new String[]{bookTitle, author, category, condition, note};
+    }
+
+    /**
+     * Extracts the arguments for the update-book command.
+     * <p>
+     * The expected input format is: 
+     * BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]
+     * Example: "Cheese Chronicles a/Mouse cat/Adventure cond/Good"
+     *
+     * @param input The user input for the update-book command.
+     * @return An array of strings containing the arguments for the update-book command:
+     *      [0] - Book title
+     *      [1] - Author
+     *      [2] - Category
+     *      [3] - Condition
+     *      [4] - Note (Optional)
+     * @throws IncorrectFormatException if the input format is invalid.
+     */
+    public static String[] extractUpdateBookArgs(String input) throws IncorrectFormatException {
+        // Split the input into required fields and optional note
+        String[] splitInput = input.trim().split("( a/)|( cat/)|( cond/)", 4);
+    
+        if (splitInput.length < 4) {
+            throw new IncorrectFormatException("Invalid format for update-book.\n" +
+                    "Expected format: update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]");
+        }
+    
+        // Extract required fields
+        String bookTitle = splitInput[0].trim();
+        String author = splitInput[1].trim();
+        String category = splitInput[2].trim();
+        String condition = splitInput[3].trim();
+    
+        // Check for optional note
+        String note = "";
+        if (condition.contains(" note/")) {
+            String[] conditionAndNote = condition.split(" note/", 2);
+            condition = conditionAndNote[0].trim(); // Update condition without the note
+            note = conditionAndNote.length > 1 ? conditionAndNote[1].trim() : ""; // Extract note if present
+        }
+    
+        // Validate required fields
+        if (bookTitle.isBlank() || author.isBlank() || category.isBlank() || condition.isBlank()) {
+            throw new IncorrectFormatException("Invalid format for update-book.\n" +
                     "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]");
         }
     
