@@ -47,6 +47,22 @@ public class Book {
         return note;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setCondition(String condition){
+        this.condition = condition;
+    }
+
+    public void setCategory(String category){
+        this.category = category;
+    }
+
+    public void setAuthor(String author){
+        this.author = author;
+    }
+
     public void setNote(String note) {
         this.note = note;
     }
