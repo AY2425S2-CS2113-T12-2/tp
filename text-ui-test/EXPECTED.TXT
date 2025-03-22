@@ -1,12 +1,1 @@
 Welcome to BookKeeper.
-New book added: The Great Gatsby
-New book added: To Kill a Mockingbird
-New book added: 1984
-Loan added successfully for book: The Great Gatsby
-The book The Great Gatsby is currently out on loan.
-Loan added successfully for book: To Kill a Mockingbird
-Loan added successfully for book: 1984
-1. Title: The Great Gatsby, Borrower: John Doe, Return Date: 2023-12-01
-2. Title: To Kill a Mockingbird, Borrower: Alice Smith, Return Date: 2024-01-10
-3. Title: 1984, Borrower: Bob Johnson, Return Date: 2024-02-20
-Exiting BookKeeper...

@@ -37,6 +37,8 @@ public class Loan {
 
     @Override
     public String toString() {
-        return "Title: " + getTitle() + ", Borrower: " + getBorrowerName() + ", Return Date: " + getLoanDate();
+        return "Title: " + getTitle() + System.lineSeparator()
+                + "    Borrower: " + getBorrowerName() + System.lineSeparator()
+                + "    Return Date: " + getLoanDate();
     }
 }

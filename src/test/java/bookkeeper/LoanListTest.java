@@ -92,9 +92,12 @@ public class LoanListTest {
         loanList.addLoan(loan1);
         loanList.addLoan(loan2);
 
-        String expectedOutput = "1. Title: The Great Gatsby, Borrower: John Doe, Return Date: 2023-12-01" +
-                System.lineSeparator() +
-                "2. Title: To Kill a Mockingbird, Borrower: Alice Smith, Return Date: 2024-01-10";
+        String expectedOutput = "1. Title: The Great Gatsby" + System.lineSeparator() +
+                "    Borrower: John Doe" + System.lineSeparator() +
+                "    Return Date: 2023-12-01" + System.lineSeparator() +
+                "2. Title: To Kill a Mockingbird" + System.lineSeparator() +
+                "    Borrower: Alice Smith" + System.lineSeparator() +
+                "    Return Date: 2024-01-10";
 
         java.io.ByteArrayOutputStream outContent = new java.io.ByteArrayOutputStream();
         System.setOut(new java.io.PrintStream(outContent));
