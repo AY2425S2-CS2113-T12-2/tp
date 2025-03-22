@@ -32,7 +32,7 @@ public class InputParserTest {
         IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, ()
                 -> InputParser.extractAddBookArgs("The Great Gatsby cat/Fiction cond/Good"));
         assertEquals("Invalid format for add-book.\n" +
-                "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]",
+                        "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]",
                 exception.getMessage());
     }
 
@@ -41,7 +41,7 @@ public class InputParserTest {
         IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, ()
                 -> InputParser.extractAddBookArgs("a/F. Scott Fitzgerald cat/Fiction cond/Good"));
         assertEquals("Invalid format for add-book.\n" +
-                "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]",
+                        "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]",
                 exception.getMessage());
     }
 
@@ -74,13 +74,6 @@ public class InputParserTest {
         assertArrayEquals(arguments, output);
     }
 
-//    @Test
-//    void extractCommandArgs_missingArguments_exceptionThrown() {
-//        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, ()
-//                        -> InputParser.extractCommandArgs("delete-loan "));
-//        assertEquals("Invalid command format.\nExpected: COMMAND [ARGUMENTS]", exception.getMessage());
-//    }
-
     @Test
     void extractDeleteLoanArgs_validInput_twoArgumentArray() throws IncorrectFormatException {
         String[] arguments = InputParser.extractDeleteLoanArgs("The Great Gatsby n/Mary");
@@ -103,3 +96,10 @@ public class InputParserTest {
                 "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME", exception.getMessage());
     }
 }
+
+//    @Test
+//    void extractCommandArgs_missingArguments_exceptionThrown() {
+//        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, ()
+//                        -> InputParser.extractCommandArgs("delete-loan "));
+//        assertEquals("Invalid command format.\nExpected: COMMAND [ARGUMENTS]", exception.getMessage());
+//    }
