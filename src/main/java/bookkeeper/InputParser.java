@@ -18,7 +18,7 @@ public class InputParser {
     
         if (splitInput.length < 4) {
             throw new IncorrectFormatException("Invalid format for add-book.\n" +
-                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTES]");
+                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]");
         }
     
         // Extract required fields
@@ -38,7 +38,7 @@ public class InputParser {
         // Validate required fields
         if (bookTitle.isBlank() || author.isBlank() || category.isBlank() || condition.isBlank()) {
             throw new IncorrectFormatException("Invalid format for add-book.\n" +
-                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTES]");
+                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]");
         }
     
         // Return all fields, including the optional note
