@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Formatter {
 
-    private static final int MAJOR_INDENT = 7;
     private static final int NORMAL_INDENT = 5;
     private static final int MINOR_INDENT = 4;
 
@@ -33,15 +32,6 @@ public class Formatter {
      */
     public static void printSimpleMessage(String message) {
         System.out.print(message.indent(NORMAL_INDENT));
-    }
-
-    /**
-     * Prints a major message with more indentation.
-     *
-     * @param message The message to print.
-     */
-    public static void printMajorMessage(String message) {
-        System.out.print(message.indent(MAJOR_INDENT));
     }
 
     /**
@@ -75,17 +65,6 @@ public class Formatter {
             printSimpleMessage(count + ". " + loan.toString());
             System.out.println();
         }
-        printLine();
-    }
-
-    /**
-     * Prints a message indicating a book or loan status change with normal and major indentation.
-     *
-     * @param message The message to print.
-     */
-    public static void printStatusChange(String message) {
-        printLine();
-        printSimpleMessage(message);
         printLine();
     }
 }
