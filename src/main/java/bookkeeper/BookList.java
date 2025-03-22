@@ -40,6 +40,7 @@ public class BookList {
 
         if (bookList.isEmpty()) {
             Formatter.printBorderedMessage("Book List Empty!");
+            return;
         }
 
         Formatter.printBookList(bookList);

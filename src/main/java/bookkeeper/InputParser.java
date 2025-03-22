@@ -108,4 +108,23 @@ public class InputParser {
 
         return commandArgs;
     }
+
+    public static String[] extractAddNoteArgs(String input) throws IncorrectFormatException {
+        String[] splitInput = input.trim().split(" note/", 2);
+    
+        if (splitInput.length != 2) {
+            throw new IncorrectFormatException("Invalid format for add-note.\n" +
+                    "Expected format: add-note BOOK_TITLE note/NOTE");
+        }
+    
+        String bookTitle = splitInput[0].trim();
+        String note = splitInput[1].trim();
+    
+        if (bookTitle.isBlank() || note.isBlank()) {
+            throw new IncorrectFormatException("Invalid format for add-note.\n" +
+                    "Expected format: add-note BOOK_TITLE note/NOTE");
+        }
+    
+        return new String[]{bookTitle, note};
+    }
 }
