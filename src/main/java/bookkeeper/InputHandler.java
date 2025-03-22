@@ -146,7 +146,7 @@ public class InputHandler {
             throw new IncorrectFormatException("Invalid format for add-book.\n" +
                     "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]");
         }
-        String[] bookArgs = InputParser.extractAddBookArgs(commandArgs[1]);
+        String[] bookArgs = InputParser.extractAddBookArgs(commandArgs[1], "add-book");
         assert bookArgs.length >= 4 : "Book arguments should contain at least 4 elements";
 
         // Trim whitespaces from the book title
@@ -288,12 +288,19 @@ public class InputHandler {
         Formatter.printBorderedMessage("Note deleted for book: " + bookTitle);
     }
 
+    /**
+     * Updayes details of an existing book.
+     *
+     * @param commandArgs The parsed command arguments.
+     * @throws IncorrectFormatException If the input format is invalid.
+     * @throws BookNotFoundException    If the book is not found in the inventory.
+     */
     private void updateBook(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
         if (commandArgs.length < 2) {
             throw new IncorrectFormatException("Invalid format for update-book.\n" +
                     "Expected format: update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]");
         }
-        String[] bookArgs = InputParser.extractAddBookArgs(commandArgs[1]);
+        String[] bookArgs = InputParser.extractAddBookArgs(commandArgs[1], "update-book");
         assert bookArgs.length >= 4 : "Book arguments should contain at least 4 elements";
 
         String bookTitle = bookArgs[0].trim();
@@ -307,11 +314,10 @@ public class InputHandler {
         book.setAuthor(bookArgs[1]);
         book.setCategory(bookArgs[2]);
         book.setCondition(bookArgs[3]);
-        if(bookArgs.length == 5) {
+        if(bookArgs.length == 5 && !bookArgs[4].isBlank()) {
             book.setNote(bookArgs[4]);
         }
-
-        Formatter.printBorderedMessage("Book Updated: " + book.getTitle());
+        Formatter.printBorderedMessage("Book Updated: " + Formatter.NEW_LINE + book.toString());
     }
 
 }

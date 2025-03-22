@@ -6,6 +6,7 @@ public class Formatter {
 
     private static final int NORMAL_INDENT = 5;
     private static final int MINOR_INDENT = 4;
+    public static final String NEW_LINE = System.lineSeparator();
 
     /**
      * Prints a horizontal line with minor indentation.

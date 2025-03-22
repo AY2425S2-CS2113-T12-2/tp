@@ -12,13 +12,31 @@ public class InputParser {
         return commandArgs;
     }
 
-    public static String[] extractAddBookArgs(String input) throws IncorrectFormatException {
+
+      /**
+     * Extracts the arguments for the add-book and update-book command.
+     * <p>
+     * The expected input format is: 
+     * BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]
+     * Example: "Cheese Chronicles a/Mouse cat/Adventure cond/Good"
+     *
+     * @param input The user input for the add-loan command.
+     * @param command The command calling extractAddBookArgs, used when throwing exceptions
+     * @return An array of strings containing the arguments for the add-loan command:
+     *      [0] - Book title
+     *      [1] - Author
+     *      [2] - Category
+     *      [3] - Condition
+     *      [4] - Notes (Optional)
+     * @throws IncorrectFormatException if the input format is invalid.
+     */
+    public static String[] extractAddBookArgs(String input, String command) throws IncorrectFormatException {
         // Split the input into required fields and optional note
         String[] splitInput = input.trim().split("( a/)|( cat/)|( cond/)", 4);
     
         if (splitInput.length < 4) {
-            throw new IncorrectFormatException("Invalid format for add-book.\n" +
-                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]");
+            throw new IncorrectFormatException("Invalid format for " + command + Formatter.NEW_LINE +
+                    "Expected format: " + command + " BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]");
         }
     
         // Extract required fields
@@ -37,8 +55,8 @@ public class InputParser {
     
         // Validate required fields
         if (bookTitle.isBlank() || author.isBlank() || category.isBlank() || condition.isBlank()) {
-            throw new IncorrectFormatException("Invalid format for add-book.\n" +
-                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]");
+            throw new IncorrectFormatException("Invalid format for " + command + Formatter.NEW_LINE +
+                    "Expected format: " + command + " BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]");
         }
     
         // Return all fields, including the optional note
