@@ -13,7 +13,7 @@ public class InputParser {
     }
 
 
-      /**
+    /**
      * Extracts the arguments for the add-book command.
      * <p>
      * The expected input format is: 
@@ -62,7 +62,7 @@ public class InputParser {
         return new String[]{bookTitle, author, category, condition, note};
     }
 
-      /**
+    /**
      * Extracts the arguments for the update-book command.
      * <p>
      * The expected input format is: 
