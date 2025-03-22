@@ -7,7 +7,7 @@ public class InputParser {
     public static String[] extractCommandArgs(String input) throws IncorrectFormatException {
         String[] commandArgs = input.trim().split(" ", 2);
         if (commandArgs.length < 1) {
-            throw new IncorrectFormatException("Invalid command format. Expected: COMMAND [ARGUMENTS]");
+            throw new IncorrectFormatException("Invalid command format.\nExpected: COMMAND [ARGUMENTS]");
         }
         return commandArgs;
     }
@@ -17,13 +17,13 @@ public class InputParser {
         String[] splitInput = input.trim().split("( a/)|( cat/)|( cond/)", 4);
 
         if (splitInput.length != 4) {
-            throw new IncorrectFormatException("Invalid format for add-book. " +
+            throw new IncorrectFormatException("Invalid format for add-book.\n" +
                     "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION");
         }
 
         for (int i = 0; i < splitInput.length; i++) {
             if (splitInput[i].isBlank()) {
-                throw new IncorrectFormatException("Invalid format for add-book. " +
+                throw new IncorrectFormatException("Invalid format for add-book.\n" +
                         "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION");
             }
             commandArgs[i] = splitInput[i].trim();
@@ -50,13 +50,13 @@ public class InputParser {
         String[] splitInput = input.trim().split("( n/)|( d/)", 3);
 
         if (splitInput.length != 3) {
-            throw new IncorrectFormatException("Invalid format for add-loan. " +
+            throw new IncorrectFormatException("Invalid format for add-loan.\n" +
                     "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE");
         }
 
         for (int i = 0; i < splitInput.length; i++) {
             if (splitInput[i].isBlank()) {
-                throw new IncorrectFormatException("Invalid format for add-loan. " +
+                throw new IncorrectFormatException("Invalid format for add-loan.\n" +
                         "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE");
             }
             commandArgs[i] = splitInput[i].trim();
@@ -81,13 +81,13 @@ public class InputParser {
         String[] commandArgs = new String[2];
         String[] splitInput = input.trim().split("( n/)", 2);
         if (splitInput.length < 2) {
-            throw new IncorrectFormatException("Invalid format for delete-loan. " +
+            throw new IncorrectFormatException("Invalid format for delete-loan.\n" +
                     "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME");
         }
 
         for (int i = 0; i < splitInput.length; i++) {
             if (splitInput[i].isBlank()) {
-                throw new IncorrectFormatException("Invalid format for delete-loan. " +
+                throw new IncorrectFormatException("Invalid format for delete-loan.\n" +
                         "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME");
             }
             commandArgs[i] = splitInput[i].trim();

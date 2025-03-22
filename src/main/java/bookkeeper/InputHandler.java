@@ -30,7 +30,7 @@ public class InputHandler {
             }
             userInputLine = scanner.nextLine();
             if (userInputLine.isEmpty()) {
-                System.out.println("Please enter a command");
+                Formatter.printBorderedMessage("Please enter a command");
             } else {
                 try {
                     String[] commandArgs = InputParser.extractCommandArgs(userInputLine);
@@ -56,14 +56,14 @@ public class InputHandler {
                         loanList.viewLoanList();
                         break;
                     case "exit":
-                        System.out.println("Exiting BookKeeper...");
+                        Formatter.printBorderedMessage("Exiting BookKeeper...");
                         isAskingInput = false;
                         break;
                     default:
                         throw new IncorrectFormatException("Unknown command: " + commandArgs[0]);
                     }
                 } catch (IncorrectFormatException | BookNotFoundException e) {
-                    System.out.println(e.getMessage());
+                    Formatter.printBorderedMessage(e.getMessage());
                 }
             }
         }
@@ -80,25 +80,25 @@ public class InputHandler {
      */
     private void addLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
         if (commandArgs.length < 2) {
-            throw new IncorrectFormatException("Invalid format for add-loan. " +
+            throw new IncorrectFormatException("Invalid format for add-loan.\n" +
                     "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE");
         }
         try {
             String[] loanArgs = InputParser.extractAddLoanArgs(commandArgs[1]);
             Book loanedBook = bookList.findBookByTitle(loanArgs[0]);
             if (loanedBook == null) {
-                System.out.println("Book not found in inventory: " + loanArgs[0]);
+                Formatter.printBorderedMessage("Book not found in inventory: " + loanArgs[0]);
             } else if (loanedBook.getOnLoan()) {
                 assert loanedBook.getTitle() != null : "Loaned book must have a title";
-                System.out.println("The book " + loanArgs[0] + " is currently out on loan.");
+                Formatter.printBorderedMessage("The book " + loanArgs[0] + " is currently out on loan.");
             } else {
                 Loan loan = new Loan(loanedBook, loanArgs[2], loanArgs[1]);
                 loanList.addLoan(loan);
                 loanedBook.setOnLoan(true);
-                System.out.println("Loan added successfully for book: " + loanedBook.getTitle());
+                Formatter.printBorderedMessage("Loan added successfully for book: " + loanedBook.getTitle());
             }
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            Formatter.printBorderedMessage(e.getMessage());
         }
     }
 
@@ -110,7 +110,7 @@ public class InputHandler {
      */
     private void addBook(String[] commandArgs) throws IncorrectFormatException {
         if (commandArgs.length < 2) {
-            throw new IncorrectFormatException("Invalid format for add-book. " +
+            throw new IncorrectFormatException("Invalid format for add-book.\n" +
                     "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION");
         }
         String[] bookArgs = InputParser.extractAddBookArgs(commandArgs[1]);
@@ -121,13 +121,13 @@ public class InputHandler {
 
         // Check if book already exists in the inventory
         if (bookList.findBookByTitle(bookTitle) != null) {
-            System.out.println("Book already exists in inventory: " + bookTitle);
+            Formatter.printBorderedMessage("Book already exists in inventory: " + bookTitle);
             return;
         }
 
         Book newBook = new Book(bookArgs[0], bookArgs[1], bookArgs[2], bookArgs[3]);
         bookList.addBook(newBook);
-        System.out.println("New book added: " + newBook.getTitle());
+        Formatter.printBorderedMessage("New book added: " + newBook.getTitle());
     }
 
     /**
@@ -139,19 +139,19 @@ public class InputHandler {
      */
     private void removeBook(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
         if (commandArgs.length != 2) {
-            throw new IncorrectFormatException("Invalid format for remove-book. " +
+            throw new IncorrectFormatException("Invalid format for remove-book.\n" +
                     "Expected format: remove-book BOOK_TITLE");
         }
         String bookTitle = commandArgs[1];
         Book toRemove = bookList.findBookByTitle(bookTitle);
 
         if (toRemove == null) {
-            System.out.println("Book not found in inventory: " + bookTitle);
+            Formatter.printBorderedMessage("Book not found in inventory: " + bookTitle);
         } else {
             assert toRemove.getTitle() != null : "Book to remove must have a valid title";
             loanList.removeLoansByBook(toRemove);
             bookList.removeBook(toRemove);
-            System.out.println("Removed book: " + toRemove.getTitle());
+            Formatter.printBorderedMessage("Removed book: " + toRemove.getTitle());
         }
     }
 
@@ -165,7 +165,7 @@ public class InputHandler {
      */
     private void deleteLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
         if (commandArgs.length < 2) {
-            throw new IncorrectFormatException("Invalid format for delete-loan. " +
+            throw new IncorrectFormatException("Invalid format for delete-loan.\n" +
                     "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME");
         }
         try {
@@ -175,18 +175,19 @@ public class InputHandler {
             Book loanedBook = bookList.findBookByTitle(bookTitle);
             Loan loan = loanList.findLoan(loanedBook, borrowerName);
             if (loanedBook == null) {
-                System.out.println("Book not found in inventory: " + bookTitle);
+                Formatter.printBorderedMessage("Book not found in inventory: " + bookTitle);
             } else if (!loanedBook.getOnLoan()) {
-                System.out.println("The book " + bookTitle + " is not currently out on loan.");
+                Formatter.printBorderedMessage("The book " + bookTitle + " is not currently out on loan.");
             } else if (loan == null) {
-                System.out.println("No such loan with book title " + bookTitle + " and borrower " + borrowerName);
+                Formatter.printBorderedMessage("No such loan with book title " + bookTitle +
+                        " and borrower " + borrowerName);
             } else {
                 loanList.deleteLoan(loan);
                 loanedBook.setOnLoan(false);
-                System.out.println("Loan deleted successfully for book: " + loanedBook.getTitle());
+                Formatter.printBorderedMessage("Loan deleted successfully for book: " + loanedBook.getTitle());
             }
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            Formatter.printBorderedMessage(e.getMessage());
         }
     }
 }

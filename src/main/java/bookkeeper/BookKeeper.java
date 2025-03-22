@@ -18,6 +18,6 @@ public class BookKeeper {
     }
 
     public static void displayWelcomeMessage() {
-        System.out.println("Welcome to BookKeeper.");
+        Formatter.printBorderedMessage("Welcome to BookKeeper.");
     }
 }

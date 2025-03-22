@@ -30,16 +30,16 @@ public class InputParserTest {
     void extractAddBookArgs_missingAuthor_exceptionThrown()  {
         IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, () 
                 -> InputParser.extractAddBookArgs("The Great Gatsby cat/Fiction cond/Good"));
-        assertEquals(exception.getMessage(), "Invalid format for add-book. " +
-                "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION");
+        assertEquals("Invalid format for add-book.\n" +
+                "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION", exception.getMessage());
     }
 
     @Test
     void extractAddBookArgs_missingBookName_exceptionThrown()  {
         IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, () 
                 -> InputParser.extractAddBookArgs("a/F. Scott Fitzgerald cat/Fiction cond/Good"));
-        assertEquals(exception.getMessage(), "Invalid format for add-book. " +
-                "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION");
+        assertEquals("Invalid format for add-book.\n" +
+                "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION", exception.getMessage());
     }
 
     @Test
@@ -60,8 +60,8 @@ public class InputParserTest {
     void extractAddLoanArgs_missingDate_exceptionThrown(){
         IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, () 
                 -> InputParser.extractAddLoanArgs("The Great Gatsby n/Mary"));
-        assertEquals(exception.getMessage(), "Invalid format for add-loan. " +
-                "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE");
+        assertEquals("Invalid format for add-loan.\n" +
+                "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE", exception.getMessage());
     }
 
     @Test
@@ -76,7 +76,7 @@ public class InputParserTest {
         try {
             InputParser.extractCommandArgs("delete-loan ");
         } catch (IncorrectFormatException e) {
-            assertEquals(e.getMessage(), "Invalid command format. Expected: COMMAND [ARGUMENTS]");
+            assertEquals("Invalid command format.\nExpected: COMMAND [ARGUMENTS]", e.getMessage());
         }  
     }
 
@@ -98,7 +98,7 @@ public class InputParserTest {
     void extractDeleteLoanArgs_missingArguments_exceptionThrown(){
         IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, () 
                 -> InputParser.extractDeleteLoanArgs("The Great Gatsby"));
-        assertEquals(exception.getMessage(), "Invalid format for delete-loan. " +
-                "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME");
+        assertEquals("Invalid format for delete-loan.\n" +
+                "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME", exception.getMessage());
     }
 }

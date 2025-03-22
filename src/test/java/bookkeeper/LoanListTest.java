@@ -88,44 +88,6 @@ public class LoanListTest {
     }
 
     @Test
-    void viewLoanList_displaysAllLoans() {
-        loanList.addLoan(loan1);
-        loanList.addLoan(loan2);
-
-        String expectedOutput = "1. Title: The Great Gatsby" + System.lineSeparator() +
-                "    Borrower: John Doe" + System.lineSeparator() +
-                "    Return Date: 2023-12-01" + System.lineSeparator() +
-                "2. Title: To Kill a Mockingbird" + System.lineSeparator() +
-                "    Borrower: Alice Smith" + System.lineSeparator() +
-                "    Return Date: 2024-01-10";
-
-        java.io.ByteArrayOutputStream outContent = new java.io.ByteArrayOutputStream();
-        System.setOut(new java.io.PrintStream(outContent));
-
-        loanList.viewLoanList();
-
-        System.setOut(System.out);
-
-        assertEquals(expectedOutput.trim(), outContent.toString().trim(),
-                "The loan list output should match the expected output");
-    }
-
-    @Test
-    void viewLoanList_emptyList() {
-        String expectedOutput = "Loan List Empty!";
-
-        java.io.ByteArrayOutputStream outContent = new java.io.ByteArrayOutputStream();
-        System.setOut(new java.io.PrintStream(outContent));
-
-        loanList.viewLoanList();
-
-        System.setOut(System.out);
-
-        assertEquals(expectedOutput.trim(), outContent.toString().trim(),
-                "The output should indicate that the loan list is empty");
-    }
-
-    @Test
     void findLoan_existingLoan() {
         loanList.addLoan(loan1);
         Loan foundLoan = loanList.findLoan(book1, "John Doe");

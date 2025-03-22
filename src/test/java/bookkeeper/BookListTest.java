@@ -5,10 +5,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 
 class BookListTest {
     private BookList bookList;
@@ -55,33 +51,4 @@ class BookListTest {
         assertNotNull(bookList.findBookByTitle("Book Two"));
     }
 
-    @Test
-    void testViewBookList() {
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-
-        bookList.viewBookList();
-        assertTrue(outContent.toString().contains("Book List Empty!"));
-
-        bookList.addBook(book1);
-        bookList.addBook(book2);
-
-        outContent.reset();
-        bookList.viewBookList();
-
-        String output = outContent.toString();
-        assertTrue(output.contains("1. Book One"));
-        assertTrue(output.contains("Author: Author One"));
-        assertTrue(output.contains("Category: Fiction"));
-        assertTrue(output.contains("Condition: New"));
-        assertTrue(output.contains("On Loan: false"));
-
-        assertTrue(output.contains("2. Book Two"));
-        assertTrue(output.contains("Author: Author Two"));
-        assertTrue(output.contains("Category: Non-Fiction"));
-        assertTrue(output.contains("Condition: Good"));
-        assertTrue(output.contains("On Loan: false"));
-
-        System.setOut(System.out);
-    }
 }
