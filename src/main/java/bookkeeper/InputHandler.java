@@ -84,18 +84,18 @@ public class InputHandler {
 
     private void displayHelp() {
         Formatter.printSimpleMessage("""
-                -----------------------------------------------------------------------------------------------------
-                | Action                | Format                                                                    |
-                |-----------------------|---------------------------------------------------------------------------|
-                | Add a Book            | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]`    |
-                | View Inventory        | `view-inventory`                                                          |
-                | Remove a Book         | `remove-book BOOK_TITLE`                                                  |
-                | Add a Loan            | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE`                       |
-                | Delete a Loan         | `delete-loan BOOK_TITLE n/BORROWER_NAME`                                  |
-                | View Loans            | `view-loans`                                                              |
-                | Add note for Book     | `add-note BOOK_TITLE note/NOTE`                                           |
-                | Delete note for Book  | `delete-note BOOK_TITLE`                                                  |
-                -----------------------------------------------------------------------------------------------------
+                -------------------------------------------------------------------------------------------------------
+                | Action         | Format                                                                             |
+                |----------------|------------------------------------------------------------------------------------|
+                | Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`|
+                | View Inventory | `view-inventory`                                                                   |
+                | Remove Book    | `remove-book BOOK_TITLE`                                                           |
+                | Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE`                                |
+                | Delete Loan    | `delete-loan BOOK_TITLE n/BORROWER_NAME`                                           |
+                | View Loans     | `view-loans`                                                                       |
+                | Add note       | `add-note BOOK_TITLE note/NOTE`                                                    |
+                | Delete note    | `delete-note BOOK_TITLE`                                                           |
+                -------------------------------------------------------------------------------------------------------
                 """);
     }
 
@@ -141,13 +141,12 @@ public class InputHandler {
     private void addBook(String[] commandArgs) throws IncorrectFormatException {
         if (commandArgs.length < 2) {
             throw new IncorrectFormatException("Invalid format for add-book.\n" +
-                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]");
+                "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]");
         }
         String[] bookArgs = InputParser.extractAddBookArgs(commandArgs[1]);
-        assert bookArgs.length >= 4 : "Book arguments should contain at least 4 elements";
+        assert bookArgs.length >= 5 : "Book arguments should contain at least 5 elements";
 
-        // Trim whitespaces from the book title
-        String bookTitle = bookArgs[0].trim();
+        String bookTitle = bookArgs[0]; //Already trimmed whitespaces in extractAddBookArgs
 
         // Check if book already exists in the inventory
         if (bookList.findBookByTitle(bookTitle) != null) {
@@ -156,10 +155,10 @@ public class InputHandler {
         }
 
         // Handle optional note
-        String note = bookArgs.length == 5 ? bookArgs[4] : ""; // Default to empty string if note is not provided
+        String note = bookArgs.length == 6 ? bookArgs[5] : ""; // Default to empty string if note is not provided
 
         // Add the new book to the book list
-        Book newBook = new Book(bookTitle, bookArgs[1], bookArgs[2], bookArgs[3], note);
+        Book newBook = new Book(bookTitle, bookArgs[1], bookArgs[2], bookArgs[3], bookArgs[4], note);
         bookList.addBook(newBook);
         Formatter.printBorderedMessage("New book added: " + newBook.getTitle());
     }

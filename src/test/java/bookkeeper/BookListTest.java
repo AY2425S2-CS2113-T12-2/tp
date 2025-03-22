@@ -17,8 +17,8 @@ class BookListTest {
         bookList = new BookList("My Book List");
 
         // Creating mock book objects
-        book1 = new Book("Book One", "Author One", "Fiction", "New");
-        book2 = new Book("Book Two", "Author Two", "Non-Fiction", "Good");
+        book1 = new Book("Book One", "Author One", "Fiction", "New", "Shelf 1");
+        book2 = new Book("Book Two", "Author Two", "Non-Fiction", "Good", "Shelf 2");
     }
 
     @Test

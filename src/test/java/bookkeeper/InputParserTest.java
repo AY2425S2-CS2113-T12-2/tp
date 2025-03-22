@@ -14,16 +14,16 @@ public class InputParserTest {
     @Test
     void extractAddBookArgs_validInput_fiveArgumentStringArray() throws IncorrectFormatException {
         String[] arguments = InputParser.extractAddBookArgs("The Great Gatsby " +
-                "a/F. Scott Fitzgerald cat/Fiction cond/Good");
-        String[] output = new String[]{"The Great Gatsby", "F. Scott Fitzgerald", "Fiction", "Good", ""};
+                "a/F. Scott Fitzgerald cat/Fiction cond/Good loc/Shelf 1");
+        String[] output = new String[]{"The Great Gatsby", "F. Scott Fitzgerald", "Fiction", "Good", "Shelf 1", ""};
         assertArrayEquals(arguments, output);
     }
 
     @Test
     void extractAddBookArgs_inputWithExtraSpace_fiveArgumentStringArray() throws IncorrectFormatException {
         String[] arguments = InputParser.extractAddBookArgs("The Great Gatsby " +
-                "a/F. Scott Fitzgerald    cat/Fiction cond/Good   ");
-        String[] output = new String[]{"The Great Gatsby", "F. Scott Fitzgerald", "Fiction", "Good", ""};
+                "a/F. Scott Fitzgerald    cat/Fiction cond/Good   loc/Shelf 2    ");
+        String[] output = new String[]{"The Great Gatsby", "F. Scott Fitzgerald", "Fiction", "Good", "Shelf 2", ""};
         assertArrayEquals(arguments, output);
     }
 
@@ -32,7 +32,7 @@ public class InputParserTest {
         IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, ()
                 -> InputParser.extractAddBookArgs("The Great Gatsby cat/Fiction cond/Good"));
         assertEquals("Invalid format for add-book.\n" +
-                        "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]",
+                        "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]",
                 exception.getMessage());
     }
 
@@ -41,7 +41,7 @@ public class InputParserTest {
         IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, ()
                 -> InputParser.extractAddBookArgs("a/F. Scott Fitzgerald cat/Fiction cond/Good"));
         assertEquals("Invalid format for add-book.\n" +
-                        "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]",
+                        "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]",
                 exception.getMessage());
     }
 
@@ -75,12 +75,10 @@ public class InputParserTest {
     }
 
     @Test
-    void extractCommandArgs_missingArguments_exceptionThrown() throws IncorrectFormatException {
-        try {
-            InputParser.extractCommandArgs("delete-loan ");
-        } catch (IncorrectFormatException e) {
-            assertEquals("Invalid command format.\nExpected: COMMAND [ARGUMENTS]", e.getMessage());
-        }
+    void extractCommandArgs_missingArguments_exceptionThrown() {
+        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, ()
+                        -> InputParser.extractCommandArgs("delete-loan "));
+        assertEquals("Invalid command format.\nExpected: COMMAND [ARGUMENTS]", exception.getMessage());
     }
 
     @Test
