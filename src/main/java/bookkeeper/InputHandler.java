@@ -111,21 +111,25 @@ public class InputHandler {
     private void addBook(String[] commandArgs) throws IncorrectFormatException {
         if (commandArgs.length < 2) {
             throw new IncorrectFormatException("Invalid format for add-book.\n" +
-                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION");
+                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTES]");
         }
         String[] bookArgs = InputParser.extractAddBookArgs(commandArgs[1]);
-        assert bookArgs.length == 4 : "Book arguments should contain exactly 4 elements";
-
+        assert bookArgs.length >= 4 : "Book arguments should contain at least 4 elements";
+    
         // Trim whitespaces from the book title
         String bookTitle = bookArgs[0].trim();
-
+    
         // Check if book already exists in the inventory
         if (bookList.findBookByTitle(bookTitle) != null) {
             Formatter.printBorderedMessage("Book already exists in inventory: " + bookTitle);
             return;
         }
-
-        Book newBook = new Book(bookArgs[0], bookArgs[1], bookArgs[2], bookArgs[3]);
+    
+        // Handle optional note
+        String note = bookArgs.length == 5 ? bookArgs[4] : ""; // Default to empty string if note is not provided
+    
+        // Add the new book to the book list
+        Book newBook = new Book(bookTitle, bookArgs[1], bookArgs[2], bookArgs[3], note);
         bookList.addBook(newBook);
         Formatter.printBorderedMessage("New book added: " + newBook.getTitle());
     }

@@ -47,7 +47,7 @@ public class LoanListTest {
             loanList.addLoan(null);
         }, "Adding a null loan should throw an AssertionError");
 
-        assertEquals("Loan cannot be null", error.getMessage(), 
+        assertEquals("Loan cannot be null", error.getMessage(),
                 "The error message should indicate that the loan cannot be null");
     }
 

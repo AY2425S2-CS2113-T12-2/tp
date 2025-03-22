@@ -13,23 +13,36 @@ public class InputParser {
     }
 
     public static String[] extractAddBookArgs(String input) throws IncorrectFormatException {
-        String[] commandArgs = new String[4];
+        // Split the input into required fields and optional note
         String[] splitInput = input.trim().split("( a/)|( cat/)|( cond/)", 4);
-
-        if (splitInput.length != 4) {
+    
+        if (splitInput.length < 4) {
             throw new IncorrectFormatException("Invalid format for add-book.\n" +
-                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION");
+                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTES]");
         }
-
-        for (int i = 0; i < splitInput.length; i++) {
-            if (splitInput[i].isBlank()) {
-                throw new IncorrectFormatException("Invalid format for add-book.\n" +
-                        "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION");
-            }
-            commandArgs[i] = splitInput[i].trim();
+    
+        // Extract required fields
+        String bookTitle = splitInput[0].trim();
+        String author = splitInput[1].trim();
+        String category = splitInput[2].trim();
+        String condition = splitInput[3].trim();
+    
+        // Check for optional note
+        String note = "";
+        if (condition.contains(" note/")) {
+            String[] conditionAndNote = condition.split(" note/", 2);
+            condition = conditionAndNote[0].trim(); // Update condition without the note
+            note = conditionAndNote.length > 1 ? conditionAndNote[1].trim() : ""; // Extract note if present
         }
-
-        return commandArgs;
+    
+        // Validate required fields
+        if (bookTitle.isBlank() || author.isBlank() || category.isBlank() || condition.isBlank()) {
+            throw new IncorrectFormatException("Invalid format for add-book.\n" +
+                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTES]");
+        }
+    
+        // Return all fields, including the optional note
+        return new String[]{bookTitle, author, category, condition, note};
     }
 
     /**
