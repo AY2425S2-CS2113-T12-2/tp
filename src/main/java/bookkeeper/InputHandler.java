@@ -55,6 +55,9 @@ public class InputHandler {
                     case "view-loans":
                         loanList.viewLoanList();
                         break;
+                    case "help":
+                        displayHelp();
+                        break;
                     case "exit":
                         Formatter.printBorderedMessage("Exiting BookKeeper...");
                         isAskingInput = false;
@@ -67,6 +70,18 @@ public class InputHandler {
                 }
             }
         }
+    }
+
+    private void displayHelp() {
+        System.out.println("""
+                | Action         | Format                                                      |
+                |----------------|-------------------------------------------------------------|
+                | Add a Book     | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION`  |
+                | View Inventory | `view-inventory`                                            |
+                | Remove a Book  | `remove-book BOOK_TITLE`                                    |
+                | Add a Loan     | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE`         |
+                | Delete a Loan  | `delete-loan BOOK_TITLE n/BORROWER_NAME`                    |
+                | View Loans     | `view-loans`                                                |""");
     }
 
     /**
