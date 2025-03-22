@@ -317,7 +317,7 @@ public class InputHandler {
         if(bookArgs.length == 5 && !bookArgs[4].isBlank()) {
             book.setNote(bookArgs[4]);
         }
-        Formatter.printBorderedMessage("Book Updated: " + Formatter.NEW_LINE + book.toString());
+        Formatter.printBorderedMessage("Book Updated:\n" + book.toString());
     }
 
 }
