@@ -58,6 +58,6 @@ public class Book {
                 + "    Category: " + getCategory() + System.lineSeparator()
                 + "    Condition: " + getCondition() + System.lineSeparator()
                 + "    On Loan: " + getOnLoan() + System.lineSeparator()
-                + "    Note: " + (note.isEmpty() ? "No notes available" : note);
+                + "    Note: " + (note.isEmpty() ? "No notes available" : getNote());
     }
 }
