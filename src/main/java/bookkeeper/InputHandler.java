@@ -146,7 +146,7 @@ public class InputHandler {
             throw new IncorrectFormatException("Invalid format for add-book.\n" +
                     "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]");
         }
-        String[] bookArgs = InputParser.extractAddBookArgs(commandArgs[1], "add-book");
+        String[] bookArgs = InputParser.extractAddBookArgs(commandArgs[1]);
         assert bookArgs.length >= 4 : "Book arguments should contain at least 4 elements";
 
         // Trim whitespaces from the book title
@@ -289,7 +289,7 @@ public class InputHandler {
     }
 
     /**
-     * Updayes details of an existing book.
+     * Updates details of an existing book.
      *
      * @param commandArgs The parsed command arguments.
      * @throws IncorrectFormatException If the input format is invalid.
@@ -300,7 +300,7 @@ public class InputHandler {
             throw new IncorrectFormatException("Invalid format for update-book.\n" +
                     "Expected format: update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]");
         }
-        String[] bookArgs = InputParser.extractAddBookArgs(commandArgs[1], "update-book");
+        String[] bookArgs = InputParser.extractUpdateBookArgs(commandArgs[1]);
         assert bookArgs.length >= 4 : "Book arguments should contain at least 4 elements";
 
         String bookTitle = bookArgs[0].trim();
