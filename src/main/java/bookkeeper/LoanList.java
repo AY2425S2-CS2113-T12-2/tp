@@ -42,6 +42,7 @@ public class LoanList {
     public void viewLoanList() {
         if (loanList.isEmpty()) {
             Formatter.printBorderedMessage("Loan List Empty!");
+            return;
         }
         Formatter.printLoanList(loanList);
     }

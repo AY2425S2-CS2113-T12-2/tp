@@ -24,7 +24,11 @@ public class InputHandler {
         String userInputLine;
         Scanner scanner = new Scanner(System.in);
 
+        displayHelp();
+
         while (isAskingInput) {
+            System.out.println("Enter a command:");
+
             if (!scanner.hasNextLine()) {  // Prevents NoSuchElementException
                 break;
             }
@@ -79,15 +83,20 @@ public class InputHandler {
     }
 
     private void displayHelp() {
-        System.out.println("""
-                | Action         | Format                                                      |
-                |----------------|-------------------------------------------------------------|
-                | Add a Book     | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION`  |
-                | View Inventory | `view-inventory`                                            |
-                | Remove a Book  | `remove-book BOOK_TITLE`                                    |
-                | Add a Loan     | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE`         |
-                | Delete a Loan  | `delete-loan BOOK_TITLE n/BORROWER_NAME`                    |
-                | View Loans     | `view-loans`                                                |""");
+        Formatter.printSimpleMessage("""
+                -----------------------------------------------------------------------------------------------------
+                | Action                | Format                                                                    |
+                |-----------------------|---------------------------------------------------------------------------|
+                | Add a Book            | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTES]`   |
+                | View Inventory        | `view-inventory`                                                          |
+                | Remove a Book         | `remove-book BOOK_TITLE`                                                  |
+                | Add a Loan            | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE`                       |
+                | Delete a Loan         | `delete-loan BOOK_TITLE n/BORROWER_NAME`                                  |
+                | View Loans            | `view-loans`                                                              |
+                | Add note for Book     | `add-note BOOK_TITLE note/NOTES`                                          |
+                | Delete note for Book  | `delete-note BOOK_TITLE`                                                  |
+                -----------------------------------------------------------------------------------------------------
+                """);
     }
 
     /**
