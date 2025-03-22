@@ -1,9 +1,0 @@
-add-book The Great Gatsby a/F. Scott Fitzgerald cat/Fiction cond/Good
-add-book To Kill a Mockingbird a/Harper Lee cat/Fiction cond/Excellent
-add-book 1984 a/George Orwell cat/Dystopian cond/Fair
-add-loan The Great Gatsby n/John Doe d/2023-12-01
-add-loan The Great Gatsby n/Jane Doe d/2023-12-15
-add-loan To Kill a Mockingbird n/Alice Smith d/2024-01-10
-add-loan 1984 n/Bob Johnson d/2024-02-20
-view-loans
-exit
