@@ -32,7 +32,7 @@ public class InputParserTest {
         IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, ()
                 -> InputParser.extractAddBookArgs("The Great Gatsby cat/Fiction cond/Good"));
         assertEquals("Invalid format for add-book.\n" +
-                        "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTES]",
+                        "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]",
                 exception.getMessage());
     }
 
@@ -41,7 +41,7 @@ public class InputParserTest {
         IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, ()
                 -> InputParser.extractAddBookArgs("a/F. Scott Fitzgerald cat/Fiction cond/Good"));
         assertEquals("Invalid format for add-book.\n" +
-                        "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTES]",
+                        "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]",
                 exception.getMessage());
     }
 

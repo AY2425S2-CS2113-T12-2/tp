@@ -87,13 +87,13 @@ public class InputHandler {
                 -----------------------------------------------------------------------------------------------------
                 | Action                | Format                                                                    |
                 |-----------------------|---------------------------------------------------------------------------|
-                | Add a Book            | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTES]`   |
+                | Add a Book            | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]`   |
                 | View Inventory        | `view-inventory`                                                          |
                 | Remove a Book         | `remove-book BOOK_TITLE`                                                  |
                 | Add a Loan            | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE`                       |
                 | Delete a Loan         | `delete-loan BOOK_TITLE n/BORROWER_NAME`                                  |
                 | View Loans            | `view-loans`                                                              |
-                | Add note for Book     | `add-note BOOK_TITLE note/NOTES`                                          |
+                | Add note for Book     | `add-note BOOK_TITLE note/NOTE`                                          |
                 | Delete note for Book  | `delete-note BOOK_TITLE`                                                  |
                 -----------------------------------------------------------------------------------------------------
                 """);
@@ -141,7 +141,7 @@ public class InputHandler {
     private void addBook(String[] commandArgs) throws IncorrectFormatException {
         if (commandArgs.length < 2) {
             throw new IncorrectFormatException("Invalid format for add-book.\n" +
-                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTES]");
+                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]");
         }
         String[] bookArgs = InputParser.extractAddBookArgs(commandArgs[1]);
         assert bookArgs.length >= 4 : "Book arguments should contain at least 4 elements";
