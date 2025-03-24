@@ -18,8 +18,35 @@ if you have not organized the code into clearly divided components (no penalty i
 #### Adding Books/Loans
 
 #### Removing Books/Loans
+
+The `remove-book` feature allows the user to remove a book from the inventory using the book title as the identifier.
+The system will first check if the book exists, remove all associated loans (if any) before finally removing the book from the inventory.
+This prevents orphaned loan records from remaining in the system.
+
+`InputHandler` coordinates with `BookList`, `LoanList` and `Formatter` classes to implement the feature.
+
+The following UML sequence diagram shows how the `remove-book TITLE` command is handled.
 ![removeBook.png](images/removeBook.png)
 
+1. User issues command
+The user inputs the command in the CLI with the book title as an argument, e.g. `remove-book The Hobbit`
+
+2. `InputHandler` handles the command
+The `removeBook(commandArgs)` method of `InputHandler` is invoked to extract the book title from the arguments.
+
+3. `BookList` is queried for the book
+`InputHandler` calls `BookList.findBookByTitle(bookTitle)` to search for the book.
+   - If the book is not found `(toRemove == null)`, `InputHandler` uses `Formatter` to print a "Book not found" message and exits early. 
+   - If the book is found, the flow continues.
+
+4. Associated loans are removed
+`LoanList.removeLoansByBook(toRemove)` is called to remove all loans associated with the book. This ensures no orphaned loans are left behind.
+
+5. Book is removed from the system
+`InputHandler` calls `BookList.removeBook(toRemove)` to remove the book.
+
+6. Success message is displayed
+`Formatter` is used to print a message indicating successful removal.
 
 #### Viewing Books/Loans
 
