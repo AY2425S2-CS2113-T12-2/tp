@@ -11,25 +11,24 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class LoanListTest {
     private LoanList loanList;
-    private BookList bookList;
     private Book book1;
     private Book book2;
     private Loan loan1;
-    private Loan loan2;
+    //private Loan loan2;
 
     @BeforeEach
     public void setUp() {
         loanList = new LoanList("Test Loan List");
-        bookList = new BookList("Test Book List");
+        BookList bookList = new BookList("Test Book List");
 
-        book1 = new Book("The Great Gatsby", "F. Scott Fitzgerald", "Fiction", "Good");
-        book2 = new Book("To Kill a Mockingbird", "Harper Lee", "Fiction", "Excellent");
+        book1 = new Book("The Great Gatsby", "F. Scott Fitzgerald", "Fiction", "Good", "Shelf 1");
+        book2 = new Book("To Kill a Mockingbird", "Harper Lee", "Fiction", "Excellent", "Shelf 2");
 
         bookList.addBook(book1);
         bookList.addBook(book2);
 
         loan1 = new Loan(book1, "2023-12-01", "John Doe");
-        loan2 = new Loan(book2, "2024-01-10", "Alice Smith");
+        //loan2 = new Loan(book2, "2024-01-10", "Alice Smith");
     }
 
     @Test
@@ -43,9 +42,8 @@ public class LoanListTest {
     @Test
     void addLoan_addNullLoan_expectAssertionError() {
         // Expect an AssertionError when adding a null loan
-        AssertionError error = assertThrows(AssertionError.class, () -> {
-            loanList.addLoan(null);
-        }, "Adding a null loan should throw an AssertionError");
+        AssertionError error = assertThrows(AssertionError.class, () ->
+                loanList.addLoan(null), "Adding a null loan should throw an AssertionError");
 
         assertEquals("Loan cannot be null", error.getMessage(),
                 "The error message should indicate that the loan cannot be null");

@@ -31,35 +31,37 @@ public class InputParser {
      */
     public static String[] extractAddBookArgs(String input) throws IncorrectFormatException {
         // Split the input into required fields and optional note
-        String[] splitInput = input.trim().split("( a/)|( cat/)|( cond/)", 4);
+        String[] splitInput = input.trim().split("( a/)|( cat/)|( cond/)|( loc/)", 5);
     
         if (splitInput.length < 4) {
             throw new IncorrectFormatException("Invalid format for add-book.\n" +
-                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]");
+                "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]");
         }
     
-        // Extract required fields
+        // Extract required fields, trim whitespaces
         String bookTitle = splitInput[0].trim();
         String author = splitInput[1].trim();
         String category = splitInput[2].trim();
         String condition = splitInput[3].trim();
+        String location = splitInput[4].trim();
     
         // Check for optional note
         String note = "";
-        if (condition.contains(" note/")) {
-            String[] conditionAndNote = condition.split(" note/", 2);
-            condition = conditionAndNote[0].trim(); // Update condition without the note
-            note = conditionAndNote.length > 1 ? conditionAndNote[1].trim() : ""; // Extract note if present
+        if (location.contains(" note/")) {
+            String[] locationAndNote = location.split(" note/", 2);
+            location = locationAndNote[0].trim(); // Update condition without the note
+            note = locationAndNote.length > 1 ? locationAndNote[1].trim() : ""; // Extract note if present
         }
     
         // Validate required fields
-        if (bookTitle.isBlank() || author.isBlank() || category.isBlank() || condition.isBlank()) {
+        if (bookTitle.isBlank() || author.isBlank() || category.isBlank()
+            || condition.isBlank() || location.isBlank()) {
             throw new IncorrectFormatException("Invalid format for add-book.\n" +
                     "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]");
         }
     
         // Return all fields, including the optional note
-        return new String[]{bookTitle, author, category, condition, note};
+        return new String[]{bookTitle, author, category, condition, location, note};
     }
 
     /**
