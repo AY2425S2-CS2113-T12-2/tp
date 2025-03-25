@@ -1,35 +1,55 @@
 @startuml
 participant User
 participant InputHandler
+participant InputParser
 participant BookList
 participant LoanList
 participant Formatter
 
-User -> InputHandler: removeBook(commandArgs)
+User -> InputHandler: "remove-book BOOK_TITLE"
 activate InputHandler
-InputHandler -> BookList: findBookByTitle(bookTitle)
-activate BookList
-BookList --> InputHandler: toRemove
-deactivate BookList
-alt toRemove == null
-    InputHandler -> Formatter: printBorderedMessage("Book not found")
-    activate Formatter
-    Formatter --> InputHandler
-    deactivate Formatter
-else
-    InputHandler -> LoanList: removeLoansByBook(toRemove)
-    activate LoanList
-    LoanList --> InputHandler
-    deactivate LoanList
-    InputHandler -> BookList: removeBook(toRemove)
-    activate BookList
-    BookList --> InputHandler
-    deactivate BookList
-    InputHandler -> Formatter: printBorderedMessage("Removed book")
-    activate Formatter
-    Formatter --> InputHandler
-    deactivate Formatter
-end
+    activate InputHandler
+    InputHandler -> InputParser: extractCommandArgs(userInputLine)
+    activate InputParser
+    InputParser --> InputHandler: commandArgs[]
+    deactivate InputHandler
+    deactivate InputParser
+    alt commandArgs[0] == "remove-book"
+        InputHandler -> InputHandler: removeBook(commandArgs)
+        activate InputHandler
+        InputHandler -> BookList: findBookByTitle(bookTitle)
+        activate BookList
+        BookList --> InputHandler: toRemove
+        deactivate BookList
+        alt toRemove == null
+            InputHandler -> Formatter: printBorderedMessage("Book not found")
+            activate Formatter
+            Formatter --> InputHandler
+            deactivate Formatter
+        else
+            InputHandler -> LoanList: removeLoansByBook(toRemove)
+            activate LoanList
+            LoanList --> InputHandler
+            deactivate LoanList
+
+            InputHandler -> BookList: removeBook(toRemove)
+            activate BookList
+            BookList --> InputHandler
+            deactivate BookList
+
+            InputHandler -> Formatter: printBorderedMessage("Removed book")
+            activate Formatter
+            Formatter --> InputHandler
+            deactivate Formatter
+            InputHandler --> InputHandler
+            deactivate InputHandler
+        end
+    else
+    note over InputHandler
+    other command cases
+    end note
+    end
+
 InputHandler --> User
 deactivate InputHandler
 @enduml
