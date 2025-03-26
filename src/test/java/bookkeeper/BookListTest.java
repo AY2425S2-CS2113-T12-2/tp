@@ -70,4 +70,16 @@ class BookListTest {
         assertEquals(foundBooks.get(1), book3);
     }
 
+    @Test
+    void testFindBooksByCategory() {
+        bookList.addBook(book1);
+        bookList.addBook(book2);
+        bookList.addBook(book3);
+
+        ArrayList<Book> foundBooks = bookList.findBooksByCategory("Non-Fiction");
+        assertEquals(foundBooks.get(0), book2); 
+        assertEquals(foundBooks.get(1), book3);
+        assertNotEquals(foundBooks.get(0), book1);
+        assertNotEquals(foundBooks.get(1), book1);
+    }
 }

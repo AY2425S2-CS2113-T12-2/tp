@@ -71,6 +71,9 @@ public class InputHandler {
                     case "search-book":
                         searchBook(commandArgs);
                         break;  
+                    case "list-category":
+                        listCategory(commandArgs);
+                        break;
                     case "help":
                         displayHelp();
                         break;
@@ -97,6 +100,7 @@ public class InputHandler {
                 | View Inventory | `view-inventory`                                                                   |
                 | Remove Book    | `remove-book BOOK_TITLE`                                                           |
                 | Search Book    | `search-book KEYWORD`                                                              |
+                | List Category  | `list-catergory CATEGORY`                                                          |
                 | Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE`                                |
                 | Delete Loan    | `delete-loan BOOK_TITLE n/BORROWER_NAME`                                           |
                 | View Loans     | `view-loans`                                                                       |
@@ -245,6 +249,22 @@ public class InputHandler {
 
         String keyword = commandArgs[1].trim();
         Formatter.printBookList(bookList.findBooksByKeyword(keyword));
+    }
+
+    /**
+     * Prints out all books in BookList that is of the provided category.
+     * 
+     * @param commandArgs The parsed command arguments
+     * @throws IncorrectFormatException If the input format is invalid
+     */
+    private void listCategory(String[] commandArgs) throws IncorrectFormatException {
+        if (commandArgs.length < 2){
+            throw new IncorrectFormatException("Invalid format for list-category.\n" +
+                    "Expected format: list-category CATEGORY");
+        }
+
+        String category = commandArgs[1].trim();
+        Formatter.printBookList(bookList.findBooksByCategory(category));
     }
 
     /**
