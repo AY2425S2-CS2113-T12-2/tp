@@ -67,7 +67,7 @@ public class InputParserTest {
         IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, ()
                 -> InputParser.extractUpdateBookArgs("The Great Gatsby cat/Fiction cond/Good"));
         assertEquals("Invalid format for update-book.\n" +
-                        "Expected format: update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]",
+                "Expected format: update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]",
                 exception.getMessage());
     }
 
@@ -76,21 +76,23 @@ public class InputParserTest {
         IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, ()
                 -> InputParser.extractUpdateBookArgs("a/F. Scott Fitzgerald cat/Fiction cond/Good"));
         assertEquals("Invalid format for update-book.\n" +
-                        "Expected format: update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]",
+                "Expected format: update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]",
                 exception.getMessage());
     }
 
     @Test
     void extractAddLoanArgs_validInput_threeArgumentStringArray() throws IncorrectFormatException {
-        String[] arguments = InputParser.extractAddLoanArgs("The Great Gatsby n/Mary d/12-Mar-2025");
-        String[] output = new String[]{"The Great Gatsby", "Mary", "12-Mar-2025"};
+        String[] arguments = InputParser.extractAddLoanArgs("The Great Gatsby n/Mary d/13-Mar-2025" +  
+                " p/12345678 e/abc123@gmail.com");
+        String[] output = new String[]{"The Great Gatsby", "Mary", "13-Mar-2025", "12345678", "abc123@gmail.com"};
         assertArrayEquals(arguments, output);
     }
 
     @Test
     void extractAddLoanArgs_inputWithExtraSpace_threeArgumentStringArray() throws IncorrectFormatException {
-        String[] arguments = InputParser.extractAddLoanArgs("The Great Gatsby   n/Mary d/12-Mar-2025 ");
-        String[] output = new String[]{"The Great Gatsby", "Mary", "12-Mar-2025"};
+        String[] arguments = InputParser.extractAddLoanArgs("The Great Gatsby    n/Mary d/13-Mar-2025   " +
+                "p/12345678  e/abc123@gmail.com");
+        String[] output = new String[]{"The Great Gatsby", "Mary", "13-Mar-2025", "12345678", "abc123@gmail.com"};
         assertArrayEquals(arguments, output);
     }
 
@@ -99,7 +101,8 @@ public class InputParserTest {
         IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, ()
                 -> InputParser.extractAddLoanArgs("The Great Gatsby n/Mary"));
         assertEquals("Invalid format for add-loan.\n" +
-                "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE", exception.getMessage());
+                "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE " +
+                "p/PHONE_NUMBER e/EMAIL", exception.getMessage());
     }
 
     @Test
@@ -129,6 +132,31 @@ public class InputParserTest {
                 -> InputParser.extractDeleteLoanArgs("The Great Gatsby"));
         assertEquals("Invalid format for delete-loan.\n" +
                 "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME", exception.getMessage());
+    }
+
+    @Test
+    void extractEditLoanArgs_validInput_twoArgumentArray() throws IncorrectFormatException {
+        String[] arguments = InputParser.extractEditLoanArgs("The Great Gatsby n/Mary d/13-Mar-2025 " +
+                "p/12345678 e/abc123@gmail.com");
+        String[] output = new String[]{"The Great Gatsby", "Mary", "13-Mar-2025", "12345678", "abc123@gmail.com"};
+        assertArrayEquals(arguments, output);
+    }
+
+    @Test
+    void extractEditLoanArgs_inputWithExtraSpace_twoArgumentArray() throws IncorrectFormatException {
+        String[] arguments = InputParser.extractEditLoanArgs("The Great Gatsby    n/Mary d/13-Mar-2025     " + 
+                "p/12345678   e/abc123@gmail.com");
+        String[] output = new String[]{"The Great Gatsby", "Mary", "13-Mar-2025", "12345678", "abc123@gmail.com"};
+        assertArrayEquals(arguments, output);
+    }
+
+    @Test
+    void extractEditLoanArgs_missingArguments_exceptionThrown() {
+        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, ()
+                -> InputParser.extractEditLoanArgs("The Great Gatsby"));
+        assertEquals("Invalid format for edit-loan.\n" +
+                "Expected format: edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE " + 
+                "p/PHONE_NUMBER e/EMAIL", exception.getMessage());
     }
 }
 

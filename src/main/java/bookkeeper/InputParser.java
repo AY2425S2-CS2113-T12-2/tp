@@ -195,4 +195,24 @@ public class InputParser {
     
         return new String[]{bookTitle, note};
     }
+
+    public static String[] extractEditLoanArgs(String input) throws IncorrectFormatException {
+        String[] commandArgs = new String[5];
+        String[] splitInput = input.trim().split("( n/)|( d/)|( p/)|( e/)", 5);
+
+        if (splitInput.length != 5) {
+            throw new IncorrectFormatException("Invalid format for edit-loan.\n" +
+                    "Expected format: edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL");
+        }
+
+        for (int i = 0; i < splitInput.length; i++) {
+            if (splitInput[i].isBlank()) {
+                throw new IncorrectFormatException("Invalid format for edit-loan.\n" +
+                        "Expected format: edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL");
+            }
+            commandArgs[i] = splitInput[i].trim();
+        }
+
+        return commandArgs;
+    }
 }

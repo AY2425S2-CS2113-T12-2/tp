@@ -1,11 +1,10 @@
 package bookkeeper;
 
+import java.util.Scanner;
 import java.util.logging.Logger;
 
 import bookkeeper.exceptions.BookNotFoundException;
 import bookkeeper.exceptions.IncorrectFormatException;
-
-import java.util.Scanner;
 
 public class InputHandler {
     private static final Logger logger = Logger.getLogger(InputHandler.class.getName());
@@ -56,6 +55,9 @@ public class InputHandler {
                     case "delete-loan":
                         deleteLoan(commandArgs);
                         break;
+                    case "edit-loan":
+                        editLoan(commandArgs);
+                        break;
                     case "view-loans":
                         loanList.viewLoanList();
                         break;
@@ -101,8 +103,9 @@ public class InputHandler {
                 | Remove Book    | `remove-book BOOK_TITLE`                                                           |
                 | Search Book    | `search-book KEYWORD`                                                              |
                 | List Category  | `list-category CATEGORY`                                                           |
-                | Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE`                                |
+                | Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`         |
                 | Delete Loan    | `delete-loan BOOK_TITLE n/BORROWER_NAME`                                           |
+                | Edit Loan      | `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`        |
                 | View Loans     | `view-loans`                                                                       |
                 | Add note       | `add-note BOOK_TITLE note/NOTE`                                                    |
                 | Delete note    | `delete-note BOOK_TITLE`                                                           |
@@ -360,4 +363,35 @@ public class InputHandler {
         Formatter.printBorderedMessage("Book Updated:\n" + book.toString());
     }
 
+    private void editLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
+        if (commandArgs.length < 2) {
+            throw new IncorrectFormatException("Invalid format for update-book.\n" +
+                    "Expected format: edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL");
+        }
+        String[] editLoanArgs = InputParser.extractEditLoanArgs(commandArgs[1]);
+        assert editLoanArgs.length == 5 : "Book arguments should contain at least 4 elements";
+        
+        String bookTitle = editLoanArgs[0];
+        String borrowerName = editLoanArgs[1];
+        String returnDate = editLoanArgs[2];
+        String phoneNumber = editLoanArgs[3];
+        String email = editLoanArgs[4];
+
+        // Check if book already exists in the inventory
+        Book book = bookList.findBookByTitle(bookTitle);
+        Loan loan = loanList.findLoan(book, borrowerName);
+        if (book == null) {
+            throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
+        } else if (!book.getOnLoan()) {
+            Formatter.printBorderedMessage("The book " + bookTitle + " is not currently out on loan.");
+        } else if (loan == null) {
+            Formatter.printBorderedMessage("No such loan with book title " + bookTitle +
+                    " and borrower " + borrowerName);
+        } else {
+            loan.setReturnDate(returnDate);
+            loan.setPhoneNumber(phoneNumber);
+            loan.setEmail(email);
+            Formatter.printBorderedMessage("Loan Updated:\n" + loan.toString());
+        }
+    }
 }

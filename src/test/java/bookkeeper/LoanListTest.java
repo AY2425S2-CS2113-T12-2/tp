@@ -27,7 +27,7 @@ public class LoanListTest {
         bookList.addBook(book1);
         bookList.addBook(book2);
 
-        loan1 = new Loan(book1, "2023-12-01", "John Doe");
+        loan1 = new Loan(book1,"John Doe", "2023-12-01", "98765432", "abc123@gmail.com");
         //loan2 = new Loan(book2, "2024-01-10", "Alice Smith");
     }
 
@@ -79,7 +79,7 @@ public class LoanListTest {
     @Test
     void deleteLoan_nonExistingLoan() {
         loanList.addLoan(loan1);
-        Loan nonExistingLoan = new Loan(book2, "2024-01-10", "Nonexistent Borrower");
+        Loan nonExistingLoan = new Loan(book2, "Nonexistent Borrower", "2024-01-10", "87654321", "def321@gmail.com");
         loanList.deleteLoan(nonExistingLoan); // Attempt to delete a non-existing loan
         assertEquals(1, loanList.getLoanList().size(),
                 "Deleting a non-existing loan should not affect the list");
