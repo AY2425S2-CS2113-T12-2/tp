@@ -4,10 +4,11 @@ public class Loan {
     private Book book;
     private String loanDate;
     private String borrowerName;
+    private String returnDate;
 
-    public Loan(Book book, String loanDate, String borrowerName) {
+    public Loan(Book book, String borrowerName, String returnDate, String phoneNumber, String email) {
         this.book = book;
-        this.loanDate = loanDate;
+        this.returnDate = returnDate;
         this.borrowerName = borrowerName;
     }
 
@@ -19,16 +20,16 @@ public class Loan {
         return book.getTitle();
     }
 
-    public String getLoanDate() {
-        return loanDate;
+    public String getReturnDate() {
+        return returnDate;
     }
 
     public String getBorrowerName() {
         return borrowerName;
     }
 
-    public void setLoanDate(String loanDate) {
-        this.loanDate = loanDate;
+    public void setReturnDate(String loanDate) {
+        this.returnDate = loanDate;
     }
 
     public void setBorrowerName(String borrowerName) {
@@ -39,6 +40,6 @@ public class Loan {
     public String toString() {
         return "Title: " + getTitle() + System.lineSeparator()
                 + "    Borrower: " + getBorrowerName() + System.lineSeparator()
-                + "    Return Date: " + getLoanDate();
+                + "    Return Date: " + getReturnDate();
     }
 }

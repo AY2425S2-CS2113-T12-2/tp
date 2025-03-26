@@ -133,7 +133,7 @@ public class InputHandler {
                 assert loanedBook.getTitle() != null : "Loaned book must have a title";
                 Formatter.printBorderedMessage("The book " + loanArgs[0] + " is currently out on loan.");
             } else {
-                Loan loan = new Loan(loanedBook, loanArgs[2], loanArgs[1]);
+                Loan loan = new Loan(loanedBook, loanArgs[1], loanArgs[2]);
                 loanList.addLoan(loan);
                 loanedBook.setOnLoan(true);
                 Formatter.printBorderedMessage("Loan added successfully for book: " + loanedBook.getTitle());
