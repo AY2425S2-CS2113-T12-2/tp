@@ -100,7 +100,7 @@ public class InputHandler {
                 | View Inventory | `view-inventory`                                                                   |
                 | Remove Book    | `remove-book BOOK_TITLE`                                                           |
                 | Search Book    | `search-book KEYWORD`                                                              |
-                | List Category  | `list-catergory CATEGORY`                                                          |
+                | List Category  | `list-category CATEGORY`                                                           |
                 | Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE`                                |
                 | Delete Loan    | `delete-loan BOOK_TITLE n/BORROWER_NAME`                                           |
                 | View Loans     | `view-loans`                                                                       |
