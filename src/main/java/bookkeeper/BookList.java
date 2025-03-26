@@ -28,6 +28,16 @@ public class BookList {
         return null;
     }
 
+    public ArrayList<Book> findBooksByKeyword(String keyword){
+        ArrayList<Book> filteredBookList = new ArrayList<>();
+        for (Book book : bookList) {
+            if (book.getTitle().contains(keyword)) {
+                filteredBookList.add(book);
+            }
+        }
+        return filteredBookList;
+    }
+
     public void removeBook(Book book) {
         bookList.remove(book);
     }
