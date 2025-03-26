@@ -11,8 +11,9 @@
      | Remove Book    | `remove-book BOOK_TITLE`                                                           |
      | Search Book    | `search-book KEYWORD`                                                              |
      | List Category  | `list-category CATEGORY`                                                           |
-     | Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE`                                |
+     | Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`         |
      | Delete Loan    | `delete-loan BOOK_TITLE n/BORROWER_NAME`                                           |
+     | Edit Loan      | `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`        |
      | View Loans     | `view-loans`                                                                       |
      | Add note       | `add-note BOOK_TITLE note/NOTE`                                                    |
      | Delete note    | `delete-note BOOK_TITLE`                                                           |

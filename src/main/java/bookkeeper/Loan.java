@@ -2,13 +2,17 @@ package bookkeeper;
 
 public class Loan {
     private Book book;
-    private String loanDate;
     private String borrowerName;
+    private String returnDate;
+    private String phoneNumber;
+    private String email;
 
-    public Loan(Book book, String loanDate, String borrowerName) {
+    public Loan(Book book, String borrowerName, String returnDate, String phoneNumber, String email) {
         this.book = book;
-        this.loanDate = loanDate;
+        this.returnDate = returnDate;
         this.borrowerName = borrowerName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
     }
 
     public Book getBook() {
@@ -19,26 +23,44 @@ public class Loan {
         return book.getTitle();
     }
 
-    public String getLoanDate() {
-        return loanDate;
+    public String getReturnDate() {
+        return returnDate;
     }
 
     public String getBorrowerName() {
         return borrowerName;
     }
 
-    public void setLoanDate(String loanDate) {
-        this.loanDate = loanDate;
+    public String getPhoneNumber() {
+        return this.phoneNumber;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }   
+
+    public void setReturnDate(String loanDate) {
+        this.returnDate = loanDate;
     }
 
     public void setBorrowerName(String borrowerName) {
         this.borrowerName = borrowerName;
     }
 
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "Title: " + getTitle() + System.lineSeparator()
                 + "    Borrower: " + getBorrowerName() + System.lineSeparator()
-                + "    Return Date: " + getLoanDate();
+                + "    Return Date: " + getReturnDate() + System.lineSeparator()
+                + "    Contact Number: " + getPhoneNumber() + System.lineSeparator()
+                + "    Email: " + getEmail();
     }
 }
