@@ -9,6 +9,8 @@
      | Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`|
      | View Inventory | `view-inventory`                                                                   |
      | Remove Book    | `remove-book BOOK_TITLE`                                                           |
+     | Search Book    | `search-book KEYWORD`                                                              |
+     | List Category  | `list-category CATEGORY`                                                           |
      | Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE`                                |
      | Delete Loan    | `delete-loan BOOK_TITLE n/BORROWER_NAME`                                           |
      | View Loans     | `view-loans`                                                                       |

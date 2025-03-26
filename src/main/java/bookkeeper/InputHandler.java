@@ -68,6 +68,12 @@ public class InputHandler {
                     case "update-book":
                         updateBook(commandArgs);
                         break;
+                    case "search-book":
+                        searchBook(commandArgs);
+                        break;  
+                    case "list-category":
+                        listCategory(commandArgs);
+                        break;
                     case "help":
                         displayHelp();
                         break;
@@ -93,6 +99,8 @@ public class InputHandler {
                 | Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`|
                 | View Inventory | `view-inventory`                                                                   |
                 | Remove Book    | `remove-book BOOK_TITLE`                                                           |
+                | Search Book    | `search-book KEYWORD`                                                              |
+                | List Category  | `list-category CATEGORY`                                                           |
                 | Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE`                                |
                 | Delete Loan    | `delete-loan BOOK_TITLE n/BORROWER_NAME`                                           |
                 | View Loans     | `view-loans`                                                                       |
@@ -178,7 +186,7 @@ public class InputHandler {
             throw new IncorrectFormatException("Invalid format for remove-book.\n" +
                     "Expected format: remove-book BOOK_TITLE");
         }
-        String bookTitle = commandArgs[1];
+        String bookTitle = commandArgs[1].trim();
         Book toRemove = bookList.findBookByTitle(bookTitle);
 
         if (toRemove == null) {
@@ -206,6 +214,7 @@ public class InputHandler {
         }
         try {
             String[] deleteLoanArgs = InputParser.extractDeleteLoanArgs(commandArgs[1]);
+            assert deleteLoanArgs.length == 2;
             String bookTitle = deleteLoanArgs[0];
             String borrowerName = deleteLoanArgs[1];
             Book loanedBook = bookList.findBookByTitle(bookTitle);
@@ -225,6 +234,38 @@ public class InputHandler {
         } catch (IllegalArgumentException e) {
             Formatter.printBorderedMessage(e.getMessage());
         }
+    }
+
+    /**
+     * Prints out all books in BookList that contains the keyword.
+     * 
+     * @param commandArgs The parsed command arguments
+     * @throws IncorrectFormatException If the input format is invalid
+     */
+    private void searchBook(String[] commandArgs) throws IncorrectFormatException {
+        if (commandArgs.length < 2) {
+            throw new IncorrectFormatException("Invalid format for search-book.\n" +
+                    "Expected format: search-book KEYWORD");
+        }
+
+        String keyword = commandArgs[1].trim();
+        Formatter.printBookList(bookList.findBooksByKeyword(keyword));
+    }
+
+    /**
+     * Prints out all books in BookList that is of the provided category.
+     * 
+     * @param commandArgs The parsed command arguments
+     * @throws IncorrectFormatException If the input format is invalid
+     */
+    private void listCategory(String[] commandArgs) throws IncorrectFormatException {
+        if (commandArgs.length < 2){
+            throw new IncorrectFormatException("Invalid format for list-category.\n" +
+                    "Expected format: list-category CATEGORY");
+        }
+
+        String category = commandArgs[1].trim();
+        Formatter.printBookList(bookList.findBooksByCategory(category));
     }
 
     /**
