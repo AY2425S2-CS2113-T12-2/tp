@@ -127,18 +127,18 @@ public class InputParser {
      * @throws IncorrectFormatException if the input format is invalid.
      */
     public static String[] extractAddLoanArgs(String input) throws IncorrectFormatException {
-        String[] commandArgs = new String[3];
-        String[] splitInput = input.trim().split("( n/)|( d/)", 3);
+        String[] commandArgs = new String[5];
+        String[] splitInput = input.trim().split("( n/)|( d/)|( p/)|( e/)", 5);
 
-        if (splitInput.length != 3) {
+        if (splitInput.length != 5) {
             throw new IncorrectFormatException("Invalid format for add-loan.\n" +
-                    "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE");
+                    "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL");
         }
 
         for (int i = 0; i < splitInput.length; i++) {
             if (splitInput[i].isBlank()) {
                 throw new IncorrectFormatException("Invalid format for add-loan.\n" +
-                        "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE");
+                        "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL");
             }
             commandArgs[i] = splitInput[i].trim();
         }

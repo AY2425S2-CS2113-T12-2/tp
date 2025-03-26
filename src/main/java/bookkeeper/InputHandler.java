@@ -122,7 +122,7 @@ public class InputHandler {
     private void addLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
         if (commandArgs.length < 2) {
             throw new IncorrectFormatException("Invalid format for add-loan.\n" +
-                    "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE");
+                    "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL");
         }
         try {
             String[] loanArgs = InputParser.extractAddLoanArgs(commandArgs[1]);
@@ -133,7 +133,7 @@ public class InputHandler {
                 assert loanedBook.getTitle() != null : "Loaned book must have a title";
                 Formatter.printBorderedMessage("The book " + loanArgs[0] + " is currently out on loan.");
             } else {
-                Loan loan = new Loan(loanedBook, loanArgs[1], loanArgs[2]);
+                Loan loan = new Loan(loanedBook, loanArgs[1], loanArgs[2], loanArgs[3], loanArgs[4]);
                 loanList.addLoan(loan);
                 loanedBook.setOnLoan(true);
                 Formatter.printBorderedMessage("Loan added successfully for book: " + loanedBook.getTitle());
