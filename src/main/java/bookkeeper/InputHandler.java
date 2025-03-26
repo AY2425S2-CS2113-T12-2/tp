@@ -214,6 +214,7 @@ public class InputHandler {
         }
         try {
             String[] deleteLoanArgs = InputParser.extractDeleteLoanArgs(commandArgs[1]);
+            assert deleteLoanArgs.length == 2;
             String bookTitle = deleteLoanArgs[0];
             String borrowerName = deleteLoanArgs[1];
             Book loanedBook = bookList.findBookByTitle(bookTitle);
