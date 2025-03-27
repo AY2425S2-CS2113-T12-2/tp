@@ -177,6 +177,7 @@ public class InputHandler {
             Book newBook = new Book(bookTitle, bookArgs[1], bookArgs[2], bookArgs[3], bookArgs[4], note);
             bookList.addBook(newBook);
             Formatter.printBorderedMessage("New book added: " + newBook.getTitle());
+            Storage.saveInventory(bookList);
         } catch (IllegalArgumentException e) {
             Formatter.printBorderedMessage(e.getMessage());
         }
@@ -204,6 +205,7 @@ public class InputHandler {
             loanList.removeLoansByBook(toRemove);
             bookList.removeBook(toRemove);
             Formatter.printBorderedMessage("Removed book: " + toRemove.getTitle());
+            Storage.saveInventory(bookList);
         }
     }
 
@@ -303,6 +305,7 @@ public class InputHandler {
 
         book.setNote(note);
         Formatter.printBorderedMessage("Note added to book: " + bookTitle);
+        Storage.saveInventory(bookList);
     }
 
     /**
@@ -331,6 +334,7 @@ public class InputHandler {
 
         book.setNote("");
         Formatter.printBorderedMessage("Note deleted for book: " + bookTitle);
+        Storage.saveInventory(bookList);
     }
 
     /**
@@ -366,6 +370,7 @@ public class InputHandler {
                 book.setNote(bookArgs[5]);
             }
             Formatter.printBorderedMessage("Book Updated:\n" + book);
+            Storage.saveInventory(bookList);
         } catch
         (IllegalArgumentException e) {
             Formatter.printBorderedMessage(e.getMessage());

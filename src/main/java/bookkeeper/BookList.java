@@ -3,16 +3,20 @@ package bookkeeper;
 import java.util.ArrayList;
 
 public class BookList {
-    private ArrayList<Book> bookList;
-    private String listName;
+    private final ArrayList<Book> bookList;
+    private final String listName;
 
     public BookList(String listName) {
         this.listName = listName;
         this.bookList = new ArrayList<Book>();
     }
 
-    public String getlistName() {
+    public String getListName() {
         return listName;
+    }
+
+    public ArrayList<Book> getBookList() {
+        return bookList;
     }
 
     public void addBook(Book book) {
@@ -20,9 +24,9 @@ public class BookList {
     }
 
     public Book findBookByTitle(String title) {
-        for (int i = 0; i < bookList.size(); i++) {
-            if (bookList.get(i).getTitle().equals(title)) {
-                return bookList.get(i);
+        for (Book book : bookList) {
+            if (book.getTitle().equals(title)) {
+                return book;
             }
         }
         return null;

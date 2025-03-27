@@ -6,8 +6,8 @@ import java.util.logging.Logger;
 
 public class LoanList {
     private static final Logger logger = Logger.getLogger(LoanList.class.getName());
-    private ArrayList<Loan> loanList;
-    private String listName;
+    private final ArrayList<Loan> loanList;
+    private final String listName;
 
     public LoanList(String listName) {
         LoggerConfig.configureLogger(logger); 
@@ -20,7 +20,7 @@ public class LoanList {
         return loanList;
     }
 
-    public String getlistName() {
+    public String getListName() {
         return listName;
     }
 
@@ -48,11 +48,11 @@ public class LoanList {
     }
 
     public Loan findLoan(Book book, String borrower) {
-        for (int i = 0; i < loanList.size(); i++) {
-            Book bookIter = loanList.get(i).getBook();
-            String borrowerName = loanList.get(i).getBorrowerName();
+        for (Loan loan : loanList) {
+            Book bookIter = loan.getBook();
+            String borrowerName = loan.getBorrowerName();
             if ((bookIter.equals(book)) && (borrowerName.equals(borrower))) {
-                return loanList.get(i);
+                return loan;
             }
         }
         return null;
