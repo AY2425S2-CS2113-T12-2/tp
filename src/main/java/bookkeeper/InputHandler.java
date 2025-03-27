@@ -142,6 +142,7 @@ public class InputHandler {
                 loanedBook.setOnLoan(true);
                 Formatter.printBorderedMessage("Loan added successfully for book: " + loanedBook.getTitle());
                 Storage.saveLoans(loanList);
+                Storage.saveInventory(bookList); //to update the onLoan status of the book in inventory
             }
         } catch (IllegalArgumentException e) {
             Formatter.printBorderedMessage(e.getMessage());
@@ -240,6 +241,7 @@ public class InputHandler {
                 loanedBook.setOnLoan(false);
                 Formatter.printBorderedMessage("Loan deleted successfully for book: " + loanedBook.getTitle());
                 Storage.saveLoans(loanList);
+                Storage.saveInventory(bookList); //to update the onLoan status of the book in inventory
             }
         } catch (IllegalArgumentException e) {
             Formatter.printBorderedMessage(e.getMessage());
