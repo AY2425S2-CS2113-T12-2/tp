@@ -360,7 +360,7 @@ public class InputHandler {
             if (bookArgs.length == 5 && !bookArgs[4].isBlank()) {
                 book.setNote(bookArgs[4]);
             }
-            Formatter.printBorderedMessage("Book Updated:\n" + book.toString());
+            Formatter.printBorderedMessage("Book Updated:\n" + book);
         } catch
         (IllegalArgumentException e) {
             Formatter.printBorderedMessage(e.getMessage());
@@ -394,7 +394,7 @@ public class InputHandler {
             loan.setReturnDate(returnDate);
             loan.setPhoneNumber(phoneNumber);
             loan.setEmail(email);
-            Formatter.printBorderedMessage("Loan Updated:\n" + loan.toString());
+            Formatter.printBorderedMessage("Loan Updated:\n" + loan);
         }
     }
 }
