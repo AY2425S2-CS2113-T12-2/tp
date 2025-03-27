@@ -1,6 +1,7 @@
 package bookkeeper;
 
 import bookkeeper.exceptions.IncorrectFormatException;
+import bookkeeper.exceptions.ErrorMessages;
 
 public class InputParser {
 
@@ -34,8 +35,7 @@ public class InputParser {
         String[] splitInput = input.trim().split("( a/)|( cat/)|( cond/)|( loc/)", 5);
     
         if (splitInput.length < 5) {
-            throw new IncorrectFormatException("Invalid format for add-book.\n" +
-                "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]");
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_BOOK);
         }
     
         // Extract required fields, trim whitespaces
@@ -56,8 +56,7 @@ public class InputParser {
         // Validate required fields
         if (bookTitle.isBlank() || author.isBlank() || category.isBlank()
             || condition.isBlank() || location.isBlank()) {
-            throw new IncorrectFormatException("Invalid format for add-book.\n" +
-                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]");
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_BOOK);
         }
     
         // Return all fields, including the optional note
@@ -85,8 +84,7 @@ public class InputParser {
         String[] splitInput = input.trim().split("( a/)|( cat/)|( cond/)", 4);
     
         if (splitInput.length < 4) {
-            throw new IncorrectFormatException("Invalid format for update-book.\n" +
-                    "Expected format: update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]");
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_BOOK);
         }
     
         // Extract required fields
@@ -105,8 +103,7 @@ public class InputParser {
     
         // Validate required fields
         if (bookTitle.isBlank() || author.isBlank() || category.isBlank() || condition.isBlank()) {
-            throw new IncorrectFormatException("Invalid format for update-book.\n" +
-                    "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]");
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_BOOK);
         }
     
         // Return all fields, including the optional note
@@ -131,14 +128,12 @@ public class InputParser {
         String[] splitInput = input.trim().split("( n/)|( d/)|( p/)|( e/)", 5);
 
         if (splitInput.length != 5) {
-            throw new IncorrectFormatException("Invalid format for add-loan.\n" +
-                    "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL");
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_LOAN);
         }
 
         for (int i = 0; i < splitInput.length; i++) {
             if (splitInput[i].isBlank()) {
-                throw new IncorrectFormatException("Invalid format for add-loan.\n" +
-                        "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL");
+                throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_LOAN);
             }
             commandArgs[i] = splitInput[i].trim();
         }
@@ -162,14 +157,12 @@ public class InputParser {
         String[] commandArgs = new String[2];
         String[] splitInput = input.trim().split("( n/)", 2);
         if (splitInput.length < 2) {
-            throw new IncorrectFormatException("Invalid format for delete-loan.\n" +
-                    "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME");
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_DELETE_LOAN);
         }
 
         for (int i = 0; i < splitInput.length; i++) {
             if (splitInput[i].isBlank()) {
-                throw new IncorrectFormatException("Invalid format for delete-loan.\n" +
-                        "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME");
+                throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_DELETE_LOAN);
             }
             commandArgs[i] = splitInput[i].trim();
         }
@@ -181,16 +174,14 @@ public class InputParser {
         String[] splitInput = input.trim().split(" note/", 2);
     
         if (splitInput.length != 2) {
-            throw new IncorrectFormatException("Invalid format for add-note.\n" +
-                    "Expected format: add-note BOOK_TITLE note/NOTE");
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_NOTE);
         }
     
         String bookTitle = splitInput[0].trim();
         String note = splitInput[1].trim();
     
         if (bookTitle.isBlank() || note.isBlank()) {
-            throw new IncorrectFormatException("Invalid format for add-note.\n" +
-                    "Expected format: add-note BOOK_TITLE note/NOTE");
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_NOTE);
         }
     
         return new String[]{bookTitle, note};
@@ -201,14 +192,12 @@ public class InputParser {
         String[] splitInput = input.trim().split("( n/)|( d/)|( p/)|( e/)", 5);
 
         if (splitInput.length != 5) {
-            throw new IncorrectFormatException("Invalid format for edit-loan.\n" +
-                    "Expected format: edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL");
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_EDIT_LOAN);
         }
 
         for (int i = 0; i < splitInput.length; i++) {
             if (splitInput[i].isBlank()) {
-                throw new IncorrectFormatException("Invalid format for edit-loan.\n" +
-                        "Expected format: edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL");
+                throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_EDIT_LOAN);
             }
             commandArgs[i] = splitInput[i].trim();
         }
