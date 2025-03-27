@@ -6,9 +6,9 @@ public class BookList {
     private final ArrayList<Book> bookList;
     private final String listName;
 
-    public BookList(String listName) {
+    public BookList(String listName, ArrayList<Book> bookList) {
         this.listName = listName;
-        this.bookList = new ArrayList<Book>();
+        this.bookList = bookList;
     }
 
     public String getListName() {

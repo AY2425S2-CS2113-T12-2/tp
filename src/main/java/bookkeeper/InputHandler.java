@@ -14,7 +14,7 @@ public class InputHandler {
 
     public InputHandler() {
         LoggerConfig.configureLogger(logger); // Configure the logger
-        this.bookList = new BookList("Inventory");
+        this.bookList = new BookList("Inventory", Storage.loadInventory());
         this.loanList = new LoanList("Loan List");
         logger.info("InputHandler initialized");
     }
@@ -142,6 +142,7 @@ public class InputHandler {
                 loanedBook.setOnLoan(true);
                 Formatter.printBorderedMessage("Loan added successfully for book: " + loanedBook.getTitle());
                 Storage.saveLoans(loanList);
+                Storage.saveInventory(bookList); //to update the onLoan status of the book in inventory
             }
         } catch (IllegalArgumentException e) {
             Formatter.printBorderedMessage(e.getMessage());
@@ -240,6 +241,7 @@ public class InputHandler {
                 loanedBook.setOnLoan(false);
                 Formatter.printBorderedMessage("Loan deleted successfully for book: " + loanedBook.getTitle());
                 Storage.saveLoans(loanList);
+                Storage.saveInventory(bookList); //to update the onLoan status of the book in inventory
             }
         } catch (IllegalArgumentException e) {
             Formatter.printBorderedMessage(e.getMessage());

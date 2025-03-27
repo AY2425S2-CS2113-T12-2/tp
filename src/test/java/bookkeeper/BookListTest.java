@@ -18,7 +18,7 @@ class BookListTest {
 
     @BeforeEach
     void setUp() {
-        bookList = new BookList("My Book List");
+        bookList = new BookList("My Book List", new ArrayList<Book>());
 
         // Creating mock book objects
         book1 = new Book("Book One", "Author One", "Fiction", "poor", "Shelf 1");

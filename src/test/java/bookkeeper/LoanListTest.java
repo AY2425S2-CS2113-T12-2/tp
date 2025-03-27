@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.ArrayList;
+
 
 public class LoanListTest {
     private LoanList loanList;
@@ -19,7 +21,7 @@ public class LoanListTest {
     @BeforeEach
     public void setUp() {
         loanList = new LoanList("Test Loan List");
-        BookList bookList = new BookList("Test Book List");
+        BookList bookList = new BookList("Test Book List", new ArrayList<Book>());
 
         book1 = new Book("The Great Gatsby", "F. Scott Fitzgerald", "Fiction", "Good", "Shelf 1");
         book2 = new Book("To Kill a Mockingbird", "Harper Lee", "Fiction", "fair", "Shelf 2");
