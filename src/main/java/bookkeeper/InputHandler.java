@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import bookkeeper.exceptions.BookNotFoundException;
 import bookkeeper.exceptions.IncorrectFormatException;
+import bookkeeper.exceptions.ErrorMessages;
 
 public class InputHandler {
     private static final Logger logger = Logger.getLogger(InputHandler.class.getName());
@@ -124,8 +125,7 @@ public class InputHandler {
      */
     private void addLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
         if (commandArgs.length < 2) {
-            throw new IncorrectFormatException("Invalid format for add-loan.\n" +
-                    "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL");
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_LOAN);
         }
         try {
             String[] loanArgs = InputParser.extractAddLoanArgs(commandArgs[1]);
@@ -154,8 +154,7 @@ public class InputHandler {
      */
     private void addBook(String[] commandArgs) throws IncorrectFormatException {
         if (commandArgs.length < 2) {
-            throw new IncorrectFormatException("Invalid format for add-book.\n" +
-                "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]");
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_BOOK);
         }
         String[] bookArgs = InputParser.extractAddBookArgs(commandArgs[1]);
         assert bookArgs.length >= 5 : "Book arguments should contain at least 5 elements";
@@ -186,8 +185,7 @@ public class InputHandler {
      */
     private void removeBook(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
         if (commandArgs.length != 2) {
-            throw new IncorrectFormatException("Invalid format for remove-book.\n" +
-                    "Expected format: remove-book BOOK_TITLE");
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_REMOVE_BOOK);
         }
         String bookTitle = commandArgs[1].trim();
         Book toRemove = bookList.findBookByTitle(bookTitle);
@@ -212,8 +210,7 @@ public class InputHandler {
      */
     private void deleteLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
         if (commandArgs.length < 2) {
-            throw new IncorrectFormatException("Invalid format for delete-loan.\n" +
-                    "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME");
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_DELETE_LOAN);
         }
         try {
             String[] deleteLoanArgs = InputParser.extractDeleteLoanArgs(commandArgs[1]);
@@ -247,8 +244,7 @@ public class InputHandler {
      */
     private void searchBook(String[] commandArgs) throws IncorrectFormatException {
         if (commandArgs.length < 2) {
-            throw new IncorrectFormatException("Invalid format for search-book.\n" +
-                    "Expected format: search-book KEYWORD");
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_SEARCH_BOOK);
         }
 
         String keyword = commandArgs[1].trim();
@@ -263,8 +259,7 @@ public class InputHandler {
      */
     private void listCategory(String[] commandArgs) throws IncorrectFormatException {
         if (commandArgs.length < 2){
-            throw new IncorrectFormatException("Invalid format for list-category.\n" +
-                    "Expected format: list-category CATEGORY");
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_LIST_CATEGORY);
         }
 
         String category = commandArgs[1].trim();
@@ -280,8 +275,7 @@ public class InputHandler {
      */
     private void addNote(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
         if (commandArgs.length < 2) {
-            throw new IncorrectFormatException("Invalid format for add-note.\n" +
-                    "Expected format: add-note BOOK_TITLE note/NOTE");
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_NOTE);
         }
 
         String[] noteArgs = InputParser.extractAddNoteArgs(commandArgs[1]);
@@ -311,8 +305,7 @@ public class InputHandler {
      */
     private void deleteNote(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
         if (commandArgs.length != 2) {
-            throw new IncorrectFormatException("Invalid format for delete-note.\n" +
-                    "Expected format: delete-note BOOK_TITLE");
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_DELETE_NOTE);
         }
 
         String bookTitle = commandArgs[1].trim();
@@ -340,8 +333,7 @@ public class InputHandler {
      */
     private void updateBook(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
         if (commandArgs.length < 2) {
-            throw new IncorrectFormatException("Invalid format for update-book.\n" +
-                    "Expected format: update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]");
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_BOOK);
         }
         String[] bookArgs = InputParser.extractUpdateBookArgs(commandArgs[1]);
         assert bookArgs.length >= 4 : "Book arguments should contain at least 4 elements";
@@ -365,8 +357,7 @@ public class InputHandler {
 
     private void editLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
         if (commandArgs.length < 2) {
-            throw new IncorrectFormatException("Invalid format for update-book.\n" +
-                    "Expected format: edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL");
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_EDIT_LOAN);
         }
         String[] editLoanArgs = InputParser.extractEditLoanArgs(commandArgs[1]);
         assert editLoanArgs.length == 5 : "Book arguments should contain at least 4 elements";
