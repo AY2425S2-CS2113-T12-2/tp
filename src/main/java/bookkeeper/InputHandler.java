@@ -140,6 +140,7 @@ public class InputHandler {
                 loanList.addLoan(loan);
                 loanedBook.setOnLoan(true);
                 Formatter.printBorderedMessage("Loan added successfully for book: " + loanedBook.getTitle());
+                Storage.saveLoans(loanList);
             }
         } catch (IllegalArgumentException e) {
             Formatter.printBorderedMessage(e.getMessage());
@@ -230,10 +231,12 @@ public class InputHandler {
                 loanList.deleteLoan(loan);
                 loanedBook.setOnLoan(false);
                 Formatter.printBorderedMessage("Loan deleted successfully for book: " + loanedBook.getTitle());
+                Storage.saveLoans(loanList);
             }
         } catch (IllegalArgumentException e) {
             Formatter.printBorderedMessage(e.getMessage());
         }
+
     }
 
     /**
@@ -383,6 +386,7 @@ public class InputHandler {
             loan.setPhoneNumber(phoneNumber);
             loan.setEmail(email);
             Formatter.printBorderedMessage("Loan Updated:\n" + loan.toString());
+            Storage.saveLoans(loanList);
         }
     }
 }
