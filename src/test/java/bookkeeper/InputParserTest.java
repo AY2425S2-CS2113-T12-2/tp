@@ -79,7 +79,7 @@ public class InputParserTest {
 
     @Test
     void extractAddLoanArgs_validInput_threeArgumentStringArray() throws IncorrectFormatException {
-        String[] arguments = InputParser.extractAddLoanArgs("The Great Gatsby n/Mary d/13-Mar-2025" +  
+        String[] arguments = InputParser.extractAddLoanArgs("The Great Gatsby n/Mary d/13-Mar-2025" +
                 " p/12345678 e/abc123@gmail.com");
         String[] output = new String[]{"The Great Gatsby", "Mary", "13-Mar-2025", "12345678", "abc123@gmail.com"};
         assertArrayEquals(arguments, output);
@@ -138,7 +138,7 @@ public class InputParserTest {
 
     @Test
     void extractEditLoanArgs_inputWithExtraSpace_twoArgumentArray() throws IncorrectFormatException {
-        String[] arguments = InputParser.extractEditLoanArgs("The Great Gatsby    n/Mary d/13-Mar-2025     " + 
+        String[] arguments = InputParser.extractEditLoanArgs("The Great Gatsby    n/Mary d/13-Mar-2025     " +
                 "p/12345678   e/abc123@gmail.com");
         String[] output = new String[]{"The Great Gatsby", "Mary", "13-Mar-2025", "12345678", "abc123@gmail.com"};
         assertArrayEquals(arguments, output);

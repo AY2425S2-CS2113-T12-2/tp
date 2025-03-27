@@ -21,7 +21,7 @@ class BookListTest {
         bookList = new BookList("My Book List");
 
         // Creating mock book objects
-        book1 = new Book("Book One", "Author One", "Fiction", "New", "Shelf 1");
+        book1 = new Book("Book One", "Author One", "Fiction", "poor", "Shelf 1");
         book2 = new Book("Book Two", "Author Two", "Non-Fiction", "Good", "Shelf 2");
         book3 = new Book("Harry Potter", "Author Two", "Non-Fiction", "Good", "Shelf 2");
     }
@@ -64,7 +64,7 @@ class BookListTest {
         bookList.addBook(book3);
 
         ArrayList<Book> foundBooks = bookList.findBooksByKeyword("e");
-        assertEquals(foundBooks.get(0), book1); 
+        assertEquals(foundBooks.get(0), book1);
         assertNotEquals(foundBooks.get(0), book2);
         assertNotEquals(foundBooks.get(1), book2);
         assertEquals(foundBooks.get(1), book3);
@@ -77,7 +77,7 @@ class BookListTest {
         bookList.addBook(book3);
 
         ArrayList<Book> foundBooks = bookList.findBooksByCategory("Non-Fiction");
-        assertEquals(foundBooks.get(0), book2); 
+        assertEquals(foundBooks.get(0), book2);
         assertEquals(foundBooks.get(1), book3);
         assertNotEquals(foundBooks.get(0), book1);
         assertNotEquals(foundBooks.get(1), book1);

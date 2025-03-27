@@ -335,8 +335,10 @@ public class InputHandler {
      * @param commandArgs The parsed command arguments.
      * @throws IncorrectFormatException If the input format is invalid.
      * @throws BookNotFoundException    If the book is not found in the inventory.
+     * @throws IllegalArgumentException If the condition is invalid.
      */
-    private void updateBook(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException, IllegalArgumentException {
+    private void updateBook(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException,
+            IllegalArgumentException {
         if (commandArgs.length < 2) {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_BOOK);
         }
