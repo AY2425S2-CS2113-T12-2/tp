@@ -81,6 +81,19 @@ public class Book {
         this.location = location;
     }
 
+    public String toFileString() {
+        String title = getTitle();
+        String author = getAuthor();
+        String category = getCategory();
+        Condition condition = getCondition();
+        boolean onLoan = getOnLoan();
+        String location = getLocation();
+        String note = getNote();
+        return title + " | " + author + " | " + category +
+                " | " + condition + " | " + onLoan +
+                " | " + location + " | " + note;
+    }
+
     @Override
     public String toString() {
         return "Title: " + getTitle() + System.lineSeparator()

@@ -28,7 +28,7 @@ class BookListTest {
 
     @Test
     void testGetListName() {
-        assertEquals("My Book List", bookList.getlistName());
+        assertEquals("My Book List", bookList.getListName());
     }
 
     @Test
