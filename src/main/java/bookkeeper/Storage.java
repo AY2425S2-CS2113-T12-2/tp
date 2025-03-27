@@ -13,7 +13,7 @@ public class Storage {
      * Saves the given loan list to the file.
      * Each loan is saved as a line in the file.
      *
-     * @param loans The list of loans to save.
+     * @param loanList LoanList containing the list of loans to save.
      */
     public static void saveLoans(LoanList loanList) {
         try {
