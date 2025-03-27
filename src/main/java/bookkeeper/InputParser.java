@@ -76,14 +76,15 @@ public class InputParser {
      *      [1] - Author
      *      [2] - Category
      *      [3] - Condition
-     *      [4] - Note (Optional)
+     *      [4] - Location
+     *      [5] - Note (Optional)
      * @throws IncorrectFormatException if the input format is invalid.
      */
     public static String[] extractUpdateBookArgs(String input) throws IncorrectFormatException {
         // Split the input into required fields and optional note
-        String[] splitInput = input.trim().split("( a/)|( cat/)|( cond/)", 4);
+        String[] splitInput = input.trim().split("( a/)|( cat/)|( cond/)|(loc/)", 5);
     
-        if (splitInput.length < 4) {
+        if (splitInput.length < 5) {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_BOOK);
         }
     
@@ -92,6 +93,7 @@ public class InputParser {
         String author = splitInput[1].trim();
         String category = splitInput[2].trim();
         String condition = splitInput[3].trim();
+        String location = splitInput[4].trim();
     
         // Check for optional note
         String note = "";
@@ -102,12 +104,13 @@ public class InputParser {
         }
     
         // Validate required fields
-        if (bookTitle.isBlank() || author.isBlank() || category.isBlank() || condition.isBlank()) {
+        if (bookTitle.isBlank() || author.isBlank() || category.isBlank()
+                || condition.isBlank() || location.isBlank()) {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_BOOK);
         }
     
         // Return all fields, including the optional note
-        return new String[]{bookTitle, author, category, condition, note};
+        return new String[]{bookTitle, author, category, condition, location, note};
     }
 
     /**

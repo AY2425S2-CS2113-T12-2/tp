@@ -77,6 +77,10 @@ public class Book {
         this.onLoan = onLoan;
     }
 
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     @Override
     public String toString() {
         return "Title: " + getTitle() + System.lineSeparator()

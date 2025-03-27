@@ -6,7 +6,7 @@ public final class ErrorMessages {
             "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]";
 
     public static final String INVALID_FORMAT_UPDATE_BOOK =  "Invalid format for update-book.\n" +
-            "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION [note/NOTE]";
+            "Expected format: update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]";
 
     public static final String INVALID_FORMAT_REMOVE_BOOK = "Invalid format for remove-book.\n" +
             "Expected format: remove-book BOOK_TITLE";

@@ -9,8 +9,8 @@ import bookkeeper.exceptions.ErrorMessages;
 
 public class InputHandler {
     private static final Logger logger = Logger.getLogger(InputHandler.class.getName());
-    private BookList bookList;
-    private LoanList loanList;
+    private final BookList bookList;
+    private final LoanList loanList;
 
     public InputHandler() {
         LoggerConfig.configureLogger(logger); // Configure the logger
@@ -96,22 +96,23 @@ public class InputHandler {
 
     private void displayHelp() {
         Formatter.printSimpleMessage("""
-                -------------------------------------------------------------------------------------------------------
-                | Action         | Format                                                                             |
-                |----------------|------------------------------------------------------------------------------------|
-                | Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`|
-                | View Inventory | `view-inventory`                                                                   |
-                | Remove Book    | `remove-book BOOK_TITLE`                                                           |
-                | Search Book    | `search-book KEYWORD`                                                              |
-                | List Category  | `list-category CATEGORY`                                                           |
-                | Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`         |
-                | Delete Loan    | `delete-loan BOOK_TITLE n/BORROWER_NAME`                                           |
-                | Edit Loan      | `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`        |
-                | View Loans     | `view-loans`                                                                       |
-                | Add note       | `add-note BOOK_TITLE note/NOTE`                                                    |
-                | Delete note    | `delete-note BOOK_TITLE`                                                           |
-                -------------------------------------------------------------------------------------------------------
-                """);
+            ----------------------------------------------------------------------------------------------------------
+            | Action         | Format                                                                                |
+            |----------------|---------------------------------------------------------------------------------------|
+            | Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`   |
+            | View Inventory | `view-inventory`                                                                      |
+            | Remove Book    | `remove-book BOOK_TITLE`                                                              |
+            | Update Book    | `update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`|
+            | Search Book    | `search-book KEYWORD`                                                                 |
+            | List Category  | `list-category CATEGORY`                                                              |
+            | Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`            |
+            | Delete Loan    | `delete-loan BOOK_TITLE n/BORROWER_NAME`                                              |
+            | Edit Loan      | `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`           |
+            | View Loans     | `view-loans`                                                                          |
+            | Add note       | `add-note BOOK_TITLE note/NOTE`                                                       |
+            | Delete note    | `delete-note BOOK_TITLE`                                                              |
+            ----------------------------------------------------------------------------------------------------------
+            """);
     }
 
     /**
@@ -360,8 +361,9 @@ public class InputHandler {
             book.setAuthor(bookArgs[1]);
             book.setCategory(bookArgs[2]);
             book.setCondition(bookArgs[3]);
-            if (bookArgs.length == 5 && !bookArgs[4].isBlank()) {
-                book.setNote(bookArgs[4]);
+            book.setLocation(bookArgs[4]);
+            if (bookArgs.length == 6 && !bookArgs[5].isBlank()) {
+                book.setNote(bookArgs[5]);
             }
             Formatter.printBorderedMessage("Book Updated:\n" + book);
         } catch
