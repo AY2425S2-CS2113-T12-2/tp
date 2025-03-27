@@ -33,7 +33,7 @@ public class InputParser {
         // Split the input into required fields and optional note
         String[] splitInput = input.trim().split("( a/)|( cat/)|( cond/)|( loc/)", 5);
     
-        if (splitInput.length < 4) {
+        if (splitInput.length < 5) {
             throw new IncorrectFormatException("Invalid format for add-book.\n" +
                 "Expected format: add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]");
         }
