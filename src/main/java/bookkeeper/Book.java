@@ -4,7 +4,7 @@ public class Book {
     private String title;
     private String author;
     private String category;
-    private String condition;
+    private Condition condition;
     private boolean onLoan;
     private String location;
     private String note;
@@ -14,7 +14,7 @@ public class Book {
         this.title = title;
         this.author = author;
         this.category = category;
-        this.condition = condition;
+        this.condition = Condition.fromString(condition);
         this.note = note;
         this.location = location;
         this.onLoan = false;
@@ -37,7 +37,7 @@ public class Book {
         return category;
     }
 
-    public String getCondition() {
+    public Condition getCondition() {
         return condition;
     }
 
@@ -58,7 +58,7 @@ public class Book {
     }
 
     public void setCondition(String condition){
-        this.condition = condition;
+        this.condition = Condition.fromString(condition);
     }
 
     public void setCategory(String category){
