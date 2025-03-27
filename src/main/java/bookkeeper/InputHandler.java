@@ -73,7 +73,7 @@ public class InputHandler {
                         break;
                     case "search-book":
                         searchBook(commandArgs);
-                        break;  
+                        break;
                     case "list-category":
                         listCategory(commandArgs);
                         break;
@@ -141,6 +141,7 @@ public class InputHandler {
                 loanList.addLoan(loan);
                 loanedBook.setOnLoan(true);
                 Formatter.printBorderedMessage("Loan added successfully for book: " + loanedBook.getTitle());
+                Storage.saveLoans(loanList);
             }
         } catch (IllegalArgumentException e) {
             Formatter.printBorderedMessage(e.getMessage());
@@ -153,7 +154,7 @@ public class InputHandler {
      * @param commandArgs The parsed command arguments.
      * @throws IncorrectFormatException If the input format is invalid.
      */
-    private void addBook(String[] commandArgs) throws IncorrectFormatException {
+    private void addBook(String[] commandArgs) throws IncorrectFormatException, IllegalArgumentException {
         if (commandArgs.length < 2) {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_BOOK);
         }
@@ -171,10 +172,15 @@ public class InputHandler {
         // Handle optional note
         String note = bookArgs.length == 6 ? bookArgs[5] : ""; // Default to empty string if note is not provided
 
-        // Add the new book to the book list
-        Book newBook = new Book(bookTitle, bookArgs[1], bookArgs[2], bookArgs[3], bookArgs[4], note);
-        bookList.addBook(newBook);
-        Formatter.printBorderedMessage("New book added: " + newBook.getTitle());
+        try {
+            // Add the new book to the book list
+            Book newBook = new Book(bookTitle, bookArgs[1], bookArgs[2], bookArgs[3], bookArgs[4], note);
+            bookList.addBook(newBook);
+            Formatter.printBorderedMessage("New book added: " + newBook.getTitle());
+        } catch (IllegalArgumentException e) {
+            Formatter.printBorderedMessage(e.getMessage());
+        }
+
     }
 
     /**
@@ -231,15 +237,17 @@ public class InputHandler {
                 loanList.deleteLoan(loan);
                 loanedBook.setOnLoan(false);
                 Formatter.printBorderedMessage("Loan deleted successfully for book: " + loanedBook.getTitle());
+                Storage.saveLoans(loanList);
             }
         } catch (IllegalArgumentException e) {
             Formatter.printBorderedMessage(e.getMessage());
         }
+
     }
 
     /**
      * Prints out all books in BookList that contains the keyword.
-     * 
+     *
      * @param commandArgs The parsed command arguments
      * @throws IncorrectFormatException If the input format is invalid
      */
@@ -254,12 +262,12 @@ public class InputHandler {
 
     /**
      * Prints out all books in BookList that is of the provided category.
-     * 
+     *
      * @param commandArgs The parsed command arguments
      * @throws IncorrectFormatException If the input format is invalid
      */
     private void listCategory(String[] commandArgs) throws IncorrectFormatException {
-        if (commandArgs.length < 2){
+        if (commandArgs.length < 2) {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_LIST_CATEGORY);
         }
 
@@ -331,8 +339,10 @@ public class InputHandler {
      * @param commandArgs The parsed command arguments.
      * @throws IncorrectFormatException If the input format is invalid.
      * @throws BookNotFoundException    If the book is not found in the inventory.
+     * @throws IllegalArgumentException If the condition is invalid.
      */
-    private void updateBook(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
+    private void updateBook(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException,
+            IllegalArgumentException {
         if (commandArgs.length < 2) {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_BOOK);
         }
@@ -347,14 +357,19 @@ public class InputHandler {
             throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
         }
 
-        book.setAuthor(bookArgs[1]);
-        book.setCategory(bookArgs[2]);
-        book.setCondition(bookArgs[3]);
-        book.setLocation(bookArgs[4]);
-        if(bookArgs.length == 6 && !bookArgs[5].isBlank()) {
-            book.setNote(bookArgs[5]);
+        try {
+            book.setAuthor(bookArgs[1]);
+            book.setCategory(bookArgs[2]);
+            book.setCondition(bookArgs[3]);
+            book.setLocation(bookArgs[4]);
+            if (bookArgs.length == 6 && !bookArgs[5].isBlank()) {
+                book.setNote(bookArgs[5]);
+            }
+            Formatter.printBorderedMessage("Book Updated:\n" + book);
+        } catch
+        (IllegalArgumentException e) {
+            Formatter.printBorderedMessage(e.getMessage());
         }
-        Formatter.printBorderedMessage("Book Updated:\n" + book);
     }
 
     private void editLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
@@ -363,7 +378,7 @@ public class InputHandler {
         }
         String[] editLoanArgs = InputParser.extractEditLoanArgs(commandArgs[1]);
         assert editLoanArgs.length == 5 : "Book arguments should contain at least 4 elements";
-        
+
         String bookTitle = editLoanArgs[0];
         String borrowerName = editLoanArgs[1];
         String returnDate = editLoanArgs[2];
@@ -385,6 +400,7 @@ public class InputHandler {
             loan.setPhoneNumber(phoneNumber);
             loan.setEmail(email);
             Formatter.printBorderedMessage("Loan Updated:\n" + loan);
+            Storage.saveLoans(loanList);
         }
     }
 }

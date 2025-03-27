@@ -22,13 +22,12 @@ public class LoanListTest {
         BookList bookList = new BookList("Test Book List");
 
         book1 = new Book("The Great Gatsby", "F. Scott Fitzgerald", "Fiction", "Good", "Shelf 1");
-        book2 = new Book("To Kill a Mockingbird", "Harper Lee", "Fiction", "Excellent", "Shelf 2");
+        book2 = new Book("To Kill a Mockingbird", "Harper Lee", "Fiction", "fair", "Shelf 2");
 
         bookList.addBook(book1);
         bookList.addBook(book2);
 
-        loan1 = new Loan(book1,"John Doe", "2023-12-01", "98765432", "abc123@gmail.com");
-        //loan2 = new Loan(book2, "2024-01-10", "Alice Smith");
+        loan1 = new Loan(book1, "John Doe", "2023-12-01", "98765432", "abc123@gmail.com");
     }
 
     @Test

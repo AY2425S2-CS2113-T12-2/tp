@@ -55,6 +55,16 @@ public class Loan {
         this.email = email;
     }
 
+    public String toFileString() {
+        String title = getTitle();
+        String borrowerName = getBorrowerName();
+        String contactNumber = getPhoneNumber();
+        String returnDate = getReturnDate();
+        String email = getEmail();
+        return title + " | " + borrowerName + " | " + contactNumber + 
+                " | " + returnDate + " | " + email;
+    }
+
     @Override
     public String toString() {
         return "Title: " + getTitle() + System.lineSeparator()
