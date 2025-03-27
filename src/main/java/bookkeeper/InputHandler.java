@@ -14,7 +14,7 @@ public class InputHandler {
 
     public InputHandler() {
         LoggerConfig.configureLogger(logger); // Configure the logger
-        this.bookList = new BookList("Inventory");
+        this.bookList = new BookList("Inventory", Storage.loadInventory());
         this.loanList = new LoanList("Loan List");
         logger.info("InputHandler initialized");
     }

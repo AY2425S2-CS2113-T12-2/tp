@@ -20,3 +20,4 @@ text-ui-test/EXPECTED-UNIX.TXT
 bookkeeper.log
 bookkeeper.log.lck
 data/bookKeeper.txt
+/data/bookKeeper_bookList.txt
