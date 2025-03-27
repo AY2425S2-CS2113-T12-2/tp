@@ -9,8 +9,8 @@ import bookkeeper.exceptions.ErrorMessages;
 
 public class InputHandler {
     private static final Logger logger = Logger.getLogger(InputHandler.class.getName());
-    private BookList bookList;
-    private LoanList loanList;
+    private final BookList bookList;
+    private final LoanList loanList;
 
     public InputHandler() {
         LoggerConfig.configureLogger(logger); // Configure the logger
@@ -350,10 +350,11 @@ public class InputHandler {
         book.setAuthor(bookArgs[1]);
         book.setCategory(bookArgs[2]);
         book.setCondition(bookArgs[3]);
-        if(bookArgs.length == 5 && !bookArgs[4].isBlank()) {
-            book.setNote(bookArgs[4]);
+        book.setLocation(bookArgs[4]);
+        if(bookArgs.length == 6 && !bookArgs[5].isBlank()) {
+            book.setNote(bookArgs[5]);
         }
-        Formatter.printBorderedMessage("Book Updated:\n" + book.toString());
+        Formatter.printBorderedMessage("Book Updated:\n" + book);
     }
 
     private void editLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
@@ -383,7 +384,7 @@ public class InputHandler {
             loan.setReturnDate(returnDate);
             loan.setPhoneNumber(phoneNumber);
             loan.setEmail(email);
-            Formatter.printBorderedMessage("Loan Updated:\n" + loan.toString());
+            Formatter.printBorderedMessage("Loan Updated:\n" + loan);
         }
     }
 }
