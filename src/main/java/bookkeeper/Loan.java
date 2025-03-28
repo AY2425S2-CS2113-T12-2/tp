@@ -61,8 +61,8 @@ public class Loan {
         String contactNumber = getPhoneNumber();
         String returnDate = getReturnDate();
         String email = getEmail();
-        return title + " | " + borrowerName + " | " + contactNumber + 
-                " | " + returnDate + " | " + email;
+        return title + " | " + borrowerName + " | " + returnDate + 
+                " | " + contactNumber + " | " + email;
     }
 
     @Override

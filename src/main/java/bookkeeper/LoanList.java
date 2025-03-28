@@ -9,10 +9,10 @@ public class LoanList {
     private final ArrayList<Loan> loanList;
     private final String listName;
 
-    public LoanList(String listName) {
+    public LoanList(String listName, ArrayList<Loan> loanList) {
         LoggerConfig.configureLogger(logger); 
         this.listName = listName;
-        this.loanList = new ArrayList<>();
+        this.loanList = loanList;
         logger.log(Level.INFO, "LoanList created with name: {0}", listName);
     }
 

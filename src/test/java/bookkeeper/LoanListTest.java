@@ -20,7 +20,7 @@ public class LoanListTest {
 
     @BeforeEach
     public void setUp() {
-        loanList = new LoanList("Test Loan List");
+        loanList = new LoanList("Test Loan List", new ArrayList<Loan>());
         BookList bookList = new BookList("Test Book List", new ArrayList<Book>());
 
         book1 = new Book("The Great Gatsby", "F. Scott Fitzgerald", "Fiction", "Good", "Shelf 1");
