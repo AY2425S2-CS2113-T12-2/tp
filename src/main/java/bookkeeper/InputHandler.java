@@ -239,7 +239,7 @@ public class InputHandler {
             } else {
                 loanList.deleteLoan(loan);
                 loanedBook.setOnLoan(false);
-                Formatter.printBorderedMessage("Loan deleted successfully for book: " + loanedBook.getTitle());
+                Formatter.printBorderedMessage("Loan deleted successfully for book: " + bookTitle);
                 Storage.saveLoans(loanList);
                 Storage.saveInventory(bookList); //to update the onLoan status of the book in inventory
             }
