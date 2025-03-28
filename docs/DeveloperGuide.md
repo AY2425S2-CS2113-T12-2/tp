@@ -20,7 +20,51 @@ system.}
 {TODO BY 02/04/2025: Each member should describe the implementation of at least one enhancement they have added (or
 planning to add).}
 
-#### Adding Books/Loans
+#### Adding Books
+
+#### Adding Loans
+
+The `add-loan` feature allows the user to add a loan for a book in the inventory. The loan includes details such as the borrower's name, return date, phone number, and email. The system ensures that the book exists in the inventory and is not already on loan before creating the loan.
+
+`InputHandler` coordinates with `InputParser`, `BookList`, `LoanList`, `Formatter`, and `Storage` classes to implement the feature.
+
+The following UML sequence diagram shows how the `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL` command is handled.
+
+![addLoan.png](images/addLoan.png)
+
+1. User issues command
+   The user inputs the command in the CLI with the required arguments, e.g., `add-loan The Great Gatsby n/John Doe d/2025-03-28 p/98765432 e/john.doe@example.com`.
+
+2. `InputHandler` first extracts command arguments by invoking `InputParser.extractAddLoanArgs(...)`.  
+   The arguments are parsed into the following components:
+   - Book title
+   - Borrower's name
+   - Return date
+   - Phone number
+   - Email
+
+3. `BookList` is queried for the book.  
+   `InputHandler` calls `BookList.findBookByTitle(bookTitle)` to search for the book.  
+   - If the book is not found, `InputHandler` uses `Formatter` to print a "Book not found in inventory" message and exits early.
+   - If the book is found, the flow continues.
+
+4. The book's loan status is checked.  
+   `InputHandler` checks if the book is already on loan using `Book.getOnLoan()`.  
+   - If the book is already on loan, `InputHandler` uses `Formatter` to print a "The book is currently out on loan" message and exits early.
+   - If the book is not on loan, the flow continues.
+
+5. A new loan is created.  
+   `InputHandler` creates a new `Loan` object using the parsed arguments and calls `LoanList.addLoan(...)` to add the loan to the system.
+
+6. The book's loan status is updated.  
+   `InputHandler` updates the book's `onLoan` status to `true` using `Book.setOnLoan(...)`.
+
+7. Changes are saved to persistent storage.  
+   `InputHandler` calls `Storage.saveLoans(...)` and `Storage.saveInventory(...)` to save the updated loan list and inventory.
+
+8. A success message is displayed.  
+   `InputHandler` uses `Formatter` to print a message indicating that the loan was successfully added.
+
 
 #### Removing Books/Loans
 
