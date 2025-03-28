@@ -83,7 +83,7 @@ public class Storage {
             // Create a Scanner to read from the file
             Scanner scanner = new Scanner(file);
 
-            // Read each line and parse it into a Task object
+            // Read each line and parse it into a book object
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 Book book = parseBookFromString(line);
@@ -99,6 +99,38 @@ public class Storage {
         Formatter.printBorderedMessage("Loaded " + bookList.size() + " books from " + INVENTORY_FILE_PATH + ".");
         return bookList;
 
+    }
+
+    public static ArrayList<Loan> loadLoans(BookList bookList) {
+        ArrayList<Loan> loanList = new ArrayList<Loan>();
+        File file = new File(LOAN_LIST_FILE_PATH);
+
+        try {
+            // Check if the file exists
+            if (!file.exists()) {
+                Formatter.printBorderedMessage("No saved loans found. Starting with an empty inventory.\n" +
+                        "Creating a new text file at " + INVENTORY_FILE_PATH + ".");
+                return loanList;
+            }
+
+            // Create a Scanner to read from the file
+            Scanner scanner = new Scanner(file);
+
+            // Read each line and parse it into a loan object
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                Loan loan = parseLoanFromString(line, bookList);
+                if (loan != null) {
+                    loanList.add(loan);
+                }
+            }
+
+            scanner.close(); // Close the Scanner
+        } catch (IOException e) {
+            Formatter.printBorderedMessage("Something went wrong while loading loans: " + e.getMessage());
+        }
+        Formatter.printBorderedMessage("Loaded " + loanList.size() + " loans from " + LOAN_LIST_FILE_PATH + ".");
+        return loanList;
     }
 
     private static Book parseBookFromString(String line) {
@@ -117,5 +149,23 @@ public class Storage {
         Book book = new Book(title, author, category, condition, location, note);
         book.setOnLoan(onLoan);
         return book;
+    }
+
+    private static Loan parseLoanFromString(String line, BookList bookList) {
+        String[] parts = line.split( " \\| ");
+
+        if (parts.length < 5) {
+            return null;
+        }
+        String title = parts[0];
+        String borrowerName = parts[1];
+        String returnDate = parts[2];
+        String phoneNumber = parts[3];
+        String email = parts[4];
+
+        Book loanedBook = bookList.findBookByTitle(title); //to get the exact reference for the book
+        Loan loan = new Loan(loanedBook, borrowerName, returnDate, phoneNumber, email);
+        
+        return loan;
     }
 }
