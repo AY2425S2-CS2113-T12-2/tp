@@ -35,34 +35,42 @@ The following UML sequence diagram shows how the `add-loan BOOK_TITLE n/BORROWER
 1. User issues command
    The user inputs the command in the CLI with the required arguments, e.g., `add-loan The Great Gatsby n/John Doe d/2025-03-28 p/98765432 e/john.doe@example.com`.
 
-2. `InputHandler` first extracts command arguments by invoking `InputParser.extractAddLoanArgs(...)`.  
-   The arguments are parsed into the following components:
+2. Command arguments are extracted 
+   `InputHandler` first calls `InputParser.extractCommandArgs(...)` to split the user input into command arguments.  
+   - For example, the input `add-loan The Great Gatsby n/John Doe d/2025-03-28 p/98765432 e/john.doe@example.com` is split into:
+     - `commandArgs[0]`: `"add-loan"`
+     - `commandArgs[1]`: `"The Great Gatsby n/John Doe d/2025-03-28 p/98765432 e/john.doe@example.com"`
+
+3. Loan arguments are parsed  
+   `InputHandler` invokes `InputParser.extractAddLoanArgs(...)` to parse the second part of the command (`commandArgs[1]`) into the following components:
    - Book title
    - Borrower's name
    - Return date
    - Phone number
    - Email
 
-3. `BookList` is queried for the book.  
-   `InputHandler` calls `BookList.findBookByTitle(bookTitle)` to search for the book.  
+4. Book is validated  
+   `InputHandler` calls `BookList.findBookByTitle(bookTitle)` to check if the book exists in the inventory.  
    - If the book is not found, `InputHandler` uses `Formatter` to print a "Book not found in inventory" message and exits early.
    - If the book is found, the flow continues.
 
-4. The book's loan status is checked.  
+5. Loan status is validated  
    `InputHandler` checks if the book is already on loan using `Book.getOnLoan()`.  
    - If the book is already on loan, `InputHandler` uses `Formatter` to print a "The book is currently out on loan" message and exits early.
    - If the book is not on loan, the flow continues.
 
-5. A new loan is created.  
-   `InputHandler` creates a new `Loan` object using the parsed arguments and calls `LoanList.addLoan(...)` to add the loan to the system.
+6. Loan is created  
+   If the book exists and is not already on loan:
+   - A new `Loan` object is created using the parsed arguments.
+   - The loan is added to the `LoanList` using `LoanList.addLoan(...)`.
 
-6. The book's loan status is updated.  
-   `InputHandler` updates the book's `onLoan` status to `true` using `Book.setOnLoan(...)`.
+7. Book status is updated  
+   The book's `onLoan` status is updated to `true` using `Book.setOnLoan(...)`.
 
-7. Changes are saved to persistent storage.  
+8. Changes are saved to persistent storage  
    `InputHandler` calls `Storage.saveLoans(...)` and `Storage.saveInventory(...)` to save the updated loan list and inventory.
 
-8. A success message is displayed.  
+9. Success message is displayed
    `InputHandler` uses `Formatter` to print a message indicating that the loan was successfully added.
 
 

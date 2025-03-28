@@ -10,58 +10,117 @@ participant Storage
 User -> InputHandler: "add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL"
 activate InputHandler
 
-alt commandArgs.length < 2
-    InputHandler -> Formatter: printBorderedMessage("Invalid format for add-loan")
-    activate Formatter
-    Formatter --> InputHandler
-    deactivate Formatter
-else
+InputHandler -> InputParser: extractCommandArgs(userInputLine)
+deactivate InputHandler
+activate InputParser
 
+InputParser --> InputHandler: commandArgs[]
+deactivate InputParser
+activate InputHandler
+
+alt commandArgs[0] == add-loan
+    InputHandler -> InputHandler : addLoan()
+    activate InputHandler
+
+alt commandArgs.length >= 2
     InputHandler -> InputParser: extractAddLoanArgs(commandArgs[1])
+    deactivate InputHandler
     activate InputParser
+
     InputParser --> InputHandler: parsedArgs [BOOK_TITLE, BORROWER_NAME, RETURN_DATE, PHONE_NUMBER, EMAIL]
     deactivate InputParser
+    activate InputHandler
 
     InputHandler -> BookList: findBookByTitle(BOOK_TITLE)
+    deactivate InputHandler
     activate BookList
+
     BookList --> InputHandler: Book or null
     deactivate BookList
+    activate InputHandler
 
-    alt Book == null
-        InputHandler -> Formatter: printBorderedMessage("Book not found in inventory")
-        activate Formatter
-        Formatter --> InputHandler
-        deactivate Formatter
-    else
-        alt loanedBook.getOnLoan() == true
-            InputHandler -> Formatter: printBorderedMessage("The book is currently out on loan")
-            activate Formatter
-            Formatter --> InputHandler
-            deactivate Formatter
-        else
+    alt Book != null
+        InputHandler -> Book: getOnLoan()
+        deactivate InputHandler
+        activate Book
+
+        Book --> InputHandler
+        deactivate Book
+        activate InputHandler
+
+        alt loanedBook.getOnLoan() == false
             InputHandler -> LoanList: addLoan(new Loan(Book, BORROWER_NAME, RETURN_DATE, PHONE_NUMBER, EMAIL))
+            deactivate InputHandler
             activate LoanList
             LoanList --> InputHandler: Loan added
             deactivate LoanList
+            activate InputHandler
 
             InputHandler -> Book: setOnLoan(true)
+            deactivate InputHandler
+            activate Book
+
+            Book --> InputHandler
+            deactivate Book
+            activate InputHandler
 
             InputHandler -> Formatter: printBorderedMessage("Loan added successfully")
+            deactivate InputHandler
             activate Formatter
+
             Formatter --> InputHandler
             deactivate Formatter
+            activate InputHandler
 
             InputHandler -> Storage: saveLoans(loanList)
+            deactivate InputHandler
             activate Storage
+
             Storage --> InputHandler
             deactivate Storage
+            activate InputHandler
 
             InputHandler -> Storage: saveInventory(bookList)
+            deactivate InputHandler
             activate Storage
+
             Storage --> InputHandler
             deactivate Storage
+            activate InputHandler
+
+        else
+            InputHandler -> Formatter: printBorderedMessage("The book is currently out on loan")
+            deactivate InputHandler
+            activate Formatter
+
+            Formatter --> InputHandler
+            deactivate Formatter
+            activate InputHandler
         end
+    else
+        InputHandler -> Formatter: printBorderedMessage("Book not found in inventory")
+        deactivate InputHandler
+        activate Formatter
+
+        Formatter --> InputHandler
+        deactivate Formatter
+        activate InputHandler
     end
+
+    else
+        InputHandler -> Formatter: printBorderedMessage("Invalid format for add-loan")
+        deactivate InputHandler
+        activate Formatter
+        Formatter --> InputHandler
+        deactivate Formatter
+        activate InputHandler
+    end
+
+InputHandler --> InputHandler
+deactivate InputHandler
+
+else
+    note over InputHandler : other commands
 end
 
 deactivate InputHandler
