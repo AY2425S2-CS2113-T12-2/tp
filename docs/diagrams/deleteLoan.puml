@@ -1,0 +1,51 @@
+@startuml 
+autoactivate on
+participant User
+participant InputHandler
+participant InputParser
+participant Book
+participant BookList
+participant LoanList
+participant Formatter
+participant Storage 
+User -> InputHandler : delete-loan TITLE BORROWER
+    InputHandler -> InputParser : extractCommandArgs(User Input)
+    return commandArgs
+alt commandArgs[0] == delete-loan
+    InputHandler -> InputHandler : deleteLoan()
+    InputHandler -> InputParser : extractDeleteLoanArgs()
+    return deleteLoanArgs 
+    InputHandler -> BookList : findBookByTitle()
+    return loanedBook 
+    InputHandler -> LoanList : findLoan(loanedBook, borrowerName)
+    return loan
+
+    alt No book with provided title
+        InputHandler -> Formatter : printBorderedMessage(Error Message)
+        return
+    else Book is not on loan
+        InputHandler -> Formatter : printBorderedMessage(Error Message)
+        return
+    else loan does not exist 
+        InputHandler -> Formatter : printBorderedMessage(Error Message)
+        return
+    else successful case
+        InputHandler -> LoanList : deleteLoan(loan)
+        return 
+        InputHandler -> Book : setOnLoan(true)
+        return 
+        InputHandler -> Formatter : printBorderedMessage(Success Message)
+        return
+        InputHandler -> Storage : saveLoans(loanList)
+        return
+        InputHandler -> Storage : saveInventory(bookList)
+        return
+    end
+    return
+
+else 
+    note over InputHandler : other commands
+end
+return
+@enduml
+    

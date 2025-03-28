@@ -66,7 +66,7 @@ The following UML sequence diagram shows how the `add-loan BOOK_TITLE n/BORROWER
    `InputHandler` uses `Formatter` to print a message indicating that the loan was successfully added.
 
 
-#### Removing Books/Loans
+#### Removing Books
 
 The `remove-book` feature allows the user to remove a book from the inventory using the book title as the identifier.
 The system will first check if the book exists, remove all associated loans (if any) before finally removing the book
@@ -100,6 +100,32 @@ The following UML sequence diagram shows how the `remove-book TITLE` command is 
 6. Success message is displayed
    `Formatter` is used to print a message indicating successful removal.
 
+#### Delete Loans
+The `delete-loans` feature allows the user to remove a loan from the list of loans that is being tracked by using the book title and the borrower name as identifiers.
+The program will check if first the book exists, then it will use the book object and the borrower name to search if the loan exist before proceeding to remove it. 
+
+The following UML sequence diagram shows the behaviour of delete-loans TITLE n/BORROWER_NAME
+![delete_loan.png](images/deleteLoan.png)
+
+1. User issues command
+   The user inputs the command with book title and borrower name as arguments e.g `delete-loan The Hobbit n/Mary`.
+
+2. `InputHandler` extract command arguments with `extractCommandArgs(...)` followed by deleteLoan(commandArgs).
+
+3. `InputHandler` calls `BookList.findBookByTitle(bookTitle)` to search for the book.
+   `InputHandler` calls `LoanList.findLoans(bookTitle, borowerName)` to search for the loan.
+    - If the book is not found `(loanedBook == null)`, book is not on loan, or there is not existing loan `InputHandler` uses `Formatter` to print a error message and stops the command early.
+    - If the book is found, the flow continues.
+
+4. Delete corresponding loan
+   `InputHandler` calls `LoanList.deleteLoans(loan)` to delete the loan.
+
+5. Sets book to not on loan
+   `InputHandler` calls loanedBook.setOnLoan(false).
+
+6. Success message is displayed
+   `Formatter` is used to print a message indicating successful removal.
+   
 #### Viewing Books/Loans
 
 #### Updating Books/Loans
