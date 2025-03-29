@@ -100,17 +100,17 @@ public class InputHandler {
             | Action         | Format                                                                                |
             |----------------|---------------------------------------------------------------------------------------|
             | Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`   |
-            | View Inventory | `view-inventory`                                                                      |
             | Remove Book    | `remove-book BOOK_TITLE`                                                              |
             | Update Book    | `update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`|
             | Search Book    | `search-book KEYWORD`                                                                 |
+            | View Inventory | `view-inventory`                                                                      |
+            | Add note       | `add-note BOOK_TITLE note/NOTE`                                                       |
+            | Delete note    | `delete-note BOOK_TITLE`                                                              |
             | List Category  | `list-category CATEGORY`                                                              |
             | Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`            |
             | Delete Loan    | `delete-loan BOOK_TITLE n/BORROWER_NAME`                                              |
             | Edit Loan      | `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`           |
             | View Loans     | `view-loans`                                                                          |
-            | Add note       | `add-note BOOK_TITLE note/NOTE`                                                       |
-            | Delete note    | `delete-note BOOK_TITLE`                                                              |
             ----------------------------------------------------------------------------------------------------------
             """);
     }
