@@ -11,8 +11,8 @@
 
     ____________________________________________________________________
 
-     No saved loans found. Starting with an empty inventory.
-     Creating a new text file at ./data/bookKeeper_bookList.txt.
+     No saved loans found. Starting with an empty loan list.
+     Creating a new text file at ./data/bookKeeper_loanList.txt.
     ____________________________________________________________________
 
      ----------------------------------------------------------------------------------------------------------
@@ -32,4 +32,9 @@
      | View Loans     | `view-loans`                                                                          |
      | Exit Program   | `exit`                                                                                |
      ----------------------------------------------------------------------------------------------------------
+    ____________________________________________________________________
+
+     Storage validated and updated successfully.
+    ____________________________________________________________________
+
 Enter a command:

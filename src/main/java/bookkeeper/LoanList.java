@@ -27,12 +27,14 @@ public class LoanList {
     public void addLoan(Loan loan) {
         assert loan != null : "Loan cannot be null";
         loanList.add(loan);
+        loan.getBook().setOnLoan(true);
         logger.log(Level.INFO, "Loan added: {0}", loan);
     }
 
     public void deleteLoan(Loan loan) {
         assert loan != null : "Loan cannot be null";
         if (loanList.remove(loan)) {
+            loan.getBook().setOnLoan(false);
             logger.log(Level.INFO, "Loan removed: {0}", loan);
         } else {
             logger.log(Level.WARNING, "Attempted to remove a loan that does not exist: {0}", loan);

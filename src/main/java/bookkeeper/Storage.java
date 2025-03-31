@@ -8,8 +8,24 @@ import java.util.Scanner;
 
 public class Storage {
     private static final String FOLDER_PATH = "./data";
-    private static final String LOAN_LIST_FILE_PATH = FOLDER_PATH + "/bookKeeper_loanList.txt";
-    private static final String INVENTORY_FILE_PATH = FOLDER_PATH + "/bookKeeper_bookList.txt";
+
+    private static final String INVENTORY_FILE_NAME = "bookKeeper_bookList.txt";
+    private static final String LOAN_LIST_FILE_NAME = "bookKeeper_loanList.txt";
+
+    private static String inventoryFilePath = FOLDER_PATH + "/" + INVENTORY_FILE_NAME;
+    private static String loanListFilePath = FOLDER_PATH + "/" + LOAN_LIST_FILE_NAME;
+
+
+    // Setter for inventoryFilePath
+    public static void setInventoryFilePath(String filePath) {
+        inventoryFilePath = filePath;
+    }
+
+    // Setter for loanListFilePath
+    public static void setLoanFilePath(String filePath) {
+        loanListFilePath = filePath;
+    }
+
     /**
      * Saves the given loan list to the file.
      * Each loan is saved as a line in the file.
@@ -25,7 +41,7 @@ public class Storage {
             }
 
             // Create a FileWriter to write to the file
-            FileWriter fw = new FileWriter(LOAN_LIST_FILE_PATH);
+            FileWriter fw = new FileWriter(loanListFilePath);
 
             // Write each loan to the file
             ArrayList<Loan> loans = loanList.getLoanList();
@@ -54,7 +70,7 @@ public class Storage {
             }
 
             // Create a FileWriter to write to the file
-            FileWriter fw = new FileWriter(INVENTORY_FILE_PATH);
+            FileWriter fw = new FileWriter(inventoryFilePath);
 
             // Write each loan to the file
             ArrayList<Book> books = bookList.getBookList();
@@ -69,14 +85,14 @@ public class Storage {
     }
 
     public static ArrayList<Book> loadInventory() {
-        ArrayList<Book> bookList = new ArrayList<Book>();
-        File file = new File(INVENTORY_FILE_PATH);
+        ArrayList<Book> bookList = new ArrayList<>();
+        File file = new File(inventoryFilePath);
 
         try {
             // Check if the file exists
             if (!file.exists()) {
                 Formatter.printBorderedMessage("No saved inventory found. Starting with an empty inventory.\n" +
-                        "Creating a new text file at " + INVENTORY_FILE_PATH + ".");
+                        "Creating a new text file at " + inventoryFilePath + ".");
                 return bookList;
             }
 
@@ -87,8 +103,19 @@ public class Storage {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 Book book = parseBookFromString(line);
+
                 if (book != null) {
-                    bookList.add(book);
+                    // Check for duplicates
+                    boolean isDuplicate = bookList.stream()
+                            .anyMatch(existingBook -> existingBook.getTitle().equalsIgnoreCase(book.getTitle()));
+
+                    if (isDuplicate) {
+                        Formatter.printBorderedMessage("Duplicate book found and skipped: " + book.getTitle());
+                    } else {
+                        bookList.add(book);
+                    }
+                } else {
+                    Formatter.printBorderedMessage("Invalid book entry skipped: " + line);
                 }
             }
 
@@ -96,20 +123,20 @@ public class Storage {
         } catch (IOException e) {
             Formatter.printBorderedMessage("Something went wrong while loading inventory: " + e.getMessage());
         }
-        Formatter.printBorderedMessage("Loaded " + bookList.size() + " books from " + INVENTORY_FILE_PATH + ".");
-        return bookList;
 
+        Formatter.printBorderedMessage("Loaded " + bookList.size() + " books from " + inventoryFilePath + ".");
+        return bookList;
     }
 
     public static ArrayList<Loan> loadLoans(BookList bookList) {
-        ArrayList<Loan> loanList = new ArrayList<Loan>();
-        File file = new File(LOAN_LIST_FILE_PATH);
+        ArrayList<Loan> loanList = new ArrayList<>();
+        File file = new File(loanListFilePath);
 
         try {
             // Check if the file exists
             if (!file.exists()) {
-                Formatter.printBorderedMessage("No saved loans found. Starting with an empty inventory.\n" +
-                        "Creating a new text file at " + INVENTORY_FILE_PATH + ".");
+                Formatter.printBorderedMessage("No saved loans found. Starting with an empty loan list.\n" +
+                        "Creating a new text file at " + loanListFilePath + ".");
                 return loanList;
             }
 
@@ -120,8 +147,21 @@ public class Storage {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 Loan loan = parseLoanFromString(line, bookList);
+
                 if (loan != null) {
-                    loanList.add(loan);
+                    // Check for duplicates
+                    boolean isDuplicate = loanList.stream()
+                            .anyMatch(existingLoan -> existingLoan.getBook().equals(loan.getBook()) &&
+                                    existingLoan.getBorrowerName().equalsIgnoreCase(loan.getBorrowerName()));
+
+                    if (isDuplicate) {
+                        Formatter.printBorderedMessage("Duplicate loan found and skipped: " +
+                                loan.getBook().getTitle() + " borrowed by " + loan.getBorrowerName());
+                    } else {
+                        loanList.add(loan);
+                    }
+                } else {
+                    Formatter.printBorderedMessage("Invalid loan entry skipped: " + line);
                 }
             }
 
@@ -129,7 +169,8 @@ public class Storage {
         } catch (IOException e) {
             Formatter.printBorderedMessage("Something went wrong while loading loans: " + e.getMessage());
         }
-        Formatter.printBorderedMessage("Loaded " + loanList.size() + " loans from " + LOAN_LIST_FILE_PATH + ".");
+
+        Formatter.printBorderedMessage("Loaded " + loanList.size() + " loans from " + loanListFilePath + ".");
         return loanList;
     }
 
@@ -152,9 +193,10 @@ public class Storage {
     }
 
     private static Loan parseLoanFromString(String line, BookList bookList) {
-        String[] parts = line.split( " \\| ");
+        String[] parts = line.split(" \\| ");
 
         if (parts.length < 5) {
+            Formatter.printBorderedMessage("Invalid loan format: " + line);
             return null;
         }
         String title = parts[0];
@@ -164,8 +206,67 @@ public class Storage {
         String email = parts[4];
 
         Book loanedBook = bookList.findBookByTitle(title); //to get the exact reference for the book
-        Loan loan = new Loan(loanedBook, borrowerName, returnDate, phoneNumber, email);
-        
-        return loan;
+        if (loanedBook == null) {
+            Formatter.printBorderedMessage("Invalid loan: Book not found in inventory - " + title);
+            return null; // Skip this loan
+        }
+
+        return new Loan(loanedBook, borrowerName, returnDate, phoneNumber, email);
     }
+
+    public static void validateStorage(BookList bookList, LoanList loanList) {
+        ArrayList<Book> books = bookList.getBookList();
+        ArrayList<Loan> loans = loanList.getLoanList();
+
+        // Remove duplicate books
+        ArrayList<Book> uniqueBooks = new ArrayList<>();
+        ArrayList<Book> duplicateBooks = new ArrayList<>();
+
+        for (Book book : books) {
+            boolean isDuplicate = uniqueBooks.stream()
+                    .anyMatch(existingBook -> existingBook.getTitle().equalsIgnoreCase(book.getTitle()));
+
+            if (isDuplicate) {
+                duplicateBooks.add(book);
+                Formatter.printBorderedMessage("Duplicate book found: " + book.getTitle());
+            } else {
+                uniqueBooks.add(book);
+            }
+        }
+
+        books.removeAll(duplicateBooks);
+        if (!duplicateBooks.isEmpty()) {
+            Formatter.printBorderedMessage("Duplicate books found and removed: " + duplicateBooks.size());
+        }
+
+        // Remove duplicate loans
+        ArrayList<Loan> uniqueLoans = new ArrayList<>();
+        ArrayList<Loan> duplicateLoans = new ArrayList<>();
+
+        for (Loan loan : loans) {
+            boolean isDuplicate = uniqueLoans.stream()
+                    .anyMatch(existingLoan -> existingLoan.getBook().equals(loan.getBook()) &&
+                            existingLoan.getBorrowerName().equalsIgnoreCase(loan.getBorrowerName()));
+
+            if (isDuplicate) {
+                duplicateLoans.add(loan);
+                Formatter.printBorderedMessage("Duplicate loan found: " +
+                        loan.getBook().getTitle() + " borrowed by " + loan.getBorrowerName());
+            } else {
+                uniqueLoans.add(loan);
+            }
+        }
+
+        loans.removeAll(duplicateLoans);
+
+        if (!duplicateLoans.isEmpty()) {
+            Formatter.printBorderedMessage("Duplicate loans found and removed: " + duplicateLoans.size());
+        }
+
+        // Save the updated lists to the files
+        saveLoans(loanList);
+        saveInventory(bookList);
+        Formatter.printBorderedMessage("Storage validated and updated successfully.");
+    }
+
 }

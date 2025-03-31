@@ -27,6 +27,9 @@ public class InputHandler {
         displayHelp();
 
         while (isAskingInput) {
+
+            Storage.validateStorage(bookList, loanList);
+
             System.out.println("Enter a command:");
 
             if (!scanner.hasNextLine()) {  // Prevents NoSuchElementException
@@ -134,7 +137,7 @@ public class InputHandler {
             Book loanedBook = bookList.findBookByTitle(loanArgs[0]);
             if (loanedBook == null) {
                 Formatter.printBorderedMessage("Book not found in inventory: " + loanArgs[0]);
-            } else if (loanedBook.getOnLoan()) {
+            } else if (loanedBook.isOnLoan()) {
                 assert loanedBook.getTitle() != null : "Loaned book must have a title";
                 Formatter.printBorderedMessage("The book " + loanArgs[0] + " is currently out on loan.");
             } else {
@@ -232,7 +235,7 @@ public class InputHandler {
             Loan loan = loanList.findLoan(loanedBook, borrowerName);
             if (loanedBook == null) {
                 Formatter.printBorderedMessage("Book not found in inventory: " + bookTitle);
-            } else if (!loanedBook.getOnLoan()) {
+            } else if (!loanedBook.isOnLoan()) {
                 Formatter.printBorderedMessage("The book " + bookTitle + " is not currently out on loan.");
             } else if (loan == null) {
                 Formatter.printBorderedMessage("No such loan with book title " + bookTitle +
@@ -398,7 +401,7 @@ public class InputHandler {
         Loan loan = loanList.findLoan(book, borrowerName);
         if (book == null) {
             throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
-        } else if (!book.getOnLoan()) {
+        } else if (!book.isOnLoan()) {
             Formatter.printBorderedMessage("The book " + bookTitle + " is not currently out on loan.");
         } else if (loan == null) {
             Formatter.printBorderedMessage("No such loan with book title " + bookTitle +
