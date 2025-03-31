@@ -1,0 +1,52 @@
+@startuml
+participant InputHandler
+participant Storage
+participant File
+participant Formatter
+participant Scanner
+
+
+InputHandler -> Storage: loadInventory()
+activate Storage
+
+' Create a new empty bookList
+create BookList
+Storage -> BookList: new ArrayList<Book>()
+activate BookList
+BookList --> Storage: bookList
+deactivate BookList
+
+' Create File object for INVENTORY_FILE_PATH
+Create File
+Storage -> File: new File(INVENTORY_FILE_PATH)
+
+alt !File.exists()
+    Storage -> Formatter: printBorderedMessage("No saved inventory found...")
+    Storage --> InputHandler: bookList
+    note over InputHandler
+    in this case bookList is empty
+    end note
+else
+    ' Open the file using a Scanner
+    create Scanner
+    Storage -> Scanner: new Scanner(file)
+
+    loop while scanner.hasNextLine()
+        Storage -> Storage: parseBookFromString(line)
+        activate Storage
+        Storage --> Storage: book
+        deactivate Storage
+        alt book != null
+            Storage -> BookList: bookList.add(book)
+        end
+    end
+
+    Storage -> Scanner: close()
+    ' Print message with number of books loaded
+    Storage -> Formatter: printBorderedMessage("Loaded...")
+    Storage --> InputHandler: return bookList
+end
+
+
+deactivate Storage
+@enduml

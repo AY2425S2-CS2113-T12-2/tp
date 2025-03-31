@@ -1,10 +1,11 @@
 @startuml
-participant User
+actor User
 participant InputHandler
 participant InputParser
 participant BookList
 participant LoanList
 participant Formatter
+participant Storage
 
 User -> InputHandler: "remove-book BOOK_TITLE"
 activate InputHandler
@@ -36,7 +37,10 @@ activate InputHandler
             activate BookList
             BookList --> InputHandler
             deactivate BookList
-
+            InputHandler -> Storage: saveInventory(bookList)
+            activate Storage
+            Storage --> InputHandler
+            deactivate Storage
             InputHandler -> Formatter: printBorderedMessage("Removed book")
             activate Formatter
             Formatter --> InputHandler
@@ -50,6 +54,5 @@ activate InputHandler
     end note
     end
 
-InputHandler --> User
 deactivate InputHandler
 @enduml
