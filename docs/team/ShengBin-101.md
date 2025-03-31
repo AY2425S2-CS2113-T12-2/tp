@@ -1,4 +1,4 @@
-git s# Sheng Bin - Project Portfolio Page
+# Sheng Bin - Project Portfolio Page
 
 ## Overview
 
