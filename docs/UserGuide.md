@@ -8,7 +8,7 @@ BookKeeper is a Command Line Interface (CLI) library manager application for eff
 Welcome to BookKeeper! This guide will help you get started with using the system for managing your library's books and loan records.
 
 1. Ensure that you have Java 17 or above installed.
-1. Down the latest version of `BookKeeper` from [here](https://github.com/AY2425S2-CS2113-T12-2/tp/releases/tag/Release-v1.0).
+2. Download the latest version of `BookKeeper` from [here](https://github.com/AY2425S2-CS2113-T12-2/tp/releases/tag/Release-v1.0).
 
 ## Features 
 This version of the system focuses on key functionalities for managing inventory and book loans. Below is a breakdown of the available features and commands:
@@ -19,7 +19,9 @@ Adds a book to the library collection.
 Format: `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`
 
 Example:
-`add-book The Great Gatsby a/F. Scott Fitzgerald cat/Fiction cond/Good loc/Shelf B1` <br> `add-book The Great Gatsby a/F. Scott Fitzgerald cat/Fiction cond/Good loc/Shelf B1 note/important`
+
+`add-book The Great Gatsby a/F. Scott Fitzgerald cat/Fiction cond/Good loc/Shelf B1`
+<br>or<br>`add-book The Great Gatsby a/F. Scott Fitzgerald cat/Fiction cond/Good loc/Shelf B1 note/important`
 
 ### Removing a book: `remove-book`
 Removes a book from the library collection.
@@ -36,7 +38,7 @@ Format: `update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATIO
 
 Example: `update-book The Great Gatsby a/F. Scott Fitzgerald cat/Fiction cond/POOR loc/Shelf B3 note/Replace ASAP`
 
-### Search Book `search-book`
+### Search Book: `search-book`
 Search for a book in the inventory based on the keyword.
 
 Format: `search-book KEYWORD`
@@ -58,15 +60,15 @@ Format: `add-note BOOK_TITLE note/NOTE`
 
 Example: `add-note The Great Gatsby note/Very good book`
 
-### Delete Note `delete-note`
+### Delete Note: `delete-note`
 Deletes a note currently attached to a book.
 
 Format: `delete-note BOOK_TITLE`
 
 Example: `delete-note The Great Gatsby`
 
-### List Category `list-category`
-List all books currently in the inventory that is of the given category.
+### List Category: `list-category`
+List all books currently in the inventory that belong to the given category.
 
 Format: `list-category CATEGORY`
 
@@ -80,15 +82,21 @@ Format: `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAI
 Example:
 `add-loan The Great Gatsby n/John Doe d/2023-12-01 p/98765432 e/abc123@gmail.com`
 
+#### Adding a Loan for a Book Already on Loan
+If the book is already on loan, the system will not allow adding another loan for the same book. You will see an error message indicating that the book is unavailable.
+
+Example:
+`Error: The book "The Great Gatsby" is already on loan.`
+
 ### Deleting a Loan: `delete-loan`
 Deletes a loan using the book title.
 
 Format: `delete-loan BOOK_TITLE n/BORROWER_NAME`
 
 Example:
-`add-loan The Great Gatsby n/John Doe`
+`delete-loan The Great Gatsby n/John Doe`
 
-### Edit Loan `edit-loan` 
+### Edit Loan: `edit-loan` 
 Edits loan return date of the loan, borrower's phone number and email.
 
 Format: `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`
@@ -102,7 +110,7 @@ Format: `view-loans`
 
 Example: `view-loans`
 
-### Exiting the program : `exit`
+### Exiting the program: `exit`
 Exits the program.
 
 Format: `exit`
@@ -117,6 +125,22 @@ Loan data is stored at `[JAR file location]/data/bookKeeper_loanList.txt`.
 Advanced users are welcome to update data directly by editing these files.
 
 #### CAUTION: Edits that make the data invalid can cause BookKeeper to behave in unexpected ways. Edit data files only if you are confident that you can update it correctly.
+
+### Data Validation
+BookKeeper validates data when loading from files. If invalid data is encountered (e.g., missing fields, incorrect formats), the system will skip the invalid entries and log a warning.
+
+Example:
+Invalid Entry in Inventory File:
+
+`The Great Gatsby | F. Scott Fitzgerald | Fiction`
+
+Warning Message:
+
+`Invalid book entry skipped: The Great Gatsby | F. Scott Fitzgerald | Fiction`
+
+### Notes:
+- **Commands Are Case-Sensitive**: Ensure that commands and inputs (e.g., book titles, borrower names) match the exact case.
+- **Books Are Unique**: Each book in the inventory is unique and identified by its title. Duplicate books are not allowed.
 
 ## Command Summary
 | Action         | Format                                                                                 |
