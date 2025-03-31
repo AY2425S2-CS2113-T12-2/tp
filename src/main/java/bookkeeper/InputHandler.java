@@ -27,6 +27,9 @@ public class InputHandler {
         displayHelp();
 
         while (isAskingInput) {
+
+            Storage.validateStorage(bookList, loanList);
+
             System.out.println("Enter a command:");
 
             if (!scanner.hasNextLine()) {  // Prevents NoSuchElementException
@@ -100,17 +103,17 @@ public class InputHandler {
             | Action         | Format                                                                                |
             |----------------|---------------------------------------------------------------------------------------|
             | Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`   |
+            | View Inventory | `view-inventory`                                                                      |
             | Remove Book    | `remove-book BOOK_TITLE`                                                              |
             | Update Book    | `update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`|
             | Search Book    | `search-book KEYWORD`                                                                 |
-            | View Inventory | `view-inventory`                                                                      |
-            | Add note       | `add-note BOOK_TITLE note/NOTE`                                                       |
-            | Delete note    | `delete-note BOOK_TITLE`                                                              |
             | List Category  | `list-category CATEGORY`                                                              |
             | Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`            |
             | Delete Loan    | `delete-loan BOOK_TITLE n/BORROWER_NAME`                                              |
             | Edit Loan      | `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`           |
             | View Loans     | `view-loans`                                                                          |
+            | Add note       | `add-note BOOK_TITLE note/NOTE`                                                       |
+            | Delete note    | `delete-note BOOK_TITLE`                                                              |
             ----------------------------------------------------------------------------------------------------------
             """);
     }
@@ -133,7 +136,7 @@ public class InputHandler {
             Book loanedBook = bookList.findBookByTitle(loanArgs[0]);
             if (loanedBook == null) {
                 Formatter.printBorderedMessage("Book not found in inventory: " + loanArgs[0]);
-            } else if (loanedBook.getOnLoan()) {
+            } else if (loanedBook.isOnLoan()) {
                 assert loanedBook.getTitle() != null : "Loaned book must have a title";
                 Formatter.printBorderedMessage("The book " + loanArgs[0] + " is currently out on loan.");
             } else {
@@ -231,7 +234,7 @@ public class InputHandler {
             Loan loan = loanList.findLoan(loanedBook, borrowerName);
             if (loanedBook == null) {
                 Formatter.printBorderedMessage("Book not found in inventory: " + bookTitle);
-            } else if (!loanedBook.getOnLoan()) {
+            } else if (!loanedBook.isOnLoan()) {
                 Formatter.printBorderedMessage("The book " + bookTitle + " is not currently out on loan.");
             } else if (loan == null) {
                 Formatter.printBorderedMessage("No such loan with book title " + bookTitle +
@@ -397,7 +400,7 @@ public class InputHandler {
         Loan loan = loanList.findLoan(book, borrowerName);
         if (book == null) {
             throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
-        } else if (!book.getOnLoan()) {
+        } else if (!book.isOnLoan()) {
             Formatter.printBorderedMessage("The book " + bookTitle + " is not currently out on loan.");
         } else if (loan == null) {
             Formatter.printBorderedMessage("No such loan with book title " + bookTitle +
