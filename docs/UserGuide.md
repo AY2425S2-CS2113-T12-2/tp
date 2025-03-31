@@ -102,20 +102,37 @@ Format: `view-loans`
 
 Example: `view-loans`
 
+### Exiting the program : `exit`
+Exits the program.
+
+Format: `exit`
+
+### Saving data
+BookKeeper data is saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+
+### Editing data file
+BookKeeper data is saved automatically as .txt files. 
+Inventory data is stored at `[JAR file location]/data/bookKeeper_bookList.txt`.
+Loan data is stored at `[JAR file location]/data/bookKeeper_loanList.txt`.
+Advanced users are welcome to update data directly by editing these files.
+
+#### CAUTION: Edits that make the data invalid can cause BookKeeper to behave in unexpected ways. Edit data files only if you are confident that you can update it correctly.
+
 ## Command Summary
-| Action         | Format                                                                                |
-|----------------|---------------------------------------------------------------------------------------|
-| Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`   |
-| Remove Book    | `remove-book BOOK_TITLE`                                                              |
-| Update Book    | `update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`|
-| Search Book    | `search-book KEYWORD`                                                                 |
-| View Inventory | `view-inventory`                                                                      |
-| Add note       | `add-note BOOK_TITLE note/NOTE`                                                       |
-| Delete note    | `delete-note BOOK_TITLE`                                                              |
-| List Category  | `list-category CATEGORY`                                                              |
-| Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`            |
-| Delete Loan    | `delete-loan BOOK_TITLE n/BORROWER_NAME`                                              |
-| Edit Loan      | `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`           |
-| View Loans     | `view-loans`                                                                          |
+| Action         | Format                                                                                 |
+|----------------|----------------------------------------------------------------------------------------|
+| Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`    |
+| Remove Book    | `remove-book BOOK_TITLE`                                                               |
+| Update Book    | `update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]` |
+| Search Book    | `search-book KEYWORD`                                                                  |
+| View Inventory | `view-inventory`                                                                       |
+| Add note       | `add-note BOOK_TITLE note/NOTE`                                                        |
+| Delete note    | `delete-note BOOK_TITLE`                                                               |
+| List Category  | `list-category CATEGORY`                                                               |
+| Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`             |
+| Delete Loan    | `delete-loan BOOK_TITLE n/BORROWER_NAME`                                               |
+| Edit Loan      | `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`            |
+| View Loans     | `view-loans`                                                                           |
+| Exit Program   | `exit`                                                                                 |
 
 
