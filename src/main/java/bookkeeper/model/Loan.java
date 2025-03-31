@@ -1,4 +1,4 @@
-package bookkeeper;
+package bookkeeper.model;
 
 public class Loan {
     private Book book;

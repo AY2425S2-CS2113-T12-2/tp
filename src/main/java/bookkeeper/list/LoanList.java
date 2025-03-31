@@ -1,4 +1,9 @@
-package bookkeeper;
+package bookkeeper.list;
+
+import bookkeeper.model.Book;
+import bookkeeper.model.Loan;
+import bookkeeper.storage.LoggerConfig;
+import bookkeeper.ui.Formatter;
 
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -10,7 +15,7 @@ public class LoanList {
     private final String listName;
 
     public LoanList(String listName, ArrayList<Loan> loanList) {
-        LoggerConfig.configureLogger(logger); 
+        LoggerConfig.configureLogger(logger);
         this.listName = listName;
         this.loanList = loanList;
         logger.log(Level.INFO, "LoanList created with name: {0}", listName);

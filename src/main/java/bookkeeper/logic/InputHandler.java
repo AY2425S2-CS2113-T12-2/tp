@@ -1,11 +1,18 @@
-package bookkeeper;
+package bookkeeper.logic;
 
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+import bookkeeper.list.BookList;
+import bookkeeper.list.LoanList;
+import bookkeeper.storage.LoggerConfig;
+import bookkeeper.storage.Storage;
 import bookkeeper.exceptions.BookNotFoundException;
 import bookkeeper.exceptions.IncorrectFormatException;
 import bookkeeper.exceptions.ErrorMessages;
+import bookkeeper.model.Book;
+import bookkeeper.model.Loan;
+import bookkeeper.ui.Formatter;
 
 public class InputHandler {
     private static final Logger logger = Logger.getLogger(InputHandler.class.getName());

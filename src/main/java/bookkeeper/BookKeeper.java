@@ -1,5 +1,9 @@
 package bookkeeper;
 
+import bookkeeper.logic.InputHandler;
+import bookkeeper.storage.LoggerConfig;
+import bookkeeper.ui.Formatter;
+
 import java.util.logging.Logger;
 
 public class BookKeeper {

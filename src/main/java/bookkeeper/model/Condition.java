@@ -1,4 +1,4 @@
-package bookkeeper;
+package bookkeeper.model;
 
 public enum Condition {
     GOOD, FAIR, POOR;
