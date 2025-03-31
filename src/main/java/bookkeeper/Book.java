@@ -41,7 +41,7 @@ public class Book {
         return condition;
     }
 
-    public boolean getOnLoan() {
+    public boolean isOnLoan() {
         return onLoan;
     }
 
@@ -86,7 +86,7 @@ public class Book {
         String author = getAuthor();
         String category = getCategory();
         Condition condition = getCondition();
-        boolean onLoan = getOnLoan();
+        boolean onLoan = isOnLoan();
         String location = getLocation();
         String note = getNote();
         return title + " | " + author + " | " + category +
@@ -100,7 +100,7 @@ public class Book {
                 + "    Author: " + getAuthor() + System.lineSeparator()
                 + "    Category: " + getCategory() + System.lineSeparator()
                 + "    Condition: " + getCondition() + System.lineSeparator()
-                + "    On Loan: " + getOnLoan() + System.lineSeparator()
+                + "    On Loan: " + isOnLoan() + System.lineSeparator()
                 + "    Location: " + getLocation() + System.lineSeparator()
                 + "    Note: " + (note.isEmpty() ? "No notes available" : getNote());
     }
