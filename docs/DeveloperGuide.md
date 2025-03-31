@@ -140,7 +140,7 @@ The following UML sequence diagram shows the behaviour of `delete-loans TITLE n/
 
 #### Updating Books/Loans
 
-#### Saving Inventory
+#### Save Inventory
 The save inventory feature automatically saves the inventory each time the user makes a change. 
 If no existing persistent storage file is detected, it will be created in `./data/bookKeeper_bookList.txt`
 The method `saveInventory(bookList)` is invoked by `InputHandler` after any method call that makes changes to the current inventory.
@@ -156,6 +156,23 @@ The following UML sequence diagram shows the relevant behaviour:
 6. Closing: After writing all books, `FileWriter` is closed. 
 
 Error Handling: If an `IOException` occurs during any file operations, an error message is displayed via `Formatter.printBorderedMessage()`.
+
+#### Load Inventory
+The load inventory feature loads the inventory from the existing persistent data storage file if it exists. If it does not exist, an empty inventory is used.
+The method `loadInventory()` is called once by `InputHandler` at the start of the program.
+
+The following UML sequence diagram shows the relevant behaviour:
+![loadInventory.png](images/loadInventory.png)
+
+1. Initialization: `InputHandler` invokes `Storage.loadInventory()`, which creates an empty `BookList`. 
+
+2. File Existence Check: A `File` object is created for the inventory file path. If an existing inventory does not exist, a message is printed using `Formatter.printBorderedMessage()`, and an empty `BookList` is returned early.
+
+3. File Reading: If the file exists, a `Scanner` is created to read the file. The method enters a loop, reading each line from the file with `scanner.nextLine()`.
+   - For each line, `parseBookFromString()` is called to convert the line into a `Book` object. 
+   - If the returned `Book` is not `null`, it is added to the `bookList`.
+   
+4. After processing all lines, the `Scanner` is closed. A message is printed indicating the number of books loaded. Finally, the populated `bookList` is returned.
 
 ## Appendix A: Product scope
 
