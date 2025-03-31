@@ -111,6 +111,7 @@ public class InputHandler {
             | Delete Loan    | `delete-loan BOOK_TITLE n/BORROWER_NAME`                                              |
             | Edit Loan      | `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`           |
             | View Loans     | `view-loans`                                                                          |
+            | Exit Program   | `exit`                                                                                |
             ----------------------------------------------------------------------------------------------------------
             """);
     }
