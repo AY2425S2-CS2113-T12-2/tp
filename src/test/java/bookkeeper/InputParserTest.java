@@ -150,11 +150,117 @@ public class InputParserTest {
                 -> InputParser.extractEditLoanArgs("The Great Gatsby"));
         assertEquals(ErrorMessages.INVALID_FORMAT_EDIT_LOAN, exception.getMessage());
     }
-}
 
-//    @Test
-//    void extractCommandArgs_missingArguments_exceptionThrown() {
-//        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, ()
-//                        -> InputParser.extractCommandArgs("delete-loan "));
-//        assertEquals("Invalid command format.\nExpected: COMMAND [ARGUMENTS]", exception.getMessage());
-//    }
+    @Test
+    void extractAddBookArgs_validInput_success() throws IncorrectFormatException {
+        String input = "The Great Gatsby a/F. Scott Fitzgerald cat/Fiction cond/Good loc/Shelf 1 note/Classic novel";
+        String[] result = InputParser.extractAddBookArgs(input);
+        String[] expected = {"The Great Gatsby", "F. Scott Fitzgerald", "Fiction", "Good", "Shelf 1", "Classic novel"};
+        assertArrayEquals(expected, result);
+    }
+
+    @Test
+    void extractAddBookArgs_validInputWithExtraSpaces_success() throws IncorrectFormatException {
+        String input = "The Great Gatsby   a/  F. Scott Fitzgerald   cat/ Fiction   cond/  Good loc/  Shelf 1 note/" +
+                "  Classic novel";
+        String[] result = InputParser.extractAddBookArgs(input);
+        String[] expected = {"The Great Gatsby", "F. Scott Fitzgerald", "Fiction", "Good", "Shelf 1", "Classic novel"};
+        assertArrayEquals(expected, result);
+    }
+
+    @Test
+    void extractAddBookArgs_missingFields_exceptionThrown() {
+        String input = "The Great Gatsby a/F. Scott Fitzgerald loc/Shelf 1";
+        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, () ->
+                InputParser.extractAddBookArgs(input));
+        assertEquals(ErrorMessages.INVALID_FORMAT_ADD_BOOK, exception.getMessage());
+    }
+
+    @Test
+    void extractAddBookArgs_duplicatePrefix_exceptionThrown() {
+        String input = "The Great Gatsby a/F. Scott Fitzgerald a/Another Author cat/Fiction cond/Good loc/Shelf 1";
+        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, () ->
+                InputParser.extractAddBookArgs(input));
+        assertEquals(ErrorMessages.INVALID_FORMAT_ADD_BOOK_DUPLICATE_PREFIX, exception.getMessage());
+    }
+
+    @Test
+    void extractUpdateBookArgs_validInput_success() throws IncorrectFormatException {
+        String input = "The Great Gatsby a/F. Scott Fitzgerald cat/Fiction cond/Good loc/Shelf 1 note/Classic novel";
+        String[] result = InputParser.extractUpdateBookArgs(input);
+        String[] expected = {"The Great Gatsby", "F. Scott Fitzgerald", "Fiction", "Good", "Shelf 1", "Classic novel"};
+        assertArrayEquals(expected, result);
+    }
+
+    @Test
+    void extractUpdateBookArgs_missingFields_exceptionThrown() {
+        String input = "The Great Gatsby a/F. Scott Fitzgerald loc/Shelf 1";
+        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, () ->
+                InputParser.extractUpdateBookArgs(input));
+        assertEquals(ErrorMessages.INVALID_FORMAT_UPDATE_BOOK, exception.getMessage());
+    }
+
+    @Test
+    void extractAddLoanArgs_validInput_success() throws IncorrectFormatException {
+        String input = "The Great Gatsby n/John Doe d/2023-12-01 p/1234567890 e/johndoe@example.com";
+        String[] result = InputParser.extractAddLoanArgs(input);
+        String[] expected = {"The Great Gatsby", "John Doe", "2023-12-01", "1234567890", "johndoe@example.com"};
+        assertArrayEquals(expected, result);
+    }
+
+    @Test
+    void extractAddLoanArgs_missingFields_exceptionThrown() {
+        String input = "The Great Gatsby n/John Doe d/2023-12-01 p/1234567890";
+        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, () ->
+                InputParser.extractAddLoanArgs(input));
+        assertEquals(ErrorMessages.INVALID_FORMAT_ADD_LOAN, exception.getMessage());
+    }
+
+    @Test
+    void extractAddLoanArgs_duplicatePrefix_exceptionThrown() {
+        String input = "The Great Gatsby n/John Doe n/Another Borrower d/2023-12-01 p/1234567890 e/johndoe@example.com";
+        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, () ->
+                InputParser.extractAddLoanArgs(input));
+        assertEquals(ErrorMessages.INVALID_FORMAT_ADD_LOAN_DUPLICATE_PREFIX, exception.getMessage());
+    }
+
+    @Test
+    void extractDeleteLoanArgs_validInput_success() throws IncorrectFormatException {
+        String input = "The Great Gatsby n/John Doe";
+        String[] result = InputParser.extractDeleteLoanArgs(input);
+        String[] expected = {"The Great Gatsby", "John Doe"};
+        assertArrayEquals(expected, result);
+    }
+
+    @Test
+    void extractDeleteLoanArgs_missingFields_exceptionThrown() {
+        String input = "The Great Gatsby";
+        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, () ->
+                InputParser.extractDeleteLoanArgs(input));
+        assertEquals(ErrorMessages.INVALID_FORMAT_DELETE_LOAN, exception.getMessage());
+    }
+
+    @Test
+    void extractEditLoanArgs_validInput_success() throws IncorrectFormatException {
+        String input = "The Great Gatsby n/John Doe d/2023-12-01 p/1234567890 e/johndoe@example.com";
+        String[] result = InputParser.extractEditLoanArgs(input);
+        String[] expected = {"The Great Gatsby", "John Doe", "2023-12-01", "1234567890", "johndoe@example.com"};
+        assertArrayEquals(expected, result);
+    }
+
+    @Test
+    void extractEditLoanArgs_missingFields_exceptionThrown() {
+        String input = "The Great Gatsby n/John Doe d/2023-12-01 p/1234567890";
+        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, () ->
+                InputParser.extractEditLoanArgs(input));
+        assertEquals(ErrorMessages.INVALID_FORMAT_EDIT_LOAN, exception.getMessage());
+    }
+
+    @Test
+    void extractEditLoanArgs_duplicatePrefix_exceptionThrown() {
+        String input = "The Great Gatsby n/John Doe n/Another Borrower d/2023-12-01 p/1234567890 e/johndoe@example.com";
+        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, () ->
+                InputParser.extractEditLoanArgs(input));
+        assertEquals(ErrorMessages.INVALID_FORMAT_EDIT_LOAN_DUPLICATE_PREFIX, exception.getMessage());
+    }
+}
