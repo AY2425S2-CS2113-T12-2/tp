@@ -1,0 +1,50 @@
+@startuml
+participant InputHandler
+participant Storage
+participant BookList
+participant File
+participant FileWriter
+participant Book
+participant "Formatter" as Formatter
+
+InputHandler -> Storage: saveInventory(bookList)
+activate Storage
+
+' Check if directory exists
+Storage -> File: new File(FOLDER_PATH)
+activate File
+alt !File.exists()
+    File -> File: mkdirs()
+end
+File --> Storage
+deactivate File
+
+' Create FileWriter for INVENTORY_FILE_PATH
+Storage -> FileWriter: new FileWriter(INVENTORY_FILE_PATH)
+activate FileWriter
+' Retrieve list of books from BookList
+Storage -> BookList: getBookList()
+activate BookList
+BookList --> Storage: List<Book>
+deactivate BookList
+
+' Loop through each Book and write its file string
+loop for each book in BookList
+    Storage -> Book: toFileString()
+    activate Book
+    Book --> Storage: fileString
+    deactivate Book
+    Storage -> FileWriter: write(fileString + lineSeparator)
+end
+
+' Exception handling if IOException occurs
+alt IOException thrown
+    Storage -> Formatter: printBorderedMessage("Something went wrong...")
+end
+' Close the FileWriter
+Storage -> FileWriter: close()
+FileWriter --> Storage
+deactivate FileWriter
+Storage --> InputHandler
+deactivate Storage
+@enduml
