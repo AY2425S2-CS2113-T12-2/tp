@@ -1,4 +1,4 @@
-package bookkeeper;
+package bookkeeper.logic;
 
 import bookkeeper.exceptions.IncorrectFormatException;
 import bookkeeper.exceptions.ErrorMessages;

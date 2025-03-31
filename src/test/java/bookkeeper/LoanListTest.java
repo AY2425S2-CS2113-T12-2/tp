@@ -1,5 +1,9 @@
 package bookkeeper;
 
+import bookkeeper.list.BookList;
+import bookkeeper.list.LoanList;
+import bookkeeper.model.Book;
+import bookkeeper.model.Loan;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

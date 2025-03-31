@@ -1,4 +1,7 @@
-package bookkeeper;
+package bookkeeper.list;
+
+import bookkeeper.model.Book;
+import bookkeeper.ui.Formatter;
 
 import java.util.ArrayList;
 

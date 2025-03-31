@@ -1,4 +1,4 @@
-package bookkeeper;
+package bookkeeper.storage;
 
 import java.io.IOException;
 import java.util.logging.FileHandler;

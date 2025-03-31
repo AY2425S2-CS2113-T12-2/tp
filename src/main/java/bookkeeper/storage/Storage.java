@@ -1,4 +1,10 @@
-package bookkeeper;
+package bookkeeper.storage;
+
+import bookkeeper.list.BookList;
+import bookkeeper.list.LoanList;
+import bookkeeper.model.Book;
+import bookkeeper.model.Loan;
+import bookkeeper.ui.Formatter;
 
 import java.io.File;
 import java.io.FileWriter;

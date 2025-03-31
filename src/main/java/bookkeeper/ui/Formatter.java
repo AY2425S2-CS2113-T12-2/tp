@@ -1,4 +1,7 @@
-package bookkeeper;
+package bookkeeper.ui;
+
+import bookkeeper.model.Book;
+import bookkeeper.model.Loan;
 
 import java.util.ArrayList;
 

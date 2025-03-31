@@ -1,4 +1,4 @@
-package bookkeeper;
+package bookkeeper.model;
 
 public class Book {
     private String title;

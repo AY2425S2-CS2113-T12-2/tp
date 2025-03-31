@@ -1,5 +1,6 @@
 package bookkeeper;
 
+import bookkeeper.logic.InputParser;
 import org.junit.jupiter.api.Test;
 
 import bookkeeper.exceptions.IncorrectFormatException;
