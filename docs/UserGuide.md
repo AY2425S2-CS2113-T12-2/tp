@@ -25,9 +25,13 @@
 - [Notes](#notes)
 - [Command Summary](#command-summary)
 
+---
+
 ## Introduction
 
 BookKeeper is a Command Line Interface (CLI) library manager application for effective tracking of library loans and inventory.
+
+---
 
 ## Quick Start
 
@@ -35,6 +39,8 @@ Welcome to BookKeeper! This guide will help you get started with using the syste
 
 1. Ensure that you have Java 17 or above installed.
 2. Download the latest version of `BookKeeper` from [here](https://github.com/AY2425S2-CS2113-T12-2/tp/releases/tag/Release-v1.0).
+
+---
 
 ## Features
 
@@ -165,6 +171,8 @@ Exits the program.
 
 Format: `exit`
 
+---
+
 ## Persistent State
 
 BookKeeper data is saved in the hard disk automatically after any command that changes the data. There is no need to save manually. When you close and start up BookKeeper again, BookKeeper will load all previous data automatically.
@@ -195,6 +203,8 @@ Warning Message:
 
 - **Commands Are Case-Sensitive**: Ensure that commands and inputs (e.g., book titles, borrower names) match the exact case.
 - **Books Are Unique**: Each book in the inventory is unique and identified by its title. Duplicate books are not allowed.
+
+---
 
 ## Command Summary
 

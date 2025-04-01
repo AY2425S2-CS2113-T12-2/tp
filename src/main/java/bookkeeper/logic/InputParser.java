@@ -27,7 +27,8 @@ public class InputParser {
      *      [1] - Author
      *      [2] - Category
      *      [3] - Condition
-     *      [4] - Note (Optional)
+     *      [4] - Location
+     *      [5] - Note (Optional)
      * @throws IncorrectFormatException if the input format is invalid.
      */
     public static String[] extractAddBookArgs(String input) throws IncorrectFormatException {
