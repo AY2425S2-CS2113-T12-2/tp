@@ -374,6 +374,52 @@ The `update-book` feature allows the user to add update existing book details. T
 7. Success message is displayed:
    `InputHandler` uses `Formatter` to print a message indicating that the book was successfully updated.
 
+#### Updating Loans
+
+The `edit-loan` feature allows the user to add update existing loan details. The system ensures that a book of the same title and a corresponding loan exists before performing the update. Note that the book title and the borrower name cannot be updated.
+
+`InputHandler` coordinates with `InputParser`, `BookList`, `LoanList`, `Loan`, `Formatter`, and `Storage` classes to implement the feature.
+
+1. User issues command:
+   The user inputs the command in the CLI with the required arguments, e.g.,
+   `edit-loan The Great Gatsby n/Mary d/15-March-2025 p/91234567 e/123abc@gmail.com`.
+
+2. Command arguments are extracted:
+   `InputHandler` first calls `InputParser.extractCommandArgs(...)` to split the user input into command arguments.
+
+   - For example, the input `edit-loan The Great Gatsby n/Mary d/15-March-2025 p/91234567 e/123abc@gmail.com` is split into:
+     - `commandArgs[0]`: `"edit-loan"`
+     - `commandArgs[1]`: `"The Great Gatsby n/Mary d/15-March-2025 p/91234567 e/123abc@gmail.com"`
+
+3. Loan arguments are parsed:
+   `InputHandler` invokes `InputParser.extractEditLoanArgs(...)` to parse the second part of the command (`commandArgs[1]`) into the following components:
+
+   - Book title
+   - Borrower Name
+   - Return Date
+   - Phone Number
+   - Email
+
+4. Loan is validated:
+   `InputHandler` calls `BookList.findBookByTitle(bookTitle)` and `LoanList.findLoan(book, borrowerName)`to check if the book and loan exists correspondingly.
+
+   - If the book is not found, `InputHandler` uses `Formatter` to print a exception message and exits early.
+   - If the Loan is not found, `InputHandler` uses `Formatter` to print a message and exits early.
+   - If the book and loan is found, the flow continues.
+
+5. Loan is updated:
+   `InputHandler` updates the loan details by invoking the following methods from `Loan` class:
+
+   - `loan.setReturnDate(returnDate)`
+   - `loan.setPhoneNumber(phoneNumber)`
+   - `loan.setEmail(email)`
+
+6. Changes are saved to persistent storage:
+   `InputHandler` calls `Storage.saveLoans(...)` and `Storage.saveInventory(...)` to save the updated loan details.
+
+7. Success message is displayed:
+   `InputHandler` uses `Formatter` to print a message indicating that the loan was successfully updated.
+
 #### Save Inventory
 
 The save inventory feature automatically saves the inventory each time the user makes a change.
