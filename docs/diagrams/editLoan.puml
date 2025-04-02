@@ -1,0 +1,107 @@
+@startuml
+actor User
+participant InputHandler
+participant InputParser
+participant BookList
+participant LoanList
+participant Loan
+participant Formatter
+participant Storage
+
+User -> InputHandler: "edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL"
+activate InputHandler
+
+InputHandler -> InputParser: extractCommandArgs(userInputLine)
+deactivate InputHandler
+activate InputParser
+
+InputParser --> InputHandler: commandArgs[]
+deactivate InputParser
+activate InputHandler
+
+alt commandArgs[0] == edit-loan
+    InputHandler -> InputHandler : editLoan()
+    activate InputHandler
+
+alt commandArgs.length >= 2
+    InputHandler -> InputParser: extractEditLoanArgs(commandArgs[1])
+    activate InputParser
+
+    InputParser --> InputHandler: parsedArgs [BOOK_TITLE, BORROWER_NAME, RETURN_DATE, PHONE_NUMBER, EMAIL]
+    deactivate InputParser
+
+    InputHandler -> BookList: findBookByTitle(BOOK_TITLE)
+    activate BookList
+
+    BookList --> InputHandler: Book or null
+    deactivate BookList
+
+    InputHandler -> LoanList: findLoan(BOOK_TITLE, BORROWER_NAME)
+    activate LoanList
+
+    LoanList --> InputHandler: Loan or null
+    deactivate LoanList
+
+    alt Book == null
+        InputHandler -> Formatter: printBorderedMessage("Book is not found in inventory: {BOOK_TITLE}")
+        activate Formatter
+        Formatter --> InputHandler
+        deactivate Formatter
+    
+    else Book.isonLoan()
+        InputHandler -> Formatter: printBorderedMessage("The book {BOOK_TITLE} is not currently out on loan.")
+        activate Formatter
+        Formatter --> InputHandler
+        deactivate Formatter
+    
+    else Loan == null
+        InputHandler -> Formatter: printBorderedMessage("No such loan with book title {BOOK_TITLE} and borrower {BORROWER_NAME}")
+        activate Formatter
+        Formatter --> InputHandler
+        deactivate Formatter
+
+    else
+        InputHandler -> Loan : setReturnDate(RETURN_DATE)
+        activate Loan
+        Loan --> InputHandler
+        deactivate Loan
+
+        InputHandler -> Loan : setPhoneNumber(PHONE_NUMBER)
+        activate Loan
+        Loan --> InputHandler
+        deactivate Loan
+
+        InputHandler -> Loan : setEmail(EMAIL)
+        activate Loan
+        Loan --> InputHandler
+        deactivate Loan        
+
+        InputHandler -> Formatter: printBorderedMessage("Loan Updated: {Loan}")
+        activate Formatter
+        Formatter --> InputHandler
+        deactivate Formatter
+
+        InputHandler -> Storage: saveLoans(bookList)
+        activate Storage
+        Storage --> InputHandler
+        deactivate Storage
+
+    end
+
+    else
+        InputHandler -> Formatter: printBorderedMessage("Invalid format for edit-loan.")
+        activate Formatter
+        Formatter --> InputHandler
+        deactivate Formatter
+    end
+
+InputHandler --> InputHandler
+deactivate InputHandler
+
+else
+    note over InputHandler : other commands
+end
+
+deactivate InputHandler
+InputHandler --> User
+@enduml

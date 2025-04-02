@@ -109,6 +109,10 @@ The `add-book` feature allows the user to add a new book to the inventory. Each 
 
 `InputHandler` coordinates with `InputParser`, `BookList`, `Formatter`, and `Storage` classes to implement the feature.
 
+The following UML sequence diagram shows how the `add-book add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]` command is handled.
+
+![addBook.png](images/addBook.png)
+
 1. User issues command:
    The user inputs the command in the CLI with the required arguments, e.g., `add-book The Great Gatsby a/F. Scott Fitzgerald cat/Fiction cond/Good loc/Shelf B1 note/important`.
 
@@ -137,6 +141,7 @@ The `add-book` feature allows the user to add a new book to the inventory. Each 
 
 5. Book is created:
    If the book does not exist in the inventory:
+
    - A new `Book` object is created using the parsed arguments. The `note` field is optional and defaults to an empty string if not provided.
    - The `condition` string is converted to a `Condition` enum using `Condition.fromString(...)`.
    - The book is added to the `BookList` using `bookList.addBook(...)`.
@@ -190,6 +195,7 @@ The following UML sequence diagram shows how the `add-loan BOOK_TITLE n/BORROWER
 
 6. Loan is created:
    If the book exists and is not already on loan:
+
    - A new `Loan` object is created using the parsed arguments, including the borrower's name, return date, phone number, and email.
    - The loan is added to the `LoanList` using `LoanList.addLoan(...)`. This method automatically updates the book's `onLoan` status to `true`.
 
@@ -271,6 +277,10 @@ The `view-inventory` feature allows the user to view all existing books in the i
 
 `InputHandler` coordinates with `InputParser`, `Book`, `BookList` and `Formatter` classes to implement the feature.
 
+The following UML sequence diagram shows how the `view-inventory` command is handled.
+
+![viewInventory.png](images/viewInventory.png)
+
 1. User issues command:
    The user inputs the command in the CLI with the required arguments, e.g., `view-inventory`.
 
@@ -301,6 +311,10 @@ The `view-loans` feature allows the user to view all existing loans in the inven
 
 `InputHandler` coordinates with `InputParser`, `Loan`, `LoanList` and `Formatter` classes to implement the feature.
 
+The following UML sequence diagram shows how the `view-loans` command is handled.
+
+![viewLoans.png](images/viewLoans.png)
+
 1. User issues command:
    The user inputs the command in the CLI with the required arguments, e.g., `view-loans`.
 
@@ -330,6 +344,10 @@ The `view-loans` feature allows the user to view all existing loans in the inven
 The `update-book` feature allows the user to add update existing book details. The system ensures that a book of the same title exists in the inventory and before performing the update. Note that the book title cannot be updated.
 
 `InputHandler` coordinates with `InputParser`, `BookList`, `Formatter`, and `Storage` classes to implement the feature.
+
+The following UML sequence diagram shows how the `update-book add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]` command is handled.
+
+![updateBook.png](images/updateBook.png)
 
 1. User issues command:
    The user inputs the command in the CLI with the required arguments, e.g., `update-book The Great Gatsby a/F. Scott Fitzgerald cat/Fiction cond/POOR loc/Shelf B3 note/Replace ASAP`.
@@ -377,6 +395,10 @@ The `update-book` feature allows the user to add update existing book details. T
 The `edit-loan` feature allows the user to add update existing loan details. The system ensures that a book of the same title and a corresponding loan exists before performing the update. Note that the book title and the borrower name cannot be updated.
 
 `InputHandler` coordinates with `InputParser`, `BookList`, `LoanList`, `Loan`, `Formatter`, and `Storage` classes to implement the feature.
+
+The following UML sequence diagram shows how the `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL` command is handled.
+
+![editLoan.png](images/editLoan.png)
 
 1. User issues command:
    The user inputs the command in the CLI with the required arguments, e.g.,
@@ -453,6 +475,7 @@ The following UML sequence diagram shows the relevant behaviour:
 2. File Existence Check: A `File` object is created for the inventory file path. If the file does not exist, a message is printed using `Formatter.printBorderedMessage()`, and an empty `BookList` is returned early.
 
 3. File Reading: If the file exists, a `Scanner` is created to read the file. The method enters a loop, reading each line from the file with `scanner.nextLine()`.
+
    - For each line, `parseBookFromString()` is called to convert the line into a `Book` object.
    - If the returned `Book` is not `null`, it is added to the `bookList`.
    - Duplicate books are skipped, and a message is printed for each duplicate.

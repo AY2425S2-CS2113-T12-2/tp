@@ -1,0 +1,98 @@
+@startuml
+actor User
+participant InputHandler
+participant InputParser
+participant BookList
+participant Book
+participant Formatter
+participant Storage
+
+User -> InputHandler: "update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]"
+activate InputHandler
+
+InputHandler -> InputParser: extractCommandArgs(userInputLine)
+deactivate InputHandler
+activate InputParser
+
+InputParser --> InputHandler: commandArgs[]
+deactivate InputParser
+activate InputHandler
+
+alt commandArgs[0] == update-book
+    InputHandler -> InputHandler : updateBook()
+    activate InputHandler
+
+alt commandArgs.length >= 2
+    InputHandler -> InputParser: extractUpdateBookArgs(commandArgs[1])
+    activate InputParser
+
+    InputParser --> InputHandler: parsedArgs [BOOK_TITLE, AUTHOR, CATEGORY, CONDITION, LOCATION, NOTE]
+    deactivate InputParser
+
+    InputHandler -> BookList: findBookByTitle(BOOK_TITLE)
+    activate BookList
+
+    BookList --> InputHandler: Book or null
+    deactivate BookList
+
+    alt Book != null
+        InputHandler -> Book : setAuthor(AUTHOR)
+        activate Book
+        Book --> InputHandler
+        deactivate Book
+
+        InputHandler -> Book : setCategory(CATEGORY)
+        activate Book
+        Book --> InputHandler
+        deactivate Book
+        InputHandler -> Book : setCondition(CONDITION)
+        activate Book
+        Book --> InputHandler
+        deactivate Book
+        InputHandler -> Book : setLocation(LOCATION)
+        activate Book
+        Book --> InputHandler
+        deactivate Book
+        InputHandler -> Book : setNote(NOTE)
+        activate Book
+        Book --> InputHandler
+        deactivate Book
+        
+
+        InputHandler -> Formatter: printBorderedMessage("Book Updated: {BOOK_TITLE}")
+        activate Formatter
+
+        Formatter --> InputHandler
+        deactivate Formatter
+
+        InputHandler -> Storage: saveInventory(bookList)
+        activate Storage
+
+        Storage --> InputHandler
+        deactivate Storage
+
+
+    else
+        InputHandler -> Formatter: printBorderedMessage("Book not found in inventory: {BOOK_TITLE}")
+        activate Formatter
+        Formatter --> InputHandler
+        deactivate Formatter
+    end
+
+    else
+        InputHandler -> Formatter: printBorderedMessage("Invalid format for update-book")
+        activate Formatter
+        Formatter --> InputHandler
+        deactivate Formatter
+    end
+
+InputHandler --> InputHandler
+deactivate InputHandler
+
+else
+    note over InputHandler : other commands
+end
+
+deactivate InputHandler
+InputHandler --> User
+@enduml
