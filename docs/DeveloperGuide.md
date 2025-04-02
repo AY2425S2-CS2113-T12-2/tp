@@ -530,7 +530,7 @@ BookKeeper gives you full control over your collection in a clean, offline-frien
 
 ## Appendix D: Glossary
 
-- _Mainstream OS_ - , Windows, Linux, Unix, MacOS
+- _Mainstream OS_ - Windows, Linux, Unix, MacOS
 
 ## Appendix E: Instructions for manual testing
 
