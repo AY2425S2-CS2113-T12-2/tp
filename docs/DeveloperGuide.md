@@ -96,6 +96,9 @@ bookkeeper/
       └── Formatter.java # Formats and displays output
 ```
 
+The following is the class diagram of the application:
+![](images/classDiagram.png)
+
 ## Implementation
 
 The following sections provide detailed sequence diagrams for key features of the application, such as adding books, adding loans, and removing books.
