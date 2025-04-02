@@ -1,0 +1,47 @@
+@startuml
+actor User
+participant InputHandler
+participant InputParser
+participant BookList
+participant Formatter
+participant Book
+
+
+User -> InputHandler: "view-inventory"
+activate InputHandler
+    activate InputHandler
+    InputHandler -> InputParser: extractCommandArgs(userInputLine)
+    activate InputParser
+    InputParser --> InputHandler: commandArgs[]
+    deactivate InputParser
+    alt commandArgs[0] == "view-inventory"
+        InputHandler -> BookList: viewBookList()
+        activate BookList
+        alt BookList.isEmpty() 
+            BookList -> Formatter : printBorderedMessage("Book List Empty!")
+            activate Formatter
+            Formatter --> BookList
+            deactivate Formatter
+            BookList --> InputHandler
+        else
+            activate Formatter
+            BookList -> Formatter: printBookList(bookList)
+                loop for each Book
+                    Formatter -> Book: toString()
+                    activate Book
+                    Book --> Formatter: Book info
+                    deactivate Book
+                end
+            Formatter --> BookList
+            deactivate Formatter
+        BookList --> InputHandler
+        deactivate BookList
+        end
+    else
+    note over InputHandler
+    other command cases
+    end note
+end
+deactivate InputHandler
+
+@enduml
