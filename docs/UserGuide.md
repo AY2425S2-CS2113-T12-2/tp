@@ -109,8 +109,6 @@ Format: `delete-note BOOK_TITLE`
 
 Example: `delete-note The Great Gatsby`
 
-<div style="page-break-after: always;"></div>
-
 ### List Category: `list-category`
 
 List all books currently in the inventory that belong to the given category.
@@ -159,8 +157,6 @@ View all currently ongoing loans.
 Format: `view-loans`
 
 Example: `view-loans`
-
-<div style="page-break-after: always;"></div>
 
 ### Displaying Help: `help`
 
