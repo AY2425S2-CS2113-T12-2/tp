@@ -8,17 +8,90 @@ BookKeeper uses the following tools for documentation, development and testing:
 2. [Gradle](https://gradle.org) - Used for build automation.
 3. [PlantUML](https://plantuml.com/) - Used for diagram creation.
 
-## Setting up, getting started
+## Setting Up the Development Environment
 
-## Design
+### Prerequisites
 
-{From course website:
-you may omit the Architecture section (no penalty)
-if you have not organized the code into clearly divided components (no penalty if you didn't), you can use a single
-class diagram (if it is not too complicated) or use several class diagrams each describing a different area of the
-system.}
+- JDK 17
+- Gradle 7.6.2 or higher
+- IntelliJ IDEA (recommended)
 
-### Implementation
+### Getting Started
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/AY2425S2-CS2113-T12-2/tp.git
+   ```
+
+2. Import the project as a Gradle project in IntelliJ IDEA:
+   - Open IntelliJ IDEA
+   - Select "Import Project"
+   - Navigate to the project directory and select the `build.gradle` file
+   - Follow the prompts to complete the import
+
+3. Verify the setup:
+   - Run the tests: `./gradlew test`
+   - Run the application: `./gradlew run`
+
+## Design & Implementation
+
+### Component Overview
+
+The architecture of BookKeeper follows a layered design, with each component responsible for a specific aspect of the application. Below is an overview of the key components:
+
+#### 1. Main Component (`BookKeeper.java`)
+- Serves as the entry point of the application.
+- Coordinates interactions between other components.
+- Manages the main execution flow.
+
+#### 2. UI Component (`Formatter.java`)
+- Handles all user interaction through the command line.
+- Displays messages, prompts, and results to the user.
+- Formats and prints lists, error messages, and success messages.
+
+#### 3. Logic Component
+- **InputHandler (`InputHandler.java`)**: Processes user input and executes the corresponding commands.
+- **InputParser (`InputParser.java`)**: Parses user input into command arguments and validates them.
+- **Command Classes**: Implement specific functionalities using the Command pattern.
+
+#### 4. Model Component
+- **Book and Loan Classes**: Define the core data structures for books and loans.
+- **BookList and LoanList**: Manage collections of books and loans, providing methods for adding, removing, and searching.
+
+#### 5. Storage Component (`Storage.java`)
+- Handles persistence of data.
+- Manages saving and loading of book and loan data.
+- Ensures data integrity during file I/O operations.
+
+### Class Structure
+
+The following diagram shows the high-level structure of the application:
+
+```
+bookkeeper/ 
+├── BookKeeper.java # Main class 
+├── logic/ 
+│     ├── InputHandler.java   # Processes user input 
+│     └── InputParser.java    # Parses and validates input  
+├── exceptions/
+│     ├── BookNotFoundException.java      
+│     ├── ErrorMessages.java              
+│     └── IncorrectFormatException.java    
+├── model/ 
+│     ├── Book.java           # Represents a book 
+│     └── Loan.java           # Represents a loan 
+├── list/ 
+│     ├── BookList.java # Manages the collection of books 
+│     └── LoanList.java # Manages the collection of loans 
+├── storage/ 
+│     └── Storage.java # Handles data persistence 
+└── ui/ 
+      └── Formatter.java # Formats and displays output
+```
+
+### Sequence Diagrams
+
+The following sections provide detailed sequence diagrams for key features of the application, such as adding books, adding loans, and removing books.
 
 #### Adding Books
 
@@ -129,6 +202,7 @@ from the inventory. This prevents orphaned loan records from remaining in the sy
 `InputHandler` coordinates with `BookList`, `LoanList` and `Formatter` classes to implement the feature.
 
 The following UML sequence diagram shows how the `remove-book TITLE` command is handled.
+
 ![removeBook.png](images/removeBook.png)
 
 1. User issues command:
@@ -163,6 +237,7 @@ The `delete-loans` feature allows the user to remove a loan from the list of loa
 The program will check if first the book exists, then it will use the book object and the borrower name to search if the loan exist before proceeding to remove it.
 
 The following UML sequence diagram shows the behaviour of `delete-loans TITLE n/BORROWER_NAME`:
+
 ![delete_loan.png](images/deleteLoan.png)
 
 1. User issues command:
@@ -266,6 +341,7 @@ If no existing persistent storage file is detected, it will be created in `./dat
 The method `saveInventory(bookList)` is invoked by `InputHandler` after any method call that makes changes to the current inventory.
 
 The following UML sequence diagram shows the relevant behaviour:
+
 ![saveInventory.png](images/saveInventory.png)
 
 1. Initiation: `InputHandler` invokes `Storage.saveInventory(bookList)`.
@@ -283,6 +359,7 @@ The load inventory feature loads the inventory from the existing persistent data
 The method `loadInventory()` is called once by `InputHandler` at the start of the program.
 
 The following UML sequence diagram shows the relevant behaviour:
+
 ![loadInventory.png](images/loadInventory.png)
 
 1. Initialization: `InputHandler` invokes `Storage.loadInventory()`, which creates an empty `BookList`.
@@ -317,33 +394,38 @@ BookKeeper gives you full control over your collection in a clean, offline-frien
 
 ## Appendix B: User Stories
 
-Priorities: High (must have) - `***`, Medium (nice to have) - `**`, Low (unlikely to have) - `*`
-
-| Priority | As a...       | I want to...                                                           | So that I can                                                       |
+| Version | As a...       | I want to...                                                           | So that I can                                                       |
 | -------- | ------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `***`    | Librarian     | View inventory, including book count                                   | See my existing books                                               |
-| `***`    | Librarian     | Add new books to the system easily                                     | Update my inventory when acquiring new books                        |
-| `***`    | Librarian     | Remove books when lost or permanently borrowed                         | Maintain an accurate inventory                                      |
-| `***`    | Librarian     | Add book loans, including borrower details and return dates            | Ensure books are returned on time and inform others of availability |
-| `***`    | Librarian     | Delete book loans, including borrower details and return dates         | Maintain accurate loan records                                      |
-| `***`    | Librarian     | View on-going loans                                                    | Keep track of what books are loaned out                             |
-| `**`     | Librarian     | Categorize my inventory                                                | Make searching for books more convenient                            |
-| `**`     | Librarian     | Manage/Update book availability, including borrowed and reserved books | Efficiently allocate books                                          |
-| `**`     | Librarian     | Track book conditions (e.g., damages, special editions)                | Maintain detailed records                                           |
-| `**`     | Librarian     | Add personal notes about individual books                              | Maintain detailed records                                           |
-| `**`     | Librarian     | Edit existing book loans' due dates                                    | Better track by updating book loans                                 |
-| `**`     | Librarian     | Add contact details for borrowers                                      | Easily reach out to borrowers when needed                           |
-| `**`     | Librarian     | Keep track of where available books are in the library                 | Help visitors find books                                            |
-| `**`     | New Librarian | View a list of available commands                                      | Learn how to use the application                                    |
+| `v1.0`    | Librarian     | View inventory, including book count                                   | See my existing books                                               |
+| `v1.0`    | Librarian     | Add new books to the system easily                                     | Update my inventory when acquiring new books                        |
+| `v1.0`    | Librarian     | Remove books when lost or permanently borrowed                         | Maintain an accurate inventory                                      |
+| `v1.0`    | Librarian     | Add book loans, including borrower details and return dates            | Ensure books are returned on time and inform others of availability |
+| `v1.0`    | Librarian     | Delete book loans, including borrower details and return dates         | Maintain accurate loan records                                      |
+| `v1.0`    | Librarian     | View on-going loans                                                    | Keep track of what books are loaned out                             |
+| `v2.0`     | Librarian     | Categorize my inventory                                                | Make searching for books more convenient                            |
+| `v2.0`     | Librarian     | Manage/Update book availability, including borrowed and reserved books | Efficiently allocate books                                          |
+| `v2.0`     | Librarian     | Track book conditions (e.g., damages, special editions)                | Maintain detailed records                                           |
+| `v2.0`     | Librarian     | Add personal notes about individual books                              | Maintain detailed records                                           |
+| `v2.0`     | Librarian     | Edit existing book loans' due dates                                    | Better track by updating book loans                                 |
+| `v2.0`     | Librarian     | Add contact details for borrowers                                      | Easily reach out to borrowers when needed                           |
+| `v2.0`     | Librarian     | Keep track of where available books are in the library                 | Help visitors find books                                            |
+| `v2.0`     | New Librarian | View a list of available commands                                      | Learn how to use the application                                    |
 
 ## Appendix C: Non-Functional Requirements
 
-{Give non-functional requirements}
+1. Technical Requirements: Any _mainstream OS_ with Java 17 installed.
+2. Project Scope Constraints: Data storage is only to be performed locally.
 
 ## Appendix D: Glossary
 
-- _glossary item_ - Definition
+- _Mainstream OS_ - , Windows, Linux, Unix, MacOS
 
 ## Appendix E: Instructions for manual testing
 
-{Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
+### Manual Testing
+
+View the [User Guide](UserGuide.md) for the full list of UI commands and their related use case and expected outcomes.
+
+### JUnit Testing
+
+JUnit tests are written in the subdirectory `test` and serve to test key methods part of the application.
