@@ -57,8 +57,6 @@ Example:
 `add-book The Great Gatsby a/F. Scott Fitzgerald cat/Fiction cond/Good loc/Shelf B1`
 <br>or<br>`add-book The Great Gatsby a/F. Scott Fitzgerald cat/Fiction cond/Good loc/Shelf B1 note/important`
 
-<div style="page-break-after: always;"></div>
-
 ### Removing a book: `remove-book`
 
 Removes a book from the library collection.
@@ -67,6 +65,8 @@ Format: `remove-book BOOK_TITLE`
 
 Example:
 `remove-book Moby Dick`
+
+<div style="page-break-after: always;"></div>
 
 ### Updating a Book: `update-book`
 
