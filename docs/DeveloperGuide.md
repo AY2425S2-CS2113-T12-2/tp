@@ -19,11 +19,13 @@ BookKeeper uses the following tools for documentation, development and testing:
 ### Getting Started
 
 1. Clone the repository:
+
    ```
    git clone https://github.com/AY2425S2-CS2113-T12-2/tp.git
    ```
 
 2. Import the project as a Gradle project in IntelliJ IDEA:
+
    - Open IntelliJ IDEA
    - Select "Import Project"
    - Navigate to the project directory and select the `build.gradle` file
@@ -40,25 +42,30 @@ BookKeeper uses the following tools for documentation, development and testing:
 The architecture of BookKeeper follows a layered design, with each component responsible for a specific aspect of the application. Below is an overview of the key components:
 
 #### 1. Main Component (`BookKeeper.java`)
+
 - Serves as the entry point of the application.
 - Coordinates interactions between other components.
 - Manages the main execution flow.
 
 #### 2. UI Component (`Formatter.java`)
+
 - Handles all user interaction through the command line.
 - Displays messages, prompts, and results to the user.
 - Formats and prints lists, error messages, and success messages.
 
 #### 3. Logic Component
+
 - **InputHandler (`InputHandler.java`)**: Processes user input and executes the corresponding commands.
 - **InputParser (`InputParser.java`)**: Parses user input into command arguments and validates them.
 - **Command Classes**: Implement specific functionalities using the Command pattern.
 
 #### 4. Model Component
+
 - **Book and Loan Classes**: Define the core data structures for books and loans.
 - **BookList and LoanList**: Manage collections of books and loans, providing methods for adding, removing, and searching.
 
 #### 5. Storage Component (`Storage.java`)
+
 - Handles persistence of data.
 - Manages saving and loading of book and loan data.
 - Ensures data integrity during file I/O operations.
@@ -68,24 +75,24 @@ The architecture of BookKeeper follows a layered design, with each component res
 The following diagram shows the high-level structure of the application:
 
 ```
-bookkeeper/ 
-├── BookKeeper.java # Main class 
-├── logic/ 
-│     ├── InputHandler.java   # Processes user input 
-│     └── InputParser.java    # Parses and validates input  
+bookkeeper/
+├── BookKeeper.java # Main class
+├── logic/
+│     ├── InputHandler.java   # Processes user input
+│     └── InputParser.java    # Parses and validates input
 ├── exceptions/
-│     ├── BookNotFoundException.java      
-│     ├── ErrorMessages.java              
-│     └── IncorrectFormatException.java    
-├── model/ 
-│     ├── Book.java           # Represents a book 
-│     └── Loan.java           # Represents a loan 
-├── list/ 
-│     ├── BookList.java # Manages the collection of books 
-│     └── LoanList.java # Manages the collection of loans 
-├── storage/ 
-│     └── Storage.java # Handles data persistence 
-└── ui/ 
+│     ├── BookNotFoundException.java
+│     ├── ErrorMessages.java
+│     └── IncorrectFormatException.java
+├── model/
+│     ├── Book.java           # Represents a book
+│     └── Loan.java           # Represents a loan
+├── list/
+│     ├── BookList.java # Manages the collection of books
+│     └── LoanList.java # Manages the collection of loans
+├── storage/
+│     └── Storage.java # Handles data persistence
+└── ui/
       └── Formatter.java # Formats and displays output
 ```
 
@@ -260,11 +267,11 @@ The following UML sequence diagram shows the behaviour of `delete-loans TITLE n/
 6. Success message is displayed:
    `Formatter` is used to print a message indicating successful removal.
 
-#### Viewing Books/Loans
+#### Viewing Books
 
 The `view-inventory` feature allows the user to view all existing books in the inventory. All book information will be printed out in a numbered list. The program will first check if the inventory is empty before proceeding to print out the list.
 
-`InputHandler` coordinates with `Book`, `BookList` and `Formatter` classes to implement the feature.
+`InputHandler` coordinates with `InputParser`, `Book`, `BookList` and `Formatter` classes to implement the feature.
 
 1. User issues command:
    The user inputs the command in the CLI with the required arguments, e.g., `view-inventory`.
@@ -276,7 +283,7 @@ The `view-inventory` feature allows the user to view all existing books in the i
      - `commandArgs[0]`: `"view-inventory"`
 
 3. Command is executed:
-   `InputHandler` invokes `BookList.view()` to list the existing books.
+   `InputHandler` invokes `BookList.viewBookList()` to list the existing books.
 
 4. Check for empty inventory:
    `BookList` calls `BookList.isEmpty()` to check if there are existing books in the inventory.
@@ -290,9 +297,39 @@ The `view-inventory` feature allows the user to view all existing books in the i
    2. Invoke `Book.toString()` to convert all the book's information to a string
    3. Print the concatenated `count` and book information.
 
+#### Viewing Loans
+
+The `view-loans` feature allows the user to view all existing loans in the inventory. All loan information will be printed out in a numbered list. The program will first check if the loan list is empty before proceeding to print out the list.
+
+`InputHandler` coordinates with `InputParser`, `Loan`, `LoanList` and `Formatter` classes to implement the feature.
+
+1. User issues command:
+   The user inputs the command in the CLI with the required arguments, e.g., `view-loans`.
+
+2. Command arguments are extracted:
+   `InputHandler` first calls `InputParser.extractCommandArgs(...)` to extract the command to execute from the user input.
+
+   - For example, the input `view-loans` is split into:
+     - `commandArgs[0]`: `"view-loans"`
+
+3. Command is executed:
+   `InputHandler` invokes `LoanList.viewLoanList()` to list the existing loans.
+
+4. Check for empty loan list:
+   `LoanList` calls `LoanList.isEmpty()` to check if there are existing loans in the loan list.
+
+   - If no loans are found, `LoanList` uses `Formatter` to print a "Loan List Empty!" message and exits early.
+   - If there are any loans found, the flow continues.
+
+5. Loan list is printed:
+   `LoanList` calls `Formatter.printLoanList(loanList)` to format and print the loans. `Formatter` will then start by printing "Here are the active loans:" to indicate the start of the printing. For each loan, `Formatter` will then:
+   1. Increment a `count` to number the books
+   2. Invoke `Loan.toString()` to convert all the book's information to a string
+   3. Print the concatenated `count` and book information.
+
 #### Updating Books/Loans
 
-The `update-book` feature allows the user to add update existing book details. The system ensures that a book of the same title exists in the inventory and before performing th update.
+The `update-book` feature allows the user to add update existing book details. The system ensures that a book of the same title exists in the inventory and before performing the update. Note that the book title cannot be updated.
 
 `InputHandler` coordinates with `InputParser`, `BookList`, `Formatter`, and `Storage` classes to implement the feature.
 
@@ -319,20 +356,23 @@ The `update-book` feature allows the user to add update existing book details. T
 4. Book is validated:
    `InputHandler` calls `BookList.findBookByTitle(bookTitle)` to check if the book exists in the inventory.
 
-   - If the book is not found, `InputHandler` uses `Formatter` to print a "Book already exists in inventory: {Title}" message and exits early.
-   - If the book is not found, the flow continues.
+   - If the book is not found, `InputHandler` uses `Formatter` to print a exception message and exits early.
+   - If the book is found, the flow continues.
 
-5. Book is created:
-   If the book does not exists in the inventory:
+5. Book is updated:
+   `InputHandler` updates the book details by invoking the following methods from `Book` class:
 
-   - A new `Book` object is created using the parsed arguments.
-   - The Book is added to the `bookList` using `bookList.addBook(...)`.
+   - `Book.setAuthor(newAuthor)`
+   - `Book.setCategory(newCategory)`
+   - `Book.setCondition(newCondition)`
+   - `Book.setLocation(newLocation)`
+   - `Book.setNote(newNote)` (only if note is provided)
 
 6. Changes are saved to persistent storage:
-   `InputHandler` calls `Storage.saveLoans(...)` and `Storage.saveInventory(...)` to save the updated book list and inventory.
+   `InputHandler` calls `Storage.saveLoans(...)` and `Storage.saveInventory(...)` to save the updated book details.
 
 7. Success message is displayed:
-   `InputHandler` uses `Formatter` to print a message indicating that the book was successfully added.
+   `InputHandler` uses `Formatter` to print a message indicating that the book was successfully updated.
 
 #### Save Inventory
 
@@ -395,21 +435,21 @@ BookKeeper gives you full control over your collection in a clean, offline-frien
 ## Appendix B: User Stories
 
 | Version | As a...       | I want to...                                                           | So that I can                                                       |
-| -------- | ------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `v1.0`    | Librarian     | View inventory, including book count                                   | See my existing books                                               |
-| `v1.0`    | Librarian     | Add new books to the system easily                                     | Update my inventory when acquiring new books                        |
-| `v1.0`    | Librarian     | Remove books when lost or permanently borrowed                         | Maintain an accurate inventory                                      |
-| `v1.0`    | Librarian     | Add book loans, including borrower details and return dates            | Ensure books are returned on time and inform others of availability |
-| `v1.0`    | Librarian     | Delete book loans, including borrower details and return dates         | Maintain accurate loan records                                      |
-| `v1.0`    | Librarian     | View on-going loans                                                    | Keep track of what books are loaned out                             |
-| `v2.0`     | Librarian     | Categorize my inventory                                                | Make searching for books more convenient                            |
-| `v2.0`     | Librarian     | Manage/Update book availability, including borrowed and reserved books | Efficiently allocate books                                          |
-| `v2.0`     | Librarian     | Track book conditions (e.g., damages, special editions)                | Maintain detailed records                                           |
-| `v2.0`     | Librarian     | Add personal notes about individual books                              | Maintain detailed records                                           |
-| `v2.0`     | Librarian     | Edit existing book loans' due dates                                    | Better track by updating book loans                                 |
-| `v2.0`     | Librarian     | Add contact details for borrowers                                      | Easily reach out to borrowers when needed                           |
-| `v2.0`     | Librarian     | Keep track of where available books are in the library                 | Help visitors find books                                            |
-| `v2.0`     | New Librarian | View a list of available commands                                      | Learn how to use the application                                    |
+| ------- | ------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `v1.0`  | Librarian     | View inventory, including book count                                   | See my existing books                                               |
+| `v1.0`  | Librarian     | Add new books to the system easily                                     | Update my inventory when acquiring new books                        |
+| `v1.0`  | Librarian     | Remove books when lost or permanently borrowed                         | Maintain an accurate inventory                                      |
+| `v1.0`  | Librarian     | Add book loans, including borrower details and return dates            | Ensure books are returned on time and inform others of availability |
+| `v1.0`  | Librarian     | Delete book loans, including borrower details and return dates         | Maintain accurate loan records                                      |
+| `v1.0`  | Librarian     | View on-going loans                                                    | Keep track of what books are loaned out                             |
+| `v2.0`  | Librarian     | Categorize my inventory                                                | Make searching for books more convenient                            |
+| `v2.0`  | Librarian     | Manage/Update book availability, including borrowed and reserved books | Efficiently allocate books                                          |
+| `v2.0`  | Librarian     | Track book conditions (e.g., damages, special editions)                | Maintain detailed records                                           |
+| `v2.0`  | Librarian     | Add personal notes about individual books                              | Maintain detailed records                                           |
+| `v2.0`  | Librarian     | Edit existing book loans' due dates                                    | Better track by updating book loans                                 |
+| `v2.0`  | Librarian     | Add contact details for borrowers                                      | Easily reach out to borrowers when needed                           |
+| `v2.0`  | Librarian     | Keep track of where available books are in the library                 | Help visitors find books                                            |
+| `v2.0`  | New Librarian | View a list of available commands                                      | Learn how to use the application                                    |
 
 ## Appendix C: Non-Functional Requirements
 
