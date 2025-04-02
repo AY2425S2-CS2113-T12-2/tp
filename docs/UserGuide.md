@@ -27,7 +27,6 @@
 
 <div style="page-break-after: always;"></div>
 
-
 ## Introduction
 
 BookKeeper is a Command Line Interface (CLI) library manager application for effective tracking of library loans and inventory.
@@ -82,8 +81,6 @@ Example:
 remove-book The Great Gatsby
 ```
 
-<div style="page-break-after: always;"></div>
-
 ### Updating a Book: `update-book`
 
 Updates the author, category, condition, location and note with the information provided.
@@ -102,7 +99,7 @@ Search for a book in the inventory based on the keyword.
 
 Format: `search-book KEYWORD`
 
-Example: 
+Example:
 
 ```
 search-book Great
@@ -126,7 +123,7 @@ Add a personal note to a book.
 
 Format: `add-note BOOK_TITLE note/NOTE`
 
-Example: 
+Example:
 
 ```
 add-note The Great Gatsby note/Very good book
@@ -138,13 +135,11 @@ Deletes a note currently attached to a book.
 
 Format: `delete-note BOOK_TITLE`
 
-Example: 
+Example:
 
 ```
 delete-note The Great Gatsby
 ```
-
-<div style="page-break-after: always;"></div>
 
 ### List Category: `list-category`
 
@@ -152,7 +147,7 @@ List all books currently in the inventory that belong to the given category.
 
 Format: `list-category CATEGORY`
 
-Example: 
+Example:
 
 ```
 list-category Fiction
@@ -195,7 +190,7 @@ Edits loan return date of the loan, borrower's phone number and email.
 
 Format: `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`
 
-Example: 
+Example:
 
 ```
 edit-loan The Great Gatsby n/Mary d/15-March-2025 p/91234567 e/123abc@gmail.com
@@ -207,13 +202,11 @@ View all currently ongoing loans.
 
 Format: `view-loans`
 
-Example: 
+Example:
 
 ```
 view-loans
 ```
-
-<div style="page-break-after: always;"></div>
 
 ### Displaying Help: `help`
 
@@ -222,6 +215,7 @@ Displays a list of all available commands and their formats.
 Format: `help`
 
 Example:
+
 ```
 help
 ```
@@ -233,6 +227,7 @@ Exits the program.
 Format: `exit`
 
 Example:
+
 ```
 exit
 ```
