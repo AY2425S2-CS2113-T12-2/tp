@@ -25,7 +25,7 @@
 - [Notes](#notes)
 - [Command Summary](#command-summary)
 
----
+<div style="page-break-after: always;"></div>
 
 ## Introduction
 
@@ -56,6 +56,8 @@ Example:
 
 `add-book The Great Gatsby a/F. Scott Fitzgerald cat/Fiction cond/Good loc/Shelf B1`
 <br>or<br>`add-book The Great Gatsby a/F. Scott Fitzgerald cat/Fiction cond/Good loc/Shelf B1 note/important`
+
+<div style="page-break-after: always;"></div>
 
 ### Removing a book: `remove-book`
 
@@ -107,6 +109,8 @@ Format: `delete-note BOOK_TITLE`
 
 Example: `delete-note The Great Gatsby`
 
+<div style="page-break-after: always;"></div>
+
 ### List Category: `list-category`
 
 List all books currently in the inventory that belong to the given category.
@@ -156,6 +160,8 @@ Format: `view-loans`
 
 Example: `view-loans`
 
+<div style="page-break-after: always;"></div>
+
 ### Displaying Help: `help`
 
 Displays a list of all available commands and their formats.
@@ -171,7 +177,7 @@ Exits the program.
 
 Format: `exit`
 
----
+<div style="page-break-after: always;"></div>
 
 ## Persistent State
 
@@ -204,7 +210,7 @@ Warning Message:
 - **Commands Are Case-Sensitive**: Ensure that commands and inputs (e.g., book titles, borrower names) match the exact case.
 - **Books Are Unique**: Each book in the inventory is unique and identified by its title. Duplicate books are not allowed.
 
----
+<div style="page-break-after: always;"></div>
 
 ## Command Summary
 
