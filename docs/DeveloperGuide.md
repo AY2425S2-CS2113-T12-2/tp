@@ -33,7 +33,7 @@ BookKeeper uses the following tools for documentation, development and testing:
    - Run the tests: `./gradlew test`
    - Run the application: `./gradlew run`
 
-## Design & Implementation
+## Design
 
 ### Component Overview
 
@@ -89,11 +89,11 @@ bookkeeper/
       └── Formatter.java # Formats and displays output
 ```
 
-### Sequence Diagrams
+## Implementation
 
 The following sections provide detailed sequence diagrams for key features of the application, such as adding books, adding loans, and removing books.
 
-#### Adding Books
+### Adding Books
 
 The `add-book` feature allows the user to add a new book to the inventory. Each book includes details of its title, author, category, condition, location, as well as optional notes. The system ensures that a book of the same title does not exist in the inventory and before creating the book.
 
@@ -126,10 +126,10 @@ The `add-book` feature allows the user to add a new book to the inventory. Each 
    - If the book is not found, the flow continues.
 
 5. Book is created:
-   If the book does not exists in the inventory:
-
-   - A new `Book` object is created using the parsed arguments.
-   - The Book is added to the `bookList` using `bookList.addBook(...)`.
+   If the book does not exist in the inventory:
+   - A new `Book` object is created using the parsed arguments. The `note` field is optional and defaults to an empty string if not provided.
+   - The `condition` string is converted to a `Condition` enum using `Condition.fromString(...)`.
+   - The book is added to the `BookList` using `bookList.addBook(...)`.
 
 6. Changes are saved to persistent storage:
    `InputHandler` calls `Storage.saveLoans(...)` and `Storage.saveInventory(...)` to save the updated book list and inventory.
@@ -137,7 +137,7 @@ The `add-book` feature allows the user to add a new book to the inventory. Each 
 7. Success message is displayed:
    `InputHandler` uses `Formatter` to print a message indicating that the book was successfully added.
 
-#### Adding Loans
+### Adding Loans
 
 The `add-loan` feature allows the user to add a loan for a book in the inventory. The loan includes details such as the borrower's name, return date, phone number, and email. The system ensures that the book exists in the inventory and is not already on loan before creating the loan.
 
@@ -180,20 +180,16 @@ The following UML sequence diagram shows how the `add-loan BOOK_TITLE n/BORROWER
 
 6. Loan is created:
    If the book exists and is not already on loan:
+   - A new `Loan` object is created using the parsed arguments, including the borrower's name, return date, phone number, and email.
+   - The loan is added to the `LoanList` using `LoanList.addLoan(...)`. This method automatically updates the book's `onLoan` status to `true`.
 
-   - A new `Loan` object is created using the parsed arguments.
-   - The loan is added to the `LoanList` using `LoanList.addLoan(...)`.
-
-7. Book status is updated:
-   The book's `onLoan` status is updated to `true` using `Book.setOnLoan(...)`.
-
-8. Changes are saved to persistent storage:
+7. Changes are saved to persistent storage:
    `InputHandler` calls `Storage.saveLoans(...)` and `Storage.saveInventory(...)` to save the updated loan list and inventory.
 
-9. Success message is displayed:
+8. Success message is displayed:
    `InputHandler` uses `Formatter` to print a message indicating that the loan was successfully added.
 
-#### Removing Books
+### Removing Books
 
 The `remove-book` feature allows the user to remove a book from the inventory using the book title as the identifier.
 The system will first check if the book exists, remove all associated loans (if any) before finally removing the book
@@ -219,8 +215,7 @@ The following UML sequence diagram shows how the `remove-book TITLE` command is 
    - If the book is found, the flow continues.
 
 4. Associated loans are removed:
-   `LoanList.removeLoansByBook(toRemove)` is called to remove all loans associated with the book. This ensures no
-   orphaned loans are left behind.
+   `LoanList.removeLoansByBook(toRemove)` is called to remove all loans associated with the book. This method uses `loanList.removeIf(...)` to filter and remove loans linked to the specified book.
 
 5. Book is removed from the system:
    `InputHandler` calls `BookList.removeBook(toRemove)` to remove the book.
@@ -231,7 +226,7 @@ The following UML sequence diagram shows how the `remove-book TITLE` command is 
 7. Success message is displayed:
    `Formatter` is used to print a message indicating successful removal.
 
-#### Delete Loans
+### Delete Loans
 
 The `delete-loans` feature allows the user to remove a loan from the list of loans that is being tracked by using the book title and the borrower name as identifiers.
 The program will check if first the book exists, then it will use the book object and the borrower name to search if the loan exist before proceeding to remove it.
@@ -260,7 +255,7 @@ The following UML sequence diagram shows the behaviour of `delete-loans TITLE n/
 6. Success message is displayed:
    `Formatter` is used to print a message indicating successful removal.
 
-#### Viewing Books/Loans
+### Viewing Books/Loans
 
 The `view-inventory` feature allows the user to view all existing books in the inventory. All book information will be printed out in a numbered list. The program will first check if the inventory is empty before proceeding to print out the list.
 
@@ -290,7 +285,7 @@ The `view-inventory` feature allows the user to view all existing books in the i
    2. Invoke `Book.toString()` to convert all the book's information to a string
    3. Print the concatenated `count` and book information.
 
-#### Updating Books/Loans
+### Updating Books/Loans
 
 The `update-book` feature allows the user to add update existing book details. The system ensures that a book of the same title exists in the inventory and before performing th update.
 
@@ -334,10 +329,11 @@ The `update-book` feature allows the user to add update existing book details. T
 7. Success message is displayed:
    `InputHandler` uses `Formatter` to print a message indicating that the book was successfully added.
 
-#### Save Inventory
+### Save Inventory
 
 The save inventory feature automatically saves the inventory each time the user makes a change.
-If no existing persistent storage file is detected, it will be created in `./data/bookKeeper_bookList.txt`
+If no existing persistent storage file is detected, it will be created in the default location `./data/bookKeeper_bookList.txt`. The file path can also be customized using the `setInventoryFilePath()` method.
+
 The method `saveInventory(bookList)` is invoked by `InputHandler` after any method call that makes changes to the current inventory.
 
 The following UML sequence diagram shows the relevant behaviour:
@@ -345,17 +341,18 @@ The following UML sequence diagram shows the relevant behaviour:
 ![saveInventory.png](images/saveInventory.png)
 
 1. Initiation: `InputHandler` invokes `Storage.saveInventory(bookList)`.
-2. Directory Check: A `File` object is created. Directory is created using `mkdirs()` if it does not already exist.
-3. FileWriter Creation: A new `FileWriter` is created for the file at `INVENTORY_FILE_PATH`.
+2. Directory Check: A `File` object is created for the directory. If the directory does not exist, it is created using `mkdirs()`.
+3. FileWriter Creation: A new `FileWriter` is created for the file at the path specified by `inventoryFilePath`.
 4. Retrieving Book List: `getBookList()` is called on the `BookList` instance passed into `saveInventory(bookList)` to obtain the list of `Book` objects.
 5. Writing Each Book: For each `Book` in the list, `toFileString()` is called to get a string representation. This string is then written to the file via `FileWriter`.
-6. Closing: After writing all books, `FileWriter` is closed.
+6. Closing: After writing all books, `FileWriter` is closed to complete the writing process.
 
 Error Handling: If an `IOException` occurs during any file operations, an error message is displayed via `Formatter.printBorderedMessage()`.
 
-#### Load Inventory
+### Load Inventory
 
-The load inventory feature loads the inventory from the existing persistent data storage file if it exists. If it does not exist, an empty inventory is used.
+The load inventory feature loads the inventory from the existing persistent data storage file if it exists. If it does not exist, an empty inventory is used. The file path defaults to `./data/bookKeeper_bookList.txt` but can be customized using the `setInventoryFilePath()` method.
+
 The method `loadInventory()` is called once by `InputHandler` at the start of the program.
 
 The following UML sequence diagram shows the relevant behaviour:
@@ -364,11 +361,14 @@ The following UML sequence diagram shows the relevant behaviour:
 
 1. Initialization: `InputHandler` invokes `Storage.loadInventory()`, which creates an empty `BookList`.
 
-2. File Existence Check: A `File` object is created for the inventory file path. If an existing inventory does not exist, a message is printed using `Formatter.printBorderedMessage()`, and an empty `BookList` is returned early.
+2. File Existence Check: A `File` object is created for the inventory file path. If the file does not exist, a message is printed using `Formatter.printBorderedMessage()`, and an empty `BookList` is returned early.
 
 3. File Reading: If the file exists, a `Scanner` is created to read the file. The method enters a loop, reading each line from the file with `scanner.nextLine()`.
    - For each line, `parseBookFromString()` is called to convert the line into a `Book` object.
    - If the returned `Book` is not `null`, it is added to the `bookList`.
+   - Duplicate books are skipped, and a message is printed for each duplicate.
+   - Invalid entries are skipped, and a message is printed for each invalid entry.
+
 4. After processing all lines, the `Scanner` is closed. A message is printed indicating the number of books loaded. Finally, the populated `bookList` is returned.
 
 ## Appendix A: Product scope
