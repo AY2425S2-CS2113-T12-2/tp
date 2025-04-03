@@ -77,7 +77,7 @@ alt commandArgs.length >= 2
 InputHandler --> InputHandler
 deactivate InputHandler
 
-else
+else else
     note over InputHandler : other commands
 end
 
