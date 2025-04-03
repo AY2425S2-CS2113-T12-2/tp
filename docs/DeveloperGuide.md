@@ -470,18 +470,30 @@ The following UML sequence diagram shows the relevant behaviour:
 
 ![loadInventory.png](images/loadInventory.png)
 
-1. Initialization: `InputHandler` invokes `Storage.loadInventory()`, which creates an empty `BookList`.
+1. Initialization: `InputHandler` invokes `Storage.loadInventory()`, which initializes an empty `ArrayList<Book>`.
 
-2. File Existence Check: A `File` object is created for the inventory file path. If the file does not exist, a message is printed using `Formatter.printBorderedMessage()`, and an empty `BookList` is returned early.
+2. File Existence Check:  
+   A `File` object is created for the inventory file path.  
+   - If the file does not exist:
+     - A message is printed using `Formatter.printBorderedMessage()` indicating no saved inventory was found.
+     - A new file is created, and an empty `ArrayList<Book>` is returned.
 
-3. File Reading: If the file exists, a `Scanner` is created to read the file. The method enters a loop, reading each line from the file with `scanner.nextLine()`.
+3. File Reading:  
+   If the file exists:
+   - A `Scanner` reads the file line by line.
+   - Each line is passed to `parseBookFromString(line)` to convert it into a `Book` object.
 
-   - For each line, `parseBookFromString()` is called to convert the line into a `Book` object.
-   - If the returned `Book` is not `null`, it is added to the `bookList`.
-   - Duplicate books are skipped, and a message is printed for each duplicate.
-   - Invalid entries are skipped, and a message is printed for each invalid entry.
+4. Book Validation:  
+   - If the `Book` is `null`, a message is printed indicating the entry was skipped.
+   - If valid, duplicates are checked using `bookList.stream().anyMatch(...)`.  
+     - If a duplicate is found, a message is printed, and the book is skipped.
+     - Otherwise, the book is added to the `bookList`.
 
-4. After processing all lines, the `Scanner` is closed. A message is printed indicating the number of books loaded. Finally, the populated `bookList` is returned.
+5. Completion:  
+   - After processing all lines in file, the `Scanner` is closed.
+   - A message is printed indicating the number of books loaded.
+   - The populated `bookList` is returned.
+
 
 ## Appendix A: Product scope
 
