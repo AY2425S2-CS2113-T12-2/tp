@@ -86,7 +86,7 @@ alt commandArgs.length >= 2
 
     end
 
-    else
+    else else
         InputHandler -> Formatter: printBorderedMessage("Invalid format for edit-loan.")
         activate Formatter
         Formatter --> InputHandler
@@ -96,7 +96,7 @@ alt commandArgs.length >= 2
 InputHandler --> InputHandler
 deactivate InputHandler
 
-else
+else else
     note over InputHandler : other commands
 end
 
