@@ -1,27 +1,39 @@
 @startuml
-participant InputHandler
-participant Storage
-participant BookList
-participant File
-participant FileWriter
-participant Book
-participant "Formatter" as Formatter
+
+participant InputHandler as ":InputHandler"
+participant Storage as ":Storage"
+participant BookList as ":BookList"
+participant File as ":File"
+participant FileWriter as ":FileWriter"
+participant Book as ":Book"
+participant Formatter as ":Formatter"
+
+activate InputHandler
 
 InputHandler -> Storage: saveInventory(bookList)
 activate Storage
 
 ' Check if directory exists
-Storage -> File: new File(FOLDER_PATH)
+Storage -> File ** : new File(FOLDER_PATH)
 activate File
-alt !File.exists()
-    File -> File: mkdirs()
+File --> Storage: directory
+deactivate File
+opt Directory does not exist
+    Storage -> File: mkdirs()
+    activate File
+    File --> Storage: 
+    deactivate File
 end
-File --> Storage
+
 deactivate File
 
 ' Create FileWriter for INVENTORY_FILE_PATH
-Storage -> FileWriter: new FileWriter(INVENTORY_FILE_PATH)
+Storage -> FileWriter ** : new FileWriter(INVENTORY_FILE_PATH)
 activate FileWriter
+
+FileWriter --> Storage: fileWriter
+deactivate FileWriter
+
 ' Retrieve list of books from BookList
 Storage -> BookList: getBookList()
 activate BookList
@@ -35,16 +47,22 @@ loop for each book in BookList
     Book --> Storage: fileString
     deactivate Book
     Storage -> FileWriter: write(fileString + lineSeparator)
+    activate FileWriter
+    FileWriter --> Storage:
+    deactivate FileWriter
 end
 
-' Exception handling if IOException occurs
-alt IOException thrown
-    Storage -> Formatter: printBorderedMessage("Something went wrong...")
-end
 ' Close the FileWriter
 Storage -> FileWriter: close()
+activate FileWriter
+
 FileWriter --> Storage
-deactivate FileWriter
-Storage --> InputHandler
+deactivate FileWriter 
+
+destroy FileWriter
+Storage --> InputHandler 
 deactivate Storage
+
+destroy File
+
 @enduml

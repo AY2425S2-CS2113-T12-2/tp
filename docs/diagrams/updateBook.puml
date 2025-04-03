@@ -1,22 +1,20 @@
 @startuml
 actor User
-participant InputHandler
-participant InputParser
-participant BookList
-participant Book
-participant Formatter
-participant Storage
+participant InputHandler as ":InputHandler"
+participant InputParser as ":InputParser"
+participant BookList as ":BookList"
+participant Book as ":Book"
+participant Formatter as ":Formatter"
+participant Storage as ":Storage"
 
-User -> InputHandler: "update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]"
+User -> InputHandler: "update-book BOOK_TITLE \n a/AUTHOR cat/CATEGORY \n cond/CONDITION loc/LOCATION [note/NOTE]"
 activate InputHandler
 
 InputHandler -> InputParser: extractCommandArgs(userInputLine)
-deactivate InputHandler
 activate InputParser
 
 InputParser --> InputHandler: commandArgs[]
 deactivate InputParser
-activate InputHandler
 
 alt commandArgs[0] == update-book
     InputHandler -> InputHandler : updateBook()
@@ -26,7 +24,7 @@ alt commandArgs.length >= 2
     InputHandler -> InputParser: extractUpdateBookArgs(commandArgs[1])
     activate InputParser
 
-    InputParser --> InputHandler: parsedArgs [BOOK_TITLE, AUTHOR, CATEGORY, CONDITION, LOCATION, NOTE]
+    InputParser --> InputHandler: parsedArgs
     deactivate InputParser
 
     InputHandler -> BookList: findBookByTitle(BOOK_TITLE)
@@ -72,14 +70,14 @@ alt commandArgs.length >= 2
         deactivate Storage
 
 
-    else
+    else else
         InputHandler -> Formatter: printBorderedMessage("Book not found in inventory: {BOOK_TITLE}")
         activate Formatter
         Formatter --> InputHandler
         deactivate Formatter
     end
 
-    else
+    else else
         InputHandler -> Formatter: printBorderedMessage("Invalid format for update-book")
         activate Formatter
         Formatter --> InputHandler
@@ -89,10 +87,10 @@ alt commandArgs.length >= 2
 InputHandler --> InputHandler
 deactivate InputHandler
 
-else
+else else
     note over InputHandler : other commands
 end
 
-deactivate InputHandler
 InputHandler --> User
+deactivate InputHandler
 @enduml

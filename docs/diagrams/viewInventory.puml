@@ -1,15 +1,14 @@
 @startuml
 actor User
-participant InputHandler
-participant InputParser
-participant BookList
-participant Formatter
-participant Book
+participant InputHandler as ":InputHandler"
+participant InputParser as ":InputParser"
+participant BookList as ":BookList"
+participant Formatter as ":Formatter"
+participant Book as ":Book"
 
 
 User -> InputHandler: "view-inventory"
 activate InputHandler
-    activate InputHandler
     InputHandler -> InputParser: extractCommandArgs(userInputLine)
     activate InputParser
     InputParser --> InputHandler: commandArgs[]
@@ -23,9 +22,9 @@ activate InputHandler
             Formatter --> BookList
             deactivate Formatter
             BookList --> InputHandler
-        else
-            activate Formatter
+        else else
             BookList -> Formatter: printBookList(bookList)
+            activate Formatter
                 loop for each Book
                     Formatter -> Book: toString()
                     activate Book
@@ -37,11 +36,12 @@ activate InputHandler
         BookList --> InputHandler
         deactivate BookList
         end
-    else
+    else else
     note over InputHandler
     other command cases
     end note
 end
+InputHandler --> User
 deactivate InputHandler
 
 @enduml

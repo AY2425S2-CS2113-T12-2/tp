@@ -1,16 +1,16 @@
 @startuml
-participant InputHandler
-participant Storage
-participant File
-participant Formatter
-participant Scanner
+participant InputHandler as ":InputHandler"
+participant Storage as ":Storage"
+participant File as ":File"
+participant Formatter as ":Formatter"
+participant Scanner as ":Scanner"
 
 
 InputHandler -> Storage: loadInventory()
 activate Storage
 
 ' Create a new empty bookList
-create BookList
+create BookList as ":BookList"
 Storage -> BookList: new ArrayList<Book>()
 activate BookList
 BookList --> Storage: bookList
@@ -19,34 +19,89 @@ deactivate BookList
 ' Create File object for INVENTORY_FILE_PATH
 Create File
 Storage -> File: new File(INVENTORY_FILE_PATH)
+activate File
+File --> Storage: file
+deactivate File
 
-alt !File.exists()
+opt !file.exists()
     Storage -> Formatter: printBorderedMessage("No saved inventory found...")
-    Storage --> InputHandler: bookList
-    note over InputHandler
-    in this case bookList is empty
-    end note
-else
+    activate Formatter
+
+    Formatter --> Storage
+    deactivate Formatter
+    
+    Storage --> InputHandler: empty bookList
+    end
     ' Open the file using a Scanner
     create Scanner
     Storage -> Scanner: new Scanner(file)
+    activate Scanner
+    Scanner --> Storage: scanner
+    deactivate Scanner
 
-    loop while scanner.hasNextLine()
+    loop scanner.hasNextLine()
+        Storage -> Scanner: nextLine()
+        activate Scanner
+
+        Scanner --> Storage: line
+        deactivate Scanner
+
         Storage -> Storage: parseBookFromString(line)
         activate Storage
+        alt line has invalid format
+            note over File
+            returns null if the line has invalid format
+            end note
+        else else
+            create Book
+            Storage -> Book: create book with arguments provided in line
+            activate Book
+            Book --> Storage: book
+            deactivate Book
+        end
         Storage --> Storage: book
         deactivate Storage
-        alt book != null
-            Storage -> BookList: bookList.add(book)
+
+        opt book != null
+            ' Check for duplicate book
+            Storage -> BookList: Check for duplicate book objects using stream
+            activate BookList
+            BookList --> Storage: isDuplicate
+            deactivate BookList
+            alt isDuplicate
+                ' Book already exists, skip adding it
+                Storage -> Formatter: printBorderedMessage("Duplicate book found...")
+                activate Formatter
+                Formatter --> Storage
+                deactivate Formatter
+                
+            else else
+                ' Add book to bookList
+                Storage -> BookList: add(book)
+                activate BookList
+                BookList --> Storage
+                deactivate BookList
+            end 
         end
     end
 
+    
+
     Storage -> Scanner: close()
+    activate Scanner
+    Scanner --> Storage
+    deactivate Scanner
+    destroy Scanner
     ' Print message with number of books loaded
     Storage -> Formatter: printBorderedMessage("Loaded...")
-    Storage --> InputHandler: return bookList
-end
+    activate Formatter
+    Formatter --> Storage
+    deactivate Formatter
+    
 
+    Storage --> InputHandler: bookList
+    destroy File
+    deactivate Storage
 
 deactivate Storage
 @enduml

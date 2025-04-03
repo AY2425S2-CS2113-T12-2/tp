@@ -1,13 +1,13 @@
 @startuml 
 autoactivate on
-participant User
-participant InputHandler
-participant InputParser
-participant Book
-participant BookList
-participant LoanList
-participant Formatter
-participant Storage 
+actor User
+participant InputHandler as ":InputHandler"
+participant InputParser as ":InputParser"
+participant Book as ":Book"
+participant BookList as ":BookList"
+participant LoanList as ":LoanList"
+participant Formatter as ":Formatter"
+participant Storage as ":Storage"
 User -> InputHandler : delete-loan TITLE BORROWER
     InputHandler -> InputParser : extractCommandArgs(User Input)
     return commandArgs
@@ -43,7 +43,7 @@ alt commandArgs[0] == delete-loan
     end
     return
 
-else 
+else else
     note over InputHandler : other commands
 end
 return
