@@ -23,7 +23,7 @@ activate File
 File --> Storage: file
 deactivate File
 
-alt !file.exists()
+opt !file.exists()
     Storage -> Formatter: printBorderedMessage("No saved inventory found...")
     activate Formatter
 
