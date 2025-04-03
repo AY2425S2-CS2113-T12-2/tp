@@ -11,12 +11,10 @@ User -> InputHandler: "update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITI
 activate InputHandler
 
 InputHandler -> InputParser: extractCommandArgs(userInputLine)
-deactivate InputHandler
 activate InputParser
 
 InputParser --> InputHandler: commandArgs[]
 deactivate InputParser
-activate InputHandler
 
 alt commandArgs[0] == update-book
     InputHandler -> InputHandler : updateBook()

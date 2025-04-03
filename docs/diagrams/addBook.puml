@@ -10,12 +10,10 @@ User -> InputHandler: "add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION 
 activate InputHandler
 
 InputHandler -> InputParser: extractCommandArgs(userInputLine)
-deactivate InputHandler
 activate InputParser
 
 InputParser --> InputHandler: commandArgs[]
 deactivate InputParser
-activate InputHandler
 
 alt commandArgs[0] == add-book
     InputHandler -> InputHandler : addBook()

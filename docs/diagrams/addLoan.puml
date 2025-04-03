@@ -11,12 +11,10 @@ User -> InputHandler: "add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE
 activate InputHandler
 
 InputHandler -> InputParser: extractCommandArgs(userInputLine)
-deactivate InputHandler
 activate InputParser
 
 InputParser --> InputHandler: commandArgs[]
 deactivate InputParser
-activate InputHandler
 
 alt commandArgs[0] == add-loan
     InputHandler -> InputHandler : addLoan()
