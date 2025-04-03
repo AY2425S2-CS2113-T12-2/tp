@@ -1,16 +1,16 @@
 @startuml
-participant InputHandler
-participant Storage
-participant File
-participant Formatter
-participant Scanner
+participant InputHandler as ":InputHandler"
+participant Storage as ":Storage"
+participant File as ":File"
+participant Formatter as ":Formatter"
+participant Scanner as ":Scanner"
 
 
 InputHandler -> Storage: loadInventory()
 activate Storage
 
 ' Create a new empty bookList
-create BookList
+create BookList as ":BookList"
 Storage -> BookList: new ArrayList<Book>()
 activate BookList
 BookList --> Storage: bookList

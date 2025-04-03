@@ -1,19 +1,18 @@
 @startuml
 actor User
-participant InputHandler
-participant InputParser
-participant BookList
-participant LoanList
-participant Formatter
-participant Storage
+participant InputHandler as ":InputHandler"
+participant InputParser as ":InputParser"
+participant BookList as ":BookList"
+participant LoanList as ":LoanList"
+participant Formatter as ":Formatter"
+participant Storage as ":Storage"
 
 User -> InputHandler: "remove-book BOOK_TITLE"
 activate InputHandler
-    activate InputHandler
+
     InputHandler -> InputParser: extractCommandArgs(userInputLine)
     activate InputParser
     InputParser --> InputHandler: commandArgs[]
-    deactivate InputHandler
     deactivate InputParser
     alt commandArgs[0] == "remove-book"
         InputHandler -> InputHandler: removeBook(commandArgs)

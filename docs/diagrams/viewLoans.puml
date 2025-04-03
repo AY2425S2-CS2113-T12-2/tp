@@ -1,0 +1,47 @@
+@startuml
+actor User
+participant InputHandler as ":InputHandler"
+participant InputParser as ":InputParser"
+participant LoanList as ":LoanList"
+participant Formatter as ":Formatter"
+participant Loan as ":Loan"
+
+
+User -> InputHandler: "view-loans"
+activate InputHandler
+    activate InputHandler
+    InputHandler -> InputParser: extractCommandArgs(userInputLine)
+    activate InputParser
+    InputParser --> InputHandler: commandArgs[]
+    deactivate InputParser
+    alt commandArgs[0] == "view-loans"
+        InputHandler -> LoanList: viewLoanList()
+        activate LoanList
+        alt LoanList.isEmpty() 
+            LoanList -> Formatter : printBorderedMessage("Loan List Empty!")
+            activate Formatter
+            Formatter --> LoanList
+            deactivate Formatter
+            LoanList --> InputHandler
+        else
+            activate Formatter
+            LoanList -> Formatter: printLoanList(LoanList)
+                loop for each Loan
+                    Formatter -> Loan: toString()
+                    activate Loan
+                    Loan --> Formatter: Loan info
+                    deactivate Loan
+                end
+            Formatter --> LoanList
+            deactivate Formatter
+        LoanList --> InputHandler
+        deactivate LoanList
+        end
+    else
+    note over InputHandler
+    other command cases
+    end note
+end
+deactivate InputHandler
+
+@enduml
