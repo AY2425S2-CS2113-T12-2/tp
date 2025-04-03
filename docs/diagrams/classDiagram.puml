@@ -40,7 +40,7 @@ class Loan {
     + Loan(Book book, String borrowerName...)
 }
 
-enum Condition {
+enum Condition <<enumeration>> {
     GOOD
     FAIR
     POOR
@@ -68,8 +68,8 @@ class InputParser {
 note "Other methods omitted but follow similarly for other commands." as N0
 
 class BookKeeper {
-    + main()
-    + displayWelcomeMessage()
+    +main(String[] args)
+    +displayWelcomeMessage()
 }
 
 note "Utility methods (getters, setters, etc.) omitted" as N1
@@ -82,6 +82,7 @@ InputHandler ..> Storage
 InputHandler ..> InputParser
 BookKeeper ..> InputHandler
 Book -> "1" Condition
+Loan --> "1" Book
 Storage ..> BookList
 Storage ..> LoanList
 
