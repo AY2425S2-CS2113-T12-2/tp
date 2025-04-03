@@ -9,7 +9,6 @@ participant Loan as ":Loan"
 
 User -> InputHandler: "view-loans"
 activate InputHandler
-    activate InputHandler
     InputHandler -> InputParser: extractCommandArgs(userInputLine)
     activate InputParser
     InputParser --> InputHandler: commandArgs[]
@@ -24,8 +23,8 @@ activate InputHandler
             deactivate Formatter
             LoanList --> InputHandler
         else
-            activate Formatter
             LoanList -> Formatter: printLoanList(LoanList)
+            activate Formatter
                 loop for each Loan
                     Formatter -> Loan: toString()
                     activate Loan
@@ -37,11 +36,13 @@ activate InputHandler
         LoanList --> InputHandler
         deactivate LoanList
         end
-    else
+    else else
     note over InputHandler
     other command cases
     end note
 end
+InputHandler --> User
 deactivate InputHandler
+
 
 @enduml
