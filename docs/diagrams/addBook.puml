@@ -51,14 +51,14 @@ alt commandArgs.length >= 2
         deactivate Storage
 
 
-    else
+    else else
         InputHandler -> Formatter: printBorderedMessage("Book already exists in inventory: {BOOK_TITLE}")
         activate Formatter
         Formatter --> InputHandler
         deactivate Formatter
     end
 
-    else
+    else else
         InputHandler -> Formatter: printBorderedMessage("Invalid format for add-book")
         activate Formatter
         Formatter --> InputHandler
