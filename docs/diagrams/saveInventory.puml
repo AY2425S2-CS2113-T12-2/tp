@@ -18,7 +18,7 @@ Storage -> File ** : new File(FOLDER_PATH)
 activate File
 File --> Storage: directory
 deactivate File
-alt Directory does not exist
+opt Directory does not exist
     Storage -> File: mkdirs()
     activate File
     File --> Storage: 
@@ -30,8 +30,6 @@ deactivate File
 ' Create FileWriter for INVENTORY_FILE_PATH
 Storage -> FileWriter ** : new FileWriter(INVENTORY_FILE_PATH)
 activate FileWriter
-
-
 
 FileWriter --> Storage: fileWriter
 deactivate FileWriter

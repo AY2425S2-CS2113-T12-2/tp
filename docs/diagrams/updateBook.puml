@@ -24,7 +24,7 @@ alt commandArgs.length >= 2
     InputHandler -> InputParser: extractUpdateBookArgs(commandArgs[1])
     activate InputParser
 
-    InputParser --> InputHandler: parsedArgs [BOOK_TITLE, AUTHOR, CATEGORY, CONDITION, LOCATION, NOTE]
+    InputParser --> InputHandler: parsedArgs
     deactivate InputParser
 
     InputHandler -> BookList: findBookByTitle(BOOK_TITLE)
@@ -91,6 +91,6 @@ else
     note over InputHandler : other commands
 end
 
-deactivate InputHandler
 InputHandler --> User
+deactivate InputHandler
 @enduml

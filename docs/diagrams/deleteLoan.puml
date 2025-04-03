@@ -1,6 +1,6 @@
 @startuml 
 autoactivate on
-participant User
+actor User
 participant InputHandler as ":InputHandler"
 participant InputParser as ":InputParser"
 participant Book as ":Book"
