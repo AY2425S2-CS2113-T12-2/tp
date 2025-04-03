@@ -25,7 +25,7 @@ alt commandArgs.length >= 2
     InputHandler -> InputParser: extractEditLoanArgs(commandArgs[1])
     activate InputParser
 
-    InputParser --> InputHandler: parsedArgs [BOOK_TITLE, BORROWER_NAME, RETURN_DATE, PHONE_NUMBER, EMAIL]
+    InputParser --> InputHandler: parsedArgs
     deactivate InputParser
 
     InputHandler -> BookList: findBookByTitle(BOOK_TITLE)
@@ -100,6 +100,7 @@ else
     note over InputHandler : other commands
 end
 
-deactivate InputHandler
+
 InputHandler --> User
+deactivate InputHandler
 @enduml
