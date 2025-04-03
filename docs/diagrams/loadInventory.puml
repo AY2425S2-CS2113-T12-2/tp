@@ -52,7 +52,7 @@ opt !file.exists()
             note over File
             returns null if the line has invalid format
             end note
-        else 
+        else else
             create Book
             Storage -> Book: create book with arguments provided in line
             activate Book
@@ -62,7 +62,7 @@ opt !file.exists()
         Storage --> Storage: book
         deactivate Storage
 
-        alt book != null
+        opt book != null
             ' Check for duplicate book
             Storage -> BookList: Check for duplicate book objects using stream
             activate BookList
@@ -75,7 +75,7 @@ opt !file.exists()
                 Formatter --> Storage
                 deactivate Formatter
                 
-            else
+            else else
                 ' Add book to bookList
                 Storage -> BookList: add(book)
                 activate BookList
