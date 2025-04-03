@@ -71,14 +71,14 @@ alt commandArgs.length >= 2
             Storage --> InputHandler
             deactivate Storage
 
-        else
+        else else
             InputHandler -> Formatter: printBorderedMessage("The book is currently out on loan")
             activate Formatter
 
             Formatter --> InputHandler
             deactivate Formatter
         end
-    else
+    else else
         InputHandler -> Formatter: printBorderedMessage("Book not found in inventory")
         activate Formatter
 
@@ -86,7 +86,7 @@ alt commandArgs.length >= 2
         deactivate Formatter
     end
 
-    else
+    else else
         InputHandler -> Formatter: printBorderedMessage("Invalid format for add-loan")
         activate Formatter
         Formatter --> InputHandler

@@ -58,7 +58,7 @@ alt commandArgs.length >= 2
         Formatter --> InputHandler
         deactivate Formatter
 
-    else
+    else else
         InputHandler -> Loan : setReturnDate(RETURN_DATE)
         activate Loan
         Loan --> InputHandler

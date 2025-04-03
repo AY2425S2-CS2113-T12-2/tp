@@ -43,7 +43,7 @@ alt commandArgs[0] == delete-loan
     end
     return
 
-else 
+else else
     note over InputHandler : other commands
 end
 return
