@@ -97,6 +97,7 @@ bookkeeper/
 ```
 
 The following is the class diagram of the application:
+
 ![](images/classDiagram.png)
 
 ## Implementation
