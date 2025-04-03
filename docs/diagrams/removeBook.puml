@@ -1,11 +1,11 @@
 @startuml
 actor User
-participant InputHandler
-participant InputParser
-participant BookList
-participant LoanList
-participant Formatter
-participant Storage
+participant InputHandler as ":InputHandler"
+participant InputParser as ":InputParser"
+participant BookList as ":BookList"
+participant LoanList as ":LoanList"
+participant Formatter as ":Formatter"
+participant Storage as ":Storage"
 
 User -> InputHandler: "remove-book BOOK_TITLE"
 activate InputHandler

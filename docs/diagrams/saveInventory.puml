@@ -1,11 +1,11 @@
 @startuml
-participant InputHandler
-participant Storage
-participant BookList
-participant File
-participant FileWriter
-participant Book
-participant "Formatter" as Formatter
+participant InputHandler as ":InputHandler"
+participant Storage as ":Storage"
+participant BookList as ":BookList"
+participant File as ":File"
+participant FileWriter as ":FileWriter"
+participant Book as ":Book"
+participant Formatter as ":Formatter"
 
 InputHandler -> Storage: saveInventory(bookList)
 activate Storage
