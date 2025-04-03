@@ -44,14 +44,16 @@ activate InputHandler
             activate Formatter
             Formatter --> InputHandler
             deactivate Formatter
+            end
             InputHandler --> InputHandler
             deactivate InputHandler
-        end
+
     else else
     note over InputHandler
     other command cases
     end note
     end
 
+InputHandler --> User
 deactivate InputHandler
 @enduml
