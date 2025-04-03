@@ -70,14 +70,14 @@ alt commandArgs.length >= 2
         deactivate Storage
 
 
-    else
+    else else
         InputHandler -> Formatter: printBorderedMessage("Book not found in inventory: {BOOK_TITLE}")
         activate Formatter
         Formatter --> InputHandler
         deactivate Formatter
     end
 
-    else
+    else else
         InputHandler -> Formatter: printBorderedMessage("Invalid format for update-book")
         activate Formatter
         Formatter --> InputHandler
@@ -87,7 +87,7 @@ alt commandArgs.length >= 2
 InputHandler --> InputHandler
 deactivate InputHandler
 
-else
+else else
     note over InputHandler : other commands
 end
 
