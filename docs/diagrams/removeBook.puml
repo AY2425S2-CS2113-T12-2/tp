@@ -9,11 +9,10 @@ participant Storage
 
 User -> InputHandler: "remove-book BOOK_TITLE"
 activate InputHandler
-    activate InputHandler
+
     InputHandler -> InputParser: extractCommandArgs(userInputLine)
     activate InputParser
     InputParser --> InputHandler: commandArgs[]
-    deactivate InputHandler
     deactivate InputParser
     alt commandArgs[0] == "remove-book"
         InputHandler -> InputHandler: removeBook(commandArgs)
