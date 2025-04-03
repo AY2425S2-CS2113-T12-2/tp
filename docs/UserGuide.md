@@ -60,14 +60,27 @@ Format: `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [
 Example:
 
 ```
-add-book The Great Gatsby a/F. Scott Fitzgerald cat/Fiction cond/Good loc/Shelf B1
+add-book Great Gatsby a/Fitzgerald cat/Fiction cond/Good loc/Shelf B1
 ```
 
 or
 
 ```
-add-book The Great Gatsby a/F. Scott Fitzgerald cat/Fiction cond/Good loc/Shelf B1 note/important
+add-book Great Gatsby a/Fitzgerald cat/Fiction cond/Good loc/Shelf B1 note/important
 ```
+
+Expected Outcome:
+
+```
+New book added: Great Gatsby
+```
+
+#### Adding a Title that already exists in inventory
+
+BookKeeper does not support multiple copies of books with the same title. If the the user attempts to add a duplicate title, the system will not permit the addition. You will see an error message indicating that the book already exists.
+
+Example:
+`Book already exists in inventory: Great Gatsby`
 
 ### Removing a book: `remove-book`
 
@@ -78,7 +91,13 @@ Format: `remove-book BOOK_TITLE`
 Example:
 
 ```
-remove-book The Great Gatsby
+remove-book Great Gatsby
+```
+
+Expected Outcome:
+
+```
+Removed book: Great Gatsby
 ```
 
 ### Updating a Book: `update-book`
@@ -90,7 +109,20 @@ Format: `update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATIO
 Example:
 
 ```
-update-book The Great Gatsby a/F. Scott Fitzgerald cat/Fiction cond/POOR loc/Shelf B3 note/Replace ASAP
+update-book Great Gatsby a/Fitzgerald cat/Fiction cond/POOR loc/Shelf B3 note/Replace ASAP
+```
+
+Expected Outcome:
+
+```
+Book Updated:
+Title: Great Gatsby
+    Author: Fitzgerald
+    Category: Fiction
+    Condition: POOR
+    On Loan: false
+    Location: Shelf B3
+    Note: Replace ASAP
 ```
 
 ### Searching for a Book: `search-book`
@@ -105,6 +137,21 @@ Example:
 search-book Great
 ```
 
+Expected Outcome:
+
+```
+Here are the books in your inventory:
+1. Title: Great Gatsby
+    Author: Fitzgerald
+    Category: Fiction
+    Condition: GOOD
+    On Loan: false
+    Location: Shelf B1
+    Note: No notes available
+2.
+    ...
+```
+
 ### View Book Collection: `view-inventory`
 
 View all books currently in the collection.
@@ -117,6 +164,24 @@ Example:
 view-inventory
 ```
 
+Expected Outcome:
+
+```
+Here are the books in your inventory:
+1. Title: Great Gatsby
+    Author: Fitzgerald
+    Category: Fiction
+    Condition: GOOD
+    On Loan: false
+    Location: Shelf B1
+    Note: No notes available
+
+2. Title: Cheese Chronicles
+    Author: Jerry
+    Category: Fiction
+    ...
+```
+
 ### Adding a Note: `add-note`
 
 Add a personal note to a book.
@@ -126,7 +191,13 @@ Format: `add-note BOOK_TITLE note/NOTE`
 Example:
 
 ```
-add-note The Great Gatsby note/Very good book
+add-note Great Gatsby note/Very good book
+```
+
+Expected Outcome:
+
+```
+Note added to book: Great Gatsby
 ```
 
 ### Deleting a Note: `delete-note`
@@ -138,7 +209,13 @@ Format: `delete-note BOOK_TITLE`
 Example:
 
 ```
-delete-note The Great Gatsby
+delete-note Great Gatsby
+```
+
+Expected Outcome:
+
+```
+Note deleted for book: Great Gatsby
 ```
 
 ### List Category: `list-category`
@@ -153,6 +230,19 @@ Example:
 list-category Fiction
 ```
 
+Expected Outcome:
+
+```
+Here are the books in your inventory:
+    1. Title: Great Gatsby
+        Author: Fitzgerald
+        Category: Fiction
+        Condition: GOOD
+        On Loan: false
+        Location: Shelf B1
+        Note: No notes available
+```
+
 ### Adding a Loan: `add-loan`
 
 Adds a loan using the book title.
@@ -162,7 +252,13 @@ Format: `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAI
 Example:
 
 ```
-add-loan The Great Gatsby n/John Doe d/2023-12-01 p/98765432 e/abc123@gmail.com
+add-loan Great Gatsby n/John Doe d/2023-12-01 p/98765432 e/abc123@gmail.com
+```
+
+Expected Output:
+
+```
+Loan added successfully for book: Great Gatsby
 ```
 
 #### Adding a Loan for a Book Already on Loan
@@ -170,7 +266,7 @@ add-loan The Great Gatsby n/John Doe d/2023-12-01 p/98765432 e/abc123@gmail.com
 If the book is already on loan, the system will not allow adding another loan for the same book. You will see an error message indicating that the book is unavailable.
 
 Example:
-`Error: The book "The Great Gatsby" is already on loan.`
+`Error: The book "Great Gatsby" is already on loan.`
 
 ### Deleting a Loan: `delete-loan`
 
@@ -181,7 +277,13 @@ Format: `delete-loan BOOK_TITLE n/BORROWER_NAME`
 Example:
 
 ```
-delete-loan The Great Gatsby n/John Doe
+delete-loan Great Gatsby n/John Doe
+```
+
+Expected Outcome:
+
+```
+Loan deleted successfully for book: Great Gatsby
 ```
 
 ### Editing a Loan: `edit-loan`
@@ -193,7 +295,18 @@ Format: `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMA
 Example:
 
 ```
-edit-loan The Great Gatsby n/Mary d/15-March-2025 p/91234567 e/123abc@gmail.com
+edit-loan Great Gatsby n/John Doe d/15-March-2025 p/91234567 e/123abc@gmail.com
+```
+
+Expected Outcome:
+
+```
+Loan Updated:
+Title: Great Gatsby
+    Borrower: John Doe
+    Return Date: 15-March-2025
+    Contact Number: 91234567
+    Email: 123abc@gmail.com
 ```
 
 ### View Current Loans: `view-loans`
@@ -206,6 +319,22 @@ Example:
 
 ```
 view-loans
+```
+
+Expected Outcome:
+
+```
+Here are the active loans:
+1. Title: Great Gatsby
+    Borrower: John Doe
+    Return Date: 2023-12-01
+    Contact Number: 98765432
+    Email: abc123@gmail.com
+
+2. Title: Cheese Chronicles
+    Borrower: Gerald
+    Return Date: 2043-11-04
+  	...
 ```
 
 ### Displaying Help: `help`
@@ -232,6 +361,12 @@ Example:
 exit
 ```
 
+Expected Outcome:
+
+```
+Exiting BookKeeper...
+```
+
 <div style="page-break-after: always;"></div>
 
 ## Persistent State
@@ -254,11 +389,11 @@ BookKeeper validates data when loading from files. If invalid data is encountere
 Example:
 Invalid Entry in Inventory File:
 
-`The Great Gatsby | F. Scott Fitzgerald | Fiction`
+`The Great Gatsby | Fitzgerald | Fiction`
 
 Warning Message:
 
-`Invalid book entry skipped: The Great Gatsby | F. Scott Fitzgerald | Fiction`
+`Invalid book entry skipped: The Great Gatsby | Fitzgerald | Fiction`
 
 ### Notes:
 
