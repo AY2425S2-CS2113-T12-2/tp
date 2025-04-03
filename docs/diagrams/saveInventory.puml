@@ -14,7 +14,7 @@ InputHandler -> Storage: saveInventory(bookList)
 activate Storage
 
 ' Check if directory exists
-Storage -> File: new File(FOLDER_PATH)
+Storage -> File ** : new File(FOLDER_PATH)
 activate File
 File --> Storage: directory
 deactivate File
@@ -28,7 +28,7 @@ end
 deactivate File
 
 ' Create FileWriter for INVENTORY_FILE_PATH
-Storage -> FileWriter: new FileWriter(INVENTORY_FILE_PATH)
+Storage -> FileWriter ** : new FileWriter(INVENTORY_FILE_PATH)
 activate FileWriter
 
 
@@ -59,9 +59,12 @@ Storage -> FileWriter: close()
 activate FileWriter
 
 FileWriter --> Storage
-deactivate FileWriter
+deactivate FileWriter 
 
-Storage --> InputHandler
+destroy FileWriter
+Storage --> InputHandler 
 deactivate Storage
+
+destroy File
 
 @enduml
