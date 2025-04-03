@@ -7,7 +7,7 @@ participant Book as ":Book"
 participant Formatter as ":Formatter"
 participant Storage as ":Storage"
 
-User -> InputHandler: "update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]"
+User -> InputHandler: "update-book BOOK_TITLE \n a/AUTHOR cat/CATEGORY \n cond/CONDITION loc/LOCATION [note/NOTE]"
 activate InputHandler
 
 InputHandler -> InputParser: extractCommandArgs(userInputLine)
