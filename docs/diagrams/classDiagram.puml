@@ -4,123 +4,86 @@ skinparam ClassAttributeIconSize 0
 show enum
 
 class BookList {
-    -listName : String
-    +BookList(String listName, ArrayList<Book> bookList)
-    +getListName() : String
-    +getBookList() : ArrayList<Book>
-    +addBook()
-    +findBookByTitle() : String
-    +removeBook(Book book)
-    +findBooksByKeyword(String keyword) : ArrayList<Book>
-    +findBooksByCategory(String category) : ArrayList<Book>
+    - listName : String
+    + BookList(String listName, \n ArrayList<Book> bookList)
+    + addBook()
+    + removeBook(Book book)
+    + findBookByTitle(): String
+    + findBooksByKeyword(String keyword): \n ArrayList<Book>
+    + findBooksByCategory(String category): \n ArrayList<Book>
 }
+
 class LoanList {
-    -listName : String
-    +LoanList(String listName, ArrayList<Loan> loanList)
-    +getLoanList() : ArrayList<Loan>
-    +getListName() : String
-    +addLoan(Loan loan)
-    +deleteLoan(Loan loan)
-    +viewLoanList()
-    +findLoan(Book book. String borrower) : Loan
-    +removeLoansByBook(Book book)
+    - listName : String
+    + LoanList(String listName, \n ArrayList<Loan> loanList)
+    + addLoan(Loan loan)
+    + deleteLoan(Loan loan)
+    + removeLoansByBook(Book book)
+    + findLoan(Book book, String borrower): Loan
+}
 
-}
-class InputHandler {
-    +askInput() 
-    -displayHelp()
-    -addLoan(String[] commandArgs)
-    -addBook(String[] commandArgs)
-    -removeBook(String[] commandArgs)
-    -deleteLoan(String[] commandArgs)
-    -searchBook(String[] commandArgs)
-    -listCategory(String[] commandArgs)
-    -addNote(String[] commandArgs)
-    -deleteNote(String[] commandArgs)
-    -updateBook(String[] commandArgs)
-    -editLoan(String[] commandArgs)
-}
-class InputParser {
-    +extractCommandArgs(String input) : String[]
-    +extractAddBookArgs(String input) : String[]
-    +extractUpdateBookArgs(String input) : String[]
-    +extractAddLoanArgs(String input) : String[]
-    +extractDeleteLoanArgs(String input) : String[]
-    +extractAddNoteArgs(String input) : String[]
-    +extractEditLoanArgs(String input) : String[]
-}
 class Book {
-    -title : String
-    -author : String
-    -category : String
-    -onLoan : boolean
-    -location : String
-    -note : String
-    +Book(String title, String author, String category, String condition, String location, String note)
-    +Book(String title, String author, String category, String condition, String location) 
-    +toFileString() : String
-    +toString() : String
+    - title : String
+    - author : String
+    - category : String
+    - onLoan : boolean
+    - location : String
+    - note : String
+    + Book(String title, String author...)
 }
-class Loan {
-    -borrowerName : String
-    -returnDate :  String
-    -phoneNumber : String
-    -email : String
-    +Loan(Book book, String borrowerName, String returnDate, String phoneNumber, String email)
-    +getTitle() : String
-    +toFileString() : String
-    +toString() : String
-}
-note "Getters and Setters omitted" as N1
-Book .. N1
-Loan .. N1
 
-enum Condition <<enumeration>> {
-    GOOD 
+class Loan {
+    - borrowerName : String
+    - returnDate : String
+    - phoneNumber : String
+    - email : String
+    + Loan(Book book, String borrowerName...)
+}
+
+enum Condition {
+    GOOD
     FAIR
     POOR
 }
+
 class Storage {
-    -FOLDER_PATH : String
-    -INVENTORY_FILE_NAME : String
-    -LOAN_LIST_FILE_NAME : String
-    -inventoryFilePath : String
-    -loanListFilePath : String
-    +setInventoryFilePath(String filePath)
-    +setLoanFilePath(String filePath)
-    +saveLoans(LoanList loanList)
-    +saveInventory(BookList bookList)
-    +loadInventory() : ArrayList<Book>
-    +loadLians(BookList bookList) : ArrayList<Loan>
-    -parseBookFromString(String line) : Book
-    -parseLoanFromString(String line, BookList bookList) : Loan
-    +validateStorage(BookList bookList, LoanList loanList)
+    + saveInventory(BookList bookList)
+    + saveLoans(LoanList loanList)
+    + loadInventory(): ArrayList<Book>
+    + loadLoans(ArrayList<book>): ArrayList<Loan>
+    + validateStorage(BookList bookList, LoanList loanList)
 }
+
+class InputHandler {
+    + askInput()
+    - displayHelp()
+    - addLoan(String[] commandArgs)
+    - addBook(String[] commandArgs)
+}
+
+class InputParser {
+    + extractCommandArgs(String input): String[]
+    + extractAddBookArgs(String input): String[]
+}
+note "Other methods omitted but follow similarly for other commands." as N0
+
 class BookKeeper {
-    +main(String[] args)
-    +displayWelcomeMessage()
+    + main()
+    + displayWelcomeMessage()
 }
-class Formatter {
-    -NORMAL_INDENT = 5 : int
-    -MINOR_INDENT = 4 : int
-    +printLine()
-    +printBorderedMessage(String message)
-    +printSimpleMessage(String message)
-    +printBookList(ArrayList<Book> books)
-    +printLoanList(ArrayList<Loan> loans)
-}
-BookList -> "*" Book  : stores >
-LoanList -> "*" Loan : stores >
-InputHandler --> "1" BookList 
-InputHandler --> "1" LoanList
+
+note "Utility methods (getters, setters, etc.) omitted" as N1
+
+BookList -> "*" Book : contains >
+LoanList -> "*" Loan : contains >
+InputHandler --> BookList
+InputHandler --> LoanList
 InputHandler ..> Storage
 InputHandler ..> InputParser
-InputHandler ..> Formatter
-BookKeeper ..> "1" InputHandler
+BookKeeper ..> InputHandler
 Book -> "1" Condition
-Loan --> "1" Book
 Storage ..> BookList
 Storage ..> LoanList
-note "Exceptions and Logging classes omitted" as N2
+
 
 @enduml
