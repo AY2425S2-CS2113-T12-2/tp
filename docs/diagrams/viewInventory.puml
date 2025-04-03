@@ -24,8 +24,9 @@ activate InputHandler
             deactivate Formatter
             BookList --> InputHandler
         else
-            activate Formatter
+
             BookList -> Formatter: printBookList(bookList)
+            activate Formatter
                 loop for each Book
                     Formatter -> Book: toString()
                     activate Book
