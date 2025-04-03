@@ -1,11 +1,11 @@
 @startuml
 actor User
-participant InputHandler
-participant InputParser
-participant BookList
-participant Book
-participant Formatter
-participant Storage
+participant InputHandler as ":InputHandler"
+participant InputParser as ":InputParser"
+participant BookList as ":BookList"
+participant Book as ":Book"
+participant Formatter as ":Formatter"
+participant Storage as ":Storage"
 
 User -> InputHandler: "update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]"
 activate InputHandler

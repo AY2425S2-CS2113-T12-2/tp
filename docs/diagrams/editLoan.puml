@@ -1,12 +1,12 @@
 @startuml
 actor User
-participant InputHandler
-participant InputParser
-participant BookList
-participant LoanList
-participant Loan
-participant Formatter
-participant Storage
+participant InputHandler as ":InputHandler"
+participant InputParser as ":InputParser"
+participant BookList as ":BookList"
+participant LoanList as ":LoanList"
+participant Loan as ":Loan"
+participant Formatter as ":Formatter"
+participant Storage as ":Storage"
 
 User -> InputHandler: "edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL"
 activate InputHandler

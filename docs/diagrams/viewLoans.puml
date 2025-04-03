@@ -1,10 +1,10 @@
 @startuml
 actor User
-participant InputHandler
-participant InputParser
-participant LoanList
-participant Formatter
-participant Loan
+participant InputHandler as ":InputHandler"
+participant InputParser as ":InputParser"
+participant LoanList as ":LoanList"
+participant Formatter as ":Formatter"
+participant Loan as ":Loan"
 
 
 User -> InputHandler: "view-loans"

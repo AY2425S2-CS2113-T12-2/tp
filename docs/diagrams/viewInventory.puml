@@ -1,10 +1,10 @@
 @startuml
 actor User
-participant InputHandler
-participant InputParser
-participant BookList
-participant Formatter
-participant Book
+participant InputHandler as ":InputHandler"
+participant InputParser as ":InputParser"
+participant BookList as ":BookList"
+participant Formatter as ":Formatter"
+participant Book as ":Book"
 
 
 User -> InputHandler: "view-inventory"
