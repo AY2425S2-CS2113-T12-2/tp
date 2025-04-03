@@ -47,15 +47,15 @@ public class Storage {
             }
 
             // Create a FileWriter to write to the file
-            FileWriter fw = new FileWriter(loanListFilePath);
+            FileWriter fileWriter = new FileWriter(loanListFilePath);
 
             // Write each loan to the file
             ArrayList<Loan> loans = loanList.getLoanList();
             for (Loan loan : loans) {
-                fw.write(loan.toFileString() + System.lineSeparator());
+                fileWriter.write(loan.toFileString() + System.lineSeparator());
             }
 
-            fw.close(); // Close the FileWriter to complete the writing process
+            fileWriter.close(); // Close the FileWriter to complete the writing process
         } catch (IOException e) {
             Formatter.printBorderedMessage("Something went wrong while saving loans: " + e.getMessage());
         }
@@ -76,15 +76,15 @@ public class Storage {
             }
 
             // Create a FileWriter to write to the file
-            FileWriter fw = new FileWriter(inventoryFilePath);
+            FileWriter fileWriter = new FileWriter(inventoryFilePath);
 
             // Write each loan to the file
             ArrayList<Book> books = bookList.getBookList();
             for (Book book : books) {
-                fw.write(book.toFileString() + System.lineSeparator());
+                fileWriter.write(book.toFileString() + System.lineSeparator());
             }
 
-            fw.close(); // Close the FileWriter to complete the writing process
+            fileWriter.close(); // Close the FileWriter to complete the writing process
         } catch (IOException e) {
             Formatter.printBorderedMessage("Something went wrong while saving inventory: " + e.getMessage());
         }
