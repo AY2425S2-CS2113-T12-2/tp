@@ -47,6 +47,11 @@ enum Condition <<enumeration>> {
 }
 
 class Storage {
+    - FOLDER_PATH: String
+    - INVENTORY_FILE_NAME: String
+    - LOAN_LIST_FILE_NAME: String
+    - inventoryFilePath: String
+    - loanListFilePath: String
     + saveInventory(BookList bookList)
     + saveLoans(LoanList loanList)
     + loadInventory(): ArrayList<Book>
