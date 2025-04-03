@@ -3,6 +3,7 @@ actor User
 participant InputHandler as ":InputHandler"
 participant InputParser as ":InputParser"
 participant BookList as ":BookList"
+participant Book as ":Book"
 participant Formatter as ":Formatter"
 participant Storage as ":Storage"
 
@@ -23,7 +24,7 @@ alt commandArgs.length >= 2
     InputHandler -> InputParser: extractAddBookArgs(commandArgs[1])
     activate InputParser
 
-    InputParser --> InputHandler: parsedArgs [BOOK_TITLE, AUTHOR, CATEGORY, CONDITION, LOCATION, NOTE]
+    InputParser --> InputHandler: parsedArgs
     deactivate InputParser
 
     InputHandler -> BookList: findBookByTitle(BOOK_TITLE)
@@ -33,8 +34,16 @@ alt commandArgs.length >= 2
     deactivate BookList
 
     alt Book == null
-        InputHandler -> BookList: addBook(new Book(BOOK_TITLE, AUTHOR, CATEGORY, CONDITION, LOCATION, NOTE))
+        InputHandler -> Book ** : Book(parsedArgs)
+        activate Book 
+
+        Book --> InputHandler : newBook
+        deactivate Book
+
+        InputHandler -> BookList: addBook(newBook)
         activate BookList
+
+
         BookList --> InputHandler: Book added
         deactivate BookList
 
@@ -68,10 +77,10 @@ alt commandArgs.length >= 2
 InputHandler --> InputHandler
 deactivate InputHandler
 
-else
+else else
     note over InputHandler : other commands
 end
 
-deactivate InputHandler
 InputHandler --> User
+deactivate InputHandler
 @enduml
