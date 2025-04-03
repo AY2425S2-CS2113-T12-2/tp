@@ -29,11 +29,8 @@ alt !file.exists()
 
     Formatter --> Storage
     deactivate Formatter
-    note over InputHandler
-    returns empty bookList
-    end note
     
-    Storage --> InputHandler: bookList
+    Storage --> InputHandler: empty bookList
     end
     ' Open the file using a Scanner
     create Scanner
@@ -52,9 +49,9 @@ alt !file.exists()
         Storage -> Storage: parseBookFromString(line)
         activate Storage
         alt line has invalid format
-        note over File
-        returns null if the line has invalid format
-        end note
+            note over File
+            returns null if the line has invalid format
+            end note
         else 
             create Book
             Storage -> Book: create book with arguments provided in line
@@ -77,9 +74,6 @@ alt !file.exists()
                 activate Formatter
                 Formatter --> Storage
                 deactivate Formatter
-                note over Formatter
-                skips duplicate book and continues to next line
-            end note
                 
             else
                 ' Add book to bookList
@@ -88,8 +82,10 @@ alt !file.exists()
                 BookList --> Storage
                 deactivate BookList
             end 
-        
+        end
     end
+
+    
 
     Storage -> Scanner: close()
     activate Scanner
@@ -106,8 +102,6 @@ alt !file.exists()
     Storage --> InputHandler: bookList
     destroy File
     deactivate Storage
-end
-
 
 deactivate Storage
 @enduml
