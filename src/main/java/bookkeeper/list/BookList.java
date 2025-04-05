@@ -28,17 +28,17 @@ public class BookList {
 
     public Book findBookByTitle(String title) {
         for (Book book : bookList) {
-            if (book.getTitle().equals(title)) {
+            if (book.getTitle().equalsIgnoreCase(title)) { // Use equalsIgnoreCase for case-insensitive comparison
                 return book;
             }
         }
         return null;
     }
 
-    public ArrayList<Book> findBooksByKeyword(String keyword){
+    public ArrayList<Book> findBooksByKeyword(String keyword) {
         ArrayList<Book> filteredBookList = new ArrayList<>();
         for (Book book : bookList) {
-            if (book.getTitle().contains(keyword)) {
+            if (book.getTitle().toLowerCase().contains(keyword.toLowerCase())) {
                 filteredBookList.add(book);
             }
         }
