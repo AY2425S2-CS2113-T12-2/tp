@@ -9,19 +9,16 @@ participant Storage as ":Storage"
 participant Formatter as ":Formatter"
 participant Book as ":Book"
 
-User -> InputHandler : update-note(BOOK_TITLE, note/NOTE)
+User -> InputHandler : delete-note(BOOK_TITLE)
 InputHandler -> InputParser : extractCommandArgs(User input)
 return commandArgs
 
-alt commandArgs[0] == update-note
-    InputHandler -> InputHandler : updateNote()
+alt commandArgs[0] == delete-note
+    InputHandler -> InputHandler : deleteNote()
     opt commandArgs.length < 2 
         InputHandler -> Formatter : printBorderedMessage(Invalid Format)
         return
     end
-
-    InputHandler -> InputParser : extractUpdateNoteArgs(commandArgs[1])
-    return noteArgs
 
     InputHandler -> BookList : findBookByTitle(bookTitle)
     return book
@@ -36,10 +33,10 @@ alt commandArgs[0] == update-note
         return
     end
 
-    InputHandler -> Book : setNote(note)
+    InputHandler -> Book : setNote("")
     return
 
-    InputHandler -> Formatter : printBorderedMessage(Note updated)
+    InputHandler -> Formatter : printBorderedMessage(Note deleted)
     return 
 
     InputHandler -> Storage : saveInventory(bookList)
@@ -52,5 +49,4 @@ end
 
 return
 return
-
 @enduml
