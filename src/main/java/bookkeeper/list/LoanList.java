@@ -54,7 +54,7 @@ public class LoanList {
         Formatter.printLoanList(loanList);
     }
 
-    public Loan findLoan(Book book, String borrower) {
+    public Loan findLoan(Book book) {
         for (Loan loan : loanList) {
             Book bookIter = loan.getBook();
             if (bookIter.equals(book)) {
