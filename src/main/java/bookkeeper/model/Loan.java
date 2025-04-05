@@ -45,7 +45,7 @@ public class Loan {
         return this.email;
     }
 
-    public void setReturnDate(String returnDate) {
+    public void setReturnDate(String returnDate) throws IllegalArgumentException {
         this.returnDate = parseAndValidateDate(returnDate); // Parse and validate the date
     }
 
@@ -80,7 +80,7 @@ public class Loan {
                 + "    Email: " + getEmail();
     }
 
-    private LocalDate parseAndValidateDate(String date) {
+    private LocalDate parseAndValidateDate(String date) throws IllegalArgumentException {
         try {
             LocalDate parsedDate = LocalDate.parse(date, DATE_FORMATTER);
             validateNotPastDate(parsedDate); // Validate that the date is not in the past
@@ -90,7 +90,7 @@ public class Loan {
         }
     }
 
-    private void validateNotPastDate(LocalDate date) {
+    private void validateNotPastDate(LocalDate date) throws IllegalArgumentException {
         if (date.isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("The return date cannot be in the past. " +
                     "Please provide a valid future date.");

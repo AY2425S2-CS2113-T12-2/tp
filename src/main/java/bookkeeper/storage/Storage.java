@@ -110,19 +110,22 @@ public class Storage {
                 String line = scanner.nextLine();
                 Book book = parseBookFromString(line);
 
-                if (book != null) {
-                    // Check for duplicates
-                    boolean isDuplicate = bookList.stream()
-                            .anyMatch(existingBook -> existingBook.getTitle().equalsIgnoreCase(book.getTitle()));
-
-                    if (isDuplicate) {
-                        Formatter.printBorderedMessage("Duplicate book found and skipped: " + book.getTitle());
-                    } else {
-                        bookList.add(book);
-                    }
-                } else {
+                // Skip invalid book entries
+                if (book == null) {
                     Formatter.printBorderedMessage("Invalid book entry skipped: " + line);
+                    continue;
                 }
+
+                // Skip duplicate books
+                boolean isDuplicate = bookList.stream()
+                        .anyMatch(existingBook -> existingBook.getTitle().equalsIgnoreCase(book.getTitle()));
+                if (isDuplicate) {
+                    Formatter.printBorderedMessage("Duplicate book found and skipped: " + book.getTitle());
+                    continue;
+                }
+
+                // Add valid book to the list
+                bookList.add(book);
             }
 
             scanner.close(); // Close the Scanner
@@ -154,22 +157,32 @@ public class Storage {
                 String line = scanner.nextLine();
                 Loan loan = parseLoanFromString(line, bookList);
 
-                if (loan != null) {
-                    // Check for duplicates
-                    boolean isDuplicate = loanList.stream()
-                            .anyMatch(existingLoan -> existingLoan.getBook().equals(loan.getBook()) &&
-                                    existingLoan.getBorrowerName().equalsIgnoreCase(loan.getBorrowerName()));
-
-                    if (isDuplicate) {
-                        Formatter.printBorderedMessage("Duplicate loan found and skipped: " +
-                                loan.getBook().getTitle() + " borrowed by " + loan.getBorrowerName());
-                    } else {
-                        loanList.add(loan);
-                        loan.getBook().setOnLoan(true); // Set the book as on loan
-                    }
-                } else {
+                // Skip invalid loans
+                if (loan == null) {
                     Formatter.printBorderedMessage("Invalid loan entry skipped: " + line);
+                    continue;
                 }
+
+                // Skip duplicate loans
+                boolean isDuplicate = loanList.stream()
+                        .anyMatch(existingLoan -> existingLoan.getBook().equals(loan.getBook()) &&
+                                existingLoan.getBorrowerName().equalsIgnoreCase(loan.getBorrowerName()));
+                if (isDuplicate) {
+                    Formatter.printBorderedMessage("Duplicate loan found and skipped: " +
+                            loan.getBook().getTitle() + " borrowed by " + loan.getBorrowerName());
+                    continue;
+                }
+
+                // Skip loans for books already on loan
+                if (loan.getBook().isOnLoan()) {
+                    Formatter.printBorderedMessage("Invalid loan: Book is already on loan - "
+                            + loan.getBook().getTitle());
+                    continue;
+                }
+
+                // Add valid loan to the list and mark the book as on loan
+                loanList.add(loan);
+                loan.getBook().setOnLoan(true);
             }
 
             scanner.close(); // Close the Scanner
