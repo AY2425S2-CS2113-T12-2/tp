@@ -69,6 +69,8 @@ or
 add-book Great Gatsby a/Fitzgerald cat/Fiction cond/Good loc/Shelf B1 note/important
 ```
 
+<div style="page-break-after: always;"></div>
+
 Expected Outcome:
 
 ```
@@ -109,7 +111,7 @@ Format: `update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATIO
 Example:
 
 ```
-update-book Great Gatsby a/Fitzgerald cat/Fiction cond/POOR loc/Shelf B3 note/Replace ASAP
+update-book Great Gatsby a/Fitzgerald cat/Fiction cond/POOR loc/B3 note/Replace ASAP
 ```
 
 Expected Outcome:
@@ -178,7 +180,6 @@ Here are the books in your inventory:
 
 2. Title: Cheese Chronicles
     Author: Jerry
-    Category: Fiction
     ...
 ```
 
@@ -389,11 +390,11 @@ BookKeeper validates data when loading from files. If invalid data is encountere
 Example:
 Invalid Entry in Inventory File:
 
-`The Great Gatsby | Fitzgerald | Fiction`
+`Great Gatsby | Fitzgerald | Fiction`
 
 Warning Message:
 
-`Invalid book entry skipped: The Great Gatsby | Fitzgerald | Fiction`
+`Invalid book entry skipped: Great Gatsby | Fitzgerald | Fiction`
 
 ### Notes:
 
