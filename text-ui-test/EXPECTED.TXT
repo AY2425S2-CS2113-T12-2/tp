@@ -24,6 +24,7 @@
      | Search Book    | `search-book KEYWORD`                                                                 |
      | View Inventory | `view-inventory`                                                                      |
      | Add note       | `add-note BOOK_TITLE note/NOTE`                                                       |
+     | Update note    | `update-note BOOK_TITLE note/NOTE`                                                    |
      | Delete note    | `delete-note BOOK_TITLE`                                                              |
      | List Category  | `list-category CATEGORY`                                                              |
      | Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`            |

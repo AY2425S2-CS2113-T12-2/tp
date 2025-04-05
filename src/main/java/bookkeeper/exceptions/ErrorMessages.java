@@ -47,6 +47,8 @@ public final class ErrorMessages {
 
     public static final String INVALID_FORMAT_LIST_CATEGORY = "Invalid format for list-category.\n" +
             "Expected format: list-category CATEGORY";
+    public static final String INVALID_FORMAT_UPDATE_NOTE = "Invalid format for update-note. \n" +
+            "Expected format: update-note BOOK_TITLE note/NOTE";
 
     private ErrorMessages() {
     } //private constructor to prevent instantiation
