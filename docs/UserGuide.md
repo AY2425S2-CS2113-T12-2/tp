@@ -257,7 +257,8 @@ Format: `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAI
 
 Notes:
 - The RETURN_DATE must be in the format DD-MM-YYYY.
-- The return date cannot be in the past.
+- The RETURN_DATE cannot be in the past.
+- The PHONE_NUMBER will only accept numeric strings to cater for different countries phone number
 
 Example:
 
@@ -304,8 +305,9 @@ Format: `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMA
 
 Notes:
 
-The RETURN_DATE must be in the format DD-MM-YYYY.
-The return date cannot be in the past.
+- The RETURN_DATE must be in the format DD-MM-YYYY.
+- The RETURN_DATE cannot be in the past.
+- The PHONE_NUMBER will accept all numeric strings
 
 Example:
 
