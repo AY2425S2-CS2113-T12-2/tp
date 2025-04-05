@@ -163,6 +163,7 @@ The following UML sequence diagram shows how the `add-loan BOOK_TITLE n/BORROWER
 
 - The RETURN_DATE must be in the format **DD-MM-YYYY** when provided as input.
 - The RETURN_DATE cannot be in the past.
+- The PHONE_NUMBER can only be in numeric strings
 
 ![addLoan.png](images/addLoan.png)
 
@@ -275,7 +276,7 @@ The following UML sequence diagram shows the behaviour of `delete-loans TITLE`:
 6. Success message is displayed:
    `Formatter` is used to print a message indicating successful removal.
 
-#### Viewing Books
+### Viewing Books
 
 The `view-inventory` feature allows the user to view all existing books in the inventory. All book information will be printed out in a numbered list. The program will first check if the inventory is empty before proceeding to print out the list.
 
@@ -309,7 +310,7 @@ The following UML sequence diagram shows how the `view-inventory` command is han
    2. Invoke `Book.toString()` to convert all the book's information to a string
    3. Print the concatenated `count` and book information.
 
-#### Viewing Loans
+### Viewing Loans
 
 The `view-loans` feature allows the user to view all existing loans in the inventory. All loan information will be printed out in a numbered list. The program will first check if the loan list is empty before proceeding to print out the list.
 
@@ -343,7 +344,7 @@ The following UML sequence diagram shows how the `view-loans` command is handled
    2. Invoke `Loan.toString()` to convert all the book's information to a string
    3. Print the concatenated `count` and book information.
 
-#### Updating Books
+### Updating Books
 
 The `update-book` feature allows the user to add update existing book details. The system ensures that a book of the same title exists in the inventory and before performing the update. Note that the book title cannot be updated.
 
@@ -394,49 +395,51 @@ The following UML sequence diagram shows how the `update-book add-book BOOK_TITL
 7. Success message is displayed:
    `InputHandler` uses `Formatter` to print a message indicating that the book was successfully updated.
 
-#### Updating Loans
+### Updating Loans
 
 The `edit-loan` feature allows the user to add update existing loan details. The system ensures that a book of the same title and a corresponding loan exists before performing the update. Note that the book title and the borrower name cannot be updated.
 
 `InputHandler` coordinates with `InputParser`, `BookList`, `LoanList`, `Loan`, `Formatter`, and `Storage` classes to implement the feature.
 
-The following UML sequence diagram shows how the `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL` command is handled.
+The following UML sequence diagram shows how the `edit-loan INDEX [n/BORROWER_NAME] [d/RETURN_DATE] [p/PHONE_NUMBER] [e/EMAIL]` command is handled.
 
 - The RETURN_DATE must be in the format **DD-MM-YYYY** when provided as input.
 - The RETURN_DATE cannot be in the past.
+- The PHONE_NUMBER can only be in numeric strings
 
 ![editLoan.png](images/editLoan.png)
 
 1. User issues command:
    The user inputs the command in the CLI with the required arguments, e.g.,
-   `edit-loan The Great Gatsby n/Mary d/29-06-2025 p/91234567 e/123abc@gmail.com`.
+   `edit-loan 1 n/Mary d/29-06-2025 p/91234567 e/123abc@gmail.com`.
 
 2. Command arguments are extracted:
    `InputHandler` first calls `InputParser.extractCommandArgs(...)` to split the user input into command arguments.
 
-   - For example, the input `edit-loan The Great Gatsby n/Mary d/29-06-2025 p/91234567 e/123abc@gmail.com` is split into:
+   - For example, the input `edit-loan 1 n/Mary d/29-06-2025 p/91234567 e/123abc@gmail.com` is split into:
      - `commandArgs[0]`: `"edit-loan"`
-     - `commandArgs[1]`: `"The Great Gatsby n/Mary d/29-06-2025 p/91234567 e/123abc@gmail.com"`
+     - `commandArgs[1]`: `"1 n/Mary d/29-06-2025 p/91234567 e/123abc@gmail.com"`
 
 3. Loan arguments are parsed:
    `InputHandler` invokes `InputParser.extractEditLoanArgs(...)` to parse the second part of the command (`commandArgs[1]`) into the following components:
 
-   - Book title
+   - index
    - Borrower Name
    - Return Date
    - Phone Number
    - Email
 
 4. Loan is validated:
-   `InputHandler` calls `BookList.findBookByTitle(bookTitle)` and `LoanList.findLoan(book, borrowerName)`to check if the book and loan exists correspondingly.
+   `InputHandler` calls `LoanList.findLoanByIndex(index)`and `BookList.findBookByTitle(bookTitle)` to check if the book and loan exists correspondingly.
 
    - If the book is not found, `InputHandler` uses `Formatter` to print a exception message and exits early.
    - If the Loan is not found, `InputHandler` uses `Formatter` to print a message and exits early.
    - If the book and loan is found, the flow continues.
 
 5. Loan is updated:
-   `InputHandler` updates the loan details by invoking the following methods from `Loan` class:
+   `InputHandler` updates the loan details if needed by invoking the following methods from `Loan` class:
 
+   - `loan.setBorrowerName(borrowerName)`
    - `loan.setReturnDate(returnDate)`
    - `loan.setPhoneNumber(phoneNumber)`
    - `loan.setEmail(email)`

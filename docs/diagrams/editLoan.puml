@@ -21,70 +21,60 @@ alt commandArgs[0] == edit-loan
     InputHandler -> InputHandler : editLoan()
     activate InputHandler
 
-alt commandArgs.length >= 2
-    InputHandler -> InputParser: extractEditLoanArgs(commandArgs[1])
-    activate InputParser
+    alt commandArgs.length >= 2
+        InputHandler -> InputParser: extractEditLoanArgs(commandArgs[1])
+        activate InputParser
 
-    InputParser --> InputHandler: parsedArgs
-    deactivate InputParser
+        InputParser --> InputHandler: parsedArgs
+        deactivate InputParser
 
-    InputHandler -> BookList: findBookByTitle(BOOK_TITLE)
-    activate BookList
+        InputHandler -> LoanList: findLoanByIndex(index)
+        activate LoanList
 
-    BookList --> InputHandler: Book or null
-    deactivate BookList
+        LoanList --> InputHandler: Loan or null
+        deactivate LoanList
 
-    InputHandler -> LoanList: findLoan(BOOK_TITLE, BORROWER_NAME)
-    activate LoanList
-
-    LoanList --> InputHandler: Loan or null
-    deactivate LoanList
-
-    alt Book == null
-        InputHandler -> Formatter: printBorderedMessage("Book is not found in inventory: {BOOK_TITLE}")
-        activate Formatter
-        Formatter --> InputHandler
-        deactivate Formatter
-    
-    else Book.isonLoan()
-        InputHandler -> Formatter: printBorderedMessage("The book {BOOK_TITLE} is not currently out on loan.")
-        activate Formatter
-        Formatter --> InputHandler
-        deactivate Formatter
-    
-    else Loan == null
-        InputHandler -> Formatter: printBorderedMessage("No such loan with book title {BOOK_TITLE} and borrower {BORROWER_NAME}")
-        activate Formatter
-        Formatter --> InputHandler
-        deactivate Formatter
-
-    else else
-        InputHandler -> Loan : setReturnDate(RETURN_DATE)
+        InputHandler -> Loan: getTitle() 
         activate Loan
-        Loan --> InputHandler
+
+        Loan --> InputHandler: title
         deactivate Loan
 
-        InputHandler -> Loan : setPhoneNumber(PHONE_NUMBER)
-        activate Loan
-        Loan --> InputHandler
-        deactivate Loan
+        InputHandler -> BookList: findBookByTitle(title)
+        activate BookList
 
-        InputHandler -> Loan : setEmail(EMAIL)
-        activate Loan
-        Loan --> InputHandler
-        deactivate Loan        
+        BookList --> InputHandler: Book or null
+        deactivate BookList
 
-        InputHandler -> Formatter: printBorderedMessage("Loan Updated: {Loan}")
-        activate Formatter
-        Formatter --> InputHandler
-        deactivate Formatter
+        alt Book == null
+            InputHandler -> Formatter: printBorderedMessage("Book is not found in inventory: {BOOK_TITLE}")
+            activate Formatter
+            Formatter --> InputHandler
+            deactivate Formatter
+        
+        else Book.isonLoan()
+            InputHandler -> Formatter: printBorderedMessage("The book {BOOK_TITLE} is not currently out on loan.")
+            activate Formatter
+            Formatter --> InputHandler
+            deactivate Formatter
+        
+        else else
+            InputHandler -> InputHandler : setRelaventFields(...)
+            activate InputHandler
+            InputHandler --> InputHandler
+            deactivate InputHandler       
 
-        InputHandler -> Storage: saveLoans(bookList)
-        activate Storage
-        Storage --> InputHandler
-        deactivate Storage
+            InputHandler -> Formatter: printBorderedMessage("Loan Updated: {Loan}")
+            activate Formatter
+            Formatter --> InputHandler
+            deactivate Formatter
 
-    end
+            InputHandler -> Storage: saveLoans(bookList)
+            activate Storage
+            Storage --> InputHandler
+            deactivate Storage
+
+        end
 
     else else
         InputHandler -> Formatter: printBorderedMessage("Invalid format for edit-loan.")

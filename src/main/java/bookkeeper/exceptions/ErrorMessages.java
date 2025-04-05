@@ -33,11 +33,11 @@ public final class ErrorMessages {
             "Invalid email";
 
     public static final String INVALID_FORMAT_EDIT_LOAN = "Invalid format for edit-loan.\n" +
-            "Expected format: edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL";
+            "Expected format: edit-loan INDEX n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL";
 
     public static final String INVALID_FORMAT_EDIT_LOAN_DUPLICATE_PREFIX = "Invalid format for edit-loan. " +
             "Duplicate prefixes! \n" +
-            "Expected format: edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL";
+            "Expected format: edit-loan INDEX n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL";
             
     public static final String INVALID_PHONE_NUMBER_EDIT_LOAN = "Invalid format for edit-loan.\n" +
             "Invalid phone number";

@@ -64,6 +64,14 @@ public class LoanList {
         return null;
     }
 
+    public Loan findLoanByIndex(int index) {
+        try {
+            return (loanList.get(index - 1));
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
+    }
+
     public void removeLoansByBook(Book book) {
         assert book != null : "Book cannot be null";
         loanList.removeIf(loan -> loan.getBook().equals(book));
