@@ -165,18 +165,10 @@ public class Storage {
 
                 // Skip duplicate loans
                 boolean isDuplicate = loanList.stream()
-                        .anyMatch(existingLoan -> existingLoan.getBook().equals(loan.getBook()) &&
-                                existingLoan.getBorrowerName().equalsIgnoreCase(loan.getBorrowerName()));
+                        .anyMatch(existingLoan -> existingLoan.getBook().equals(loan.getBook()));
                 if (isDuplicate) {
                     Formatter.printBorderedMessage("Duplicate loan found and skipped: " +
                             loan.getBook().getTitle() + " borrowed by " + loan.getBorrowerName());
-                    continue;
-                }
-
-                // Skip loans for books already on loan
-                if (loan.getBook().isOnLoan()) {
-                    Formatter.printBorderedMessage("Invalid loan: Book is already on loan - "
-                            + loan.getBook().getTitle());
                     continue;
                 }
 
@@ -197,19 +189,19 @@ public class Storage {
     private static Book parseBookFromString(String line) {
         String[] parts = line.split(" \\| ");
         if (parts.length < 6) {
-            return null; //invalid format
+            return null; // Invalid format
         }
 
-        String title = parts[0];
-        String author = parts[1];
-        String category = parts[2];
-        String condition = parts[3];
-        boolean onLoan = Boolean.parseBoolean(parts[4]);
-        String location = parts[5];
-        String note = (parts.length == 7) ? parts[6] : "";
-        Book book = new Book(title, author, category, condition, location, note);
-        book.setOnLoan(onLoan);
-        return book;
+        String title = parts[0].trim();
+        String author = parts[1].trim();
+        String category = parts[2].trim();
+        String condition = parts[3].trim();
+        boolean onLoan = Boolean.parseBoolean(parts[4].trim());
+        String location = parts[5].trim();
+        String note = (parts.length == 7) ? parts[6].trim() : "";
+
+        // Normalize case for title, author, and category
+        return new Book(title, author, category, condition, location, note);
     }
 
     private static Loan parseLoanFromString(String line, BookList bookList) {
@@ -220,11 +212,11 @@ public class Storage {
             return null;
         }
 
-        String title = parts[0];
-        String borrowerName = parts[1];
-        String returnDate = parts[2];
-        String phoneNumber = parts[3];
-        String email = parts[4];
+        String title = parts[0].trim();
+        String borrowerName = parts[1].trim();
+        String returnDate = parts[2].trim();
+        String phoneNumber = parts[3].trim();
+        String email = parts[4].trim();
 
         // Find the book in the inventory
         Book loanedBook = bookList.findBookByTitle(title);

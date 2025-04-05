@@ -2,6 +2,8 @@ package bookkeeper.logic;
 
 import bookkeeper.exceptions.IncorrectFormatException;
 import bookkeeper.exceptions.ErrorMessages;
+import java.util.HashSet;
+import java.util.Set;
 
 public class InputParser {
 
@@ -193,6 +195,9 @@ public class InputParser {
         String phoneNumber = null;
         String email = null;
 
+        // Set to track processed prefixes
+        Set<String> processedPrefixes = new HashSet<>();
+
         // Split the input into parts based on spaces
         String[] parts = input.trim().split("\\s+(?=\\w+/|$)");
 
@@ -206,33 +211,31 @@ public class InputParser {
         // Iterate through the remaining parts and extract arguments based on prefixes
         for (int i = 1; i < parts.length; i++) {
             String part = parts[i].trim();
+            String prefix = part.substring(0, 2); // Extract the prefix (e.g., "n/", "d/")
+
+            // Check for duplicate prefixes
+            if (processedPrefixes.contains(prefix)) {
+                throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_LOAN_DUPLICATE_PREFIX);
+            }
+            processedPrefixes.add(prefix); // Mark the prefix as processed
+
+            // Extract the argument based on the prefix
             if (part.startsWith("n/")) {
-                if (borrowerName != null) {
-                    throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_LOAN_DUPLICATE_PREFIX);
-                }
                 borrowerName = part.substring(2).trim();
             } else if (part.startsWith("d/")) {
-                if (returnDate != null) {
-                    throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_LOAN_DUPLICATE_PREFIX);
-                }
                 returnDate = part.substring(2).trim();
             } else if (part.startsWith("p/")) {
-                if (phoneNumber != null) {
-                    throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_LOAN_DUPLICATE_PREFIX);
-                }
                 phoneNumber = part.substring(2).trim();
             } else if (part.startsWith("e/")) {
-                if (email != null) {
-                    throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_LOAN_DUPLICATE_PREFIX);
-                }
                 email = part.substring(2).trim();
-            } else {
-                throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_LOAN);
             }
         }
 
         // Validate required fields
-        if (bookTitle.isEmpty() || borrowerName == null || returnDate == null || phoneNumber == null || email == null) {
+        if (bookTitle.isEmpty() || borrowerName == null || borrowerName.isEmpty() ||
+                returnDate == null || returnDate.isEmpty() ||
+                phoneNumber == null || phoneNumber.isEmpty() ||
+                email == null || email.isEmpty()) {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_LOAN);
         }
 
