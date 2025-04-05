@@ -1,0 +1,58 @@
+@startuml
+autoactivate on
+
+actor User
+participant InputHandler as ":InputHandler"
+participant InputParser as ":InputParser"
+participant Formatter as ":Formatter"
+participant BookList as ":BookList"
+participant Book as ":Book"
+participant Storage as ":Storage"
+
+User -> InputHandler : add-note(BOOK_TITLE n/NOTE)
+InputHandler -> InputParser : extractCommandArgs()
+return commandArgs
+
+InputHandler -> InputHandler : addNote(commandArgs)
+
+alt commandArgs[0] == add-note 
+    opt commandArgs.length < 2 
+        InputHandler -> Formatter : printBorderedMessage(Invalid Format)
+        return
+    end
+    
+   
+    InputHandler -> InputParser : extractAddNoteArgs(commandArgs[1])
+    return noteArgs
+
+    InputHandler -> BookList : findBookByTitle(BOOK_TITLE)
+    return book
+    
+    opt book == null 
+        InputHandler -> Formatter : printBorderedMessage(Book not found)
+        return
+    end
+
+    opt book has note
+        InputHandler -> Formatter : printBorderedMessage(Book has note)
+        return
+    end        
+    
+    InputHandler -> Book : setNote(note)
+    return
+
+    InputHandler -> Formatter : printBorderedMessage(Note added to book)
+    return
+
+    InputHandler -> Storage : saveInventory(bookList)
+    return
+
+else else
+note over InputHandler : other commands
+
+end
+
+return
+return
+
+@enduml
