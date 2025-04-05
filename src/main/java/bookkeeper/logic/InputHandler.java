@@ -118,10 +118,10 @@ public class InputHandler {
             | Delete note    | `delete-note BOOK_TITLE`                                                              |
             | List Category  | `list-category CATEGORY`                                                              |
             | Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`            |
-            | Delete Loan    | `delete-loan BOOK_TITLE n/BORROWER_NAME`                                              |
+            | Delete Loan    | `delete-loan BOOK_TITLE`                                                              |
             | Edit Loan      | `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`           |
             | View Loans     | `view-loans`                                                                          |
-            | View Help      | `help`                                                                                |
+            | Display Help   | `help`                                                                                |
             | Exit Program   | `exit`                                                                                |
             ----------------------------------------------------------------------------------------------------------
             """);
@@ -238,16 +238,14 @@ public class InputHandler {
             String[] deleteLoanArgs = InputParser.extractDeleteLoanArgs(commandArgs[1]);
             assert deleteLoanArgs.length == 2;
             String bookTitle = deleteLoanArgs[0];
-            String borrowerName = deleteLoanArgs[1];
             Book loanedBook = bookList.findBookByTitle(bookTitle);
-            Loan loan = loanList.findLoan(loanedBook, borrowerName);
+            Loan loan = loanList.findLoan(loanedBook);
             if (loanedBook == null) {
                 Formatter.printBorderedMessage("Book not found in inventory: " + bookTitle);
             } else if (!loanedBook.isOnLoan()) {
                 Formatter.printBorderedMessage("The book " + bookTitle + " is not currently out on loan.");
             } else if (loan == null) {
-                Formatter.printBorderedMessage("No such loan with book title " + bookTitle +
-                        " and borrower " + borrowerName);
+                Formatter.printBorderedMessage("No such loan with book title " + bookTitle);
             } else {
                 loanList.deleteLoan(loan);
                 loanedBook.setOnLoan(false);
@@ -406,7 +404,7 @@ public class InputHandler {
 
         // Check if book already exists in the inventory
         Book book = bookList.findBookByTitle(bookTitle);
-        Loan loan = loanList.findLoan(book, borrowerName);
+        Loan loan = loanList.findLoan(book);
         if (book == null) {
             throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
         } else if (!book.isOnLoan()) {

@@ -278,12 +278,12 @@ Example:
 
 Deletes a loan using the book title.
 
-Format: `delete-loan BOOK_TITLE n/BORROWER_NAME`
+Format: `delete-loan BOOK_TITLE`
 
 Example:
 
 ```
-delete-loan Great Gatsby n/John Doe
+delete-loan Great Gatsby
 ```
 
 Expected Outcome:
@@ -410,19 +410,19 @@ Warning Message:
 
 ## Command Summary
 
-| Action         | Format                                                                                 |
-| -------------- | -------------------------------------------------------------------------------------- |
-| Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`    |
-| Remove Book    | `remove-book BOOK_TITLE`                                                               |
+| Action         | Format                                                                 |
+| -------------- | ---------------------------------------------------------------------- |
+| Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]` |
+| Remove Book    | `remove-book BOOK_TITLE`                                               |
 | Update Book    | `update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]` |
-| Search Book    | `search-book KEYWORD`                                                                  |
-| View Inventory | `view-inventory`                                                                       |
-| Add Note       | `add-note BOOK_TITLE note/NOTE`                                                        |
-| Delete Note    | `delete-note BOOK_TITLE`                                                               |
-| List Category  | `list-category CATEGORY`                                                               |
-| Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`             |
-| Delete Loan    | `delete-loan BOOK_TITLE n/BORROWER_NAME`                                               |
-| Edit Loan      | `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`            |
-| View Loans     | `view-loans`                                                                           |
-| Display Help   | `help`                                                                                 |
-| Exit Program   | `exit`                                                                                 |
+| Search Book    | `search-book KEYWORD`                                                  |
+| View Inventory | `view-inventory`                                                       |
+| Add Note       | `add-note BOOK_TITLE note/NOTE`                                        |
+| Delete Note    | `delete-note BOOK_TITLE`                                               |
+| List Category  | `list-category CATEGORY`                                               |
+| Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL` |
+| Delete Loan    | `delete-loan BOOK_TITLE`                                               |
+| Edit Loan      | `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL` |
+| View Loans     | `view-loans`                                                           |
+| Display Help   | `help`                                                                 |
+| Exit Program   | `exit`                                                                 |

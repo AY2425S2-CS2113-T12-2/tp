@@ -39,7 +39,7 @@ public class LoanListTest {
     @Test
     void addLoan_successfullyAddsLoan() {
         loanList.addLoan(loan1);
-        Loan foundLoan = loanList.findLoan(book1, "John Doe");
+        Loan foundLoan = loanList.findLoan(book1);
         assertNotNull(foundLoan, "Loan should be added to the list");
         assertEquals(loan1, foundLoan, "The added loan should match the expected loan");
     }
@@ -77,7 +77,7 @@ public class LoanListTest {
     void deleteLoan_successfullyRemovesLoan() {
         loanList.addLoan(loan1);
         loanList.deleteLoan(loan1);
-        Loan foundLoan = loanList.findLoan(book1, "John Doe");
+        Loan foundLoan = loanList.findLoan(book1);
         assertNull(foundLoan, "Loan should be removed from the list");
     }
 
@@ -93,14 +93,14 @@ public class LoanListTest {
     @Test
     void findLoan_existingLoan() {
         loanList.addLoan(loan1);
-        Loan foundLoan = loanList.findLoan(book1, "John Doe");
+        Loan foundLoan = loanList.findLoan(book1);
         assertNotNull(foundLoan, "Loan should be found in the list");
         assertEquals(loan1, foundLoan, "The found loan should match the expected loan");
     }
 
     @Test
     void findLoan_nonExistingLoan() {
-        Loan foundLoan = loanList.findLoan(book1, "Nonexistent Borrower");
+        Loan foundLoan = loanList.findLoan(book1);
         assertNull(foundLoan, "Loan should not be found in the list for a nonexistent borrower");
     }
 }
