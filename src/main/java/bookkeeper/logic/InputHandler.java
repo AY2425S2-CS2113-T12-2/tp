@@ -453,7 +453,7 @@ public class InputHandler {
             Formatter.printBorderedMessage("The book " + bookTitle + " is not currently out on loan.");
         } else {
             try {
-                setRelevantFields(loan, borrowerName, returnDate, phoneNumber, email);
+                setFields(loan, borrowerName, returnDate, phoneNumber, email);
                 Formatter.printBorderedMessage("Loan Updated:\n" + loan);
                 Storage.saveLoans(loanList);
             } catch (IllegalArgumentException e) {
@@ -462,7 +462,7 @@ public class InputHandler {
         } 
     }
 
-    private void setRelevantFields(Loan loan, String borrowerName, String returnDate, String phoneNumber, String email) {
+    private void setFields(Loan loan, String borrowerName, String returnDate, String phoneNumber, String email) {
         if (borrowerName != null && !borrowerName.isEmpty()) {
             loan.setBorrowerName(borrowerName);
         }
