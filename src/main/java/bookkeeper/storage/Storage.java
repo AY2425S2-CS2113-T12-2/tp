@@ -165,18 +165,10 @@ public class Storage {
 
                 // Skip duplicate loans
                 boolean isDuplicate = loanList.stream()
-                        .anyMatch(existingLoan -> existingLoan.getBook().equals(loan.getBook()) &&
-                                existingLoan.getBorrowerName().equalsIgnoreCase(loan.getBorrowerName()));
+                        .anyMatch(existingLoan -> existingLoan.getBook().equals(loan.getBook()));
                 if (isDuplicate) {
                     Formatter.printBorderedMessage("Duplicate loan found and skipped: " +
                             loan.getBook().getTitle() + " borrowed by " + loan.getBorrowerName());
-                    continue;
-                }
-
-                // Skip loans for books already on loan
-                if (loan.getBook().isOnLoan()) {
-                    Formatter.printBorderedMessage("Invalid loan: Book is already on loan - "
-                            + loan.getBook().getTitle());
                     continue;
                 }
 
