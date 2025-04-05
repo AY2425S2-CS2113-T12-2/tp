@@ -165,6 +165,7 @@ public class Storage {
                                 loan.getBook().getTitle() + " borrowed by " + loan.getBorrowerName());
                     } else {
                         loanList.add(loan);
+                        loan.getBook().setOnLoan(true); // Set the book as on loan
                     }
                 } else {
                     Formatter.printBorderedMessage("Invalid loan entry skipped: " + line);
@@ -205,71 +206,44 @@ public class Storage {
             Formatter.printBorderedMessage("Invalid loan format: " + line);
             return null;
         }
+
         String title = parts[0];
         String borrowerName = parts[1];
         String returnDate = parts[2];
         String phoneNumber = parts[3];
         String email = parts[4];
 
-        Book loanedBook = bookList.findBookByTitle(title); //to get the exact reference for the book
+        // Find the book in the inventory
+        Book loanedBook = bookList.findBookByTitle(title);
         if (loanedBook == null) {
             Formatter.printBorderedMessage("Invalid loan: Book not found in inventory - " + title);
             return null; // Skip this loan
         }
 
-        return new Loan(loanedBook, borrowerName, returnDate, phoneNumber, email);
+        try {
+            // Attempt to create a Loan object
+            return new Loan(loanedBook, borrowerName, returnDate, phoneNumber, email);
+        } catch (IllegalArgumentException e) {
+            // Handle invalid date or other issues in Loan creation
+            Formatter.printBorderedMessage("Invalid loan entry skipped: " + line + "\nReason: " + e.getMessage());
+            return null; // Skip this loan
+        }
     }
 
     public static void validateStorage(BookList bookList, LoanList loanList) {
         ArrayList<Book> books = bookList.getBookList();
         ArrayList<Loan> loans = loanList.getLoanList();
 
-        // Remove duplicate books
-        ArrayList<Book> uniqueBooks = new ArrayList<>();
-        ArrayList<Book> duplicateBooks = new ArrayList<>();
-
+        // Reset all books to not on loan
         for (Book book : books) {
-            boolean isDuplicate = uniqueBooks.stream()
-                    .anyMatch(existingBook -> existingBook.getTitle().equalsIgnoreCase(book.getTitle()));
-
-            if (isDuplicate) {
-                duplicateBooks.add(book);
-                Formatter.printBorderedMessage("Duplicate book found: " + book.getTitle());
-            } else {
-                uniqueBooks.add(book);
-            }
+            book.setOnLoan(false);
         }
 
-        books.removeAll(duplicateBooks);
-        if (!duplicateBooks.isEmpty()) {
-            Formatter.printBorderedMessage("Duplicate books found and removed: " + duplicateBooks.size());
-        }
-
-        // Remove duplicate loans
-        ArrayList<Loan> uniqueLoans = new ArrayList<>();
-        ArrayList<Loan> duplicateLoans = new ArrayList<>();
-
+        // Mark books as on loan based on the LoanList
         for (Loan loan : loans) {
-            boolean isDuplicate = uniqueLoans.stream()
-                    .anyMatch(existingLoan -> existingLoan.getBook().equals(loan.getBook()) &&
-                            existingLoan.getBorrowerName().equalsIgnoreCase(loan.getBorrowerName()));
-
-            if (isDuplicate) {
-                duplicateLoans.add(loan);
-                Formatter.printBorderedMessage("Duplicate loan found: " +
-                        loan.getBook().getTitle() + " borrowed by " + loan.getBorrowerName());
-            } else {
-                uniqueLoans.add(loan);
-            }
+            loan.getBook().setOnLoan(true);
         }
 
-        loans.removeAll(duplicateLoans);
-
-        if (!duplicateLoans.isEmpty()) {
-            Formatter.printBorderedMessage("Duplicate loans found and removed: " + duplicateLoans.size());
-        }
-
-        // Save the updated lists to the files
         saveLoans(loanList);
         saveInventory(bookList);
         Formatter.printBorderedMessage("Storage validated and updated successfully.");

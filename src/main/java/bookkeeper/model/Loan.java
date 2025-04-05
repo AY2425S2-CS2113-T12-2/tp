@@ -1,15 +1,21 @@
 package bookkeeper.model;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 public class Loan {
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
     private Book book;
     private String borrowerName;
-    private String returnDate;
+    private LocalDate returnDate; 
     private String phoneNumber;
     private String email;
 
     public Loan(Book book, String borrowerName, String returnDate, String phoneNumber, String email) {
         this.book = book;
-        this.returnDate = returnDate;
+        this.returnDate = parseAndValidateDate(returnDate); // Parse and validate the date
         this.borrowerName = borrowerName;
         this.phoneNumber = phoneNumber;
         this.email = email;
@@ -23,7 +29,7 @@ public class Loan {
         return book.getTitle();
     }
 
-    public String getReturnDate() {
+    public LocalDate getReturnDate() {
         return returnDate;
     }
 
@@ -37,10 +43,10 @@ public class Loan {
 
     public String getEmail() {
         return this.email;
-    }   
+    }
 
-    public void setReturnDate(String loanDate) {
-        this.returnDate = loanDate;
+    public void setReturnDate(String returnDate) {
+        this.returnDate = parseAndValidateDate(returnDate); // Parse and validate the date
     }
 
     public void setBorrowerName(String borrowerName) {
@@ -59,9 +65,9 @@ public class Loan {
         String title = getTitle();
         String borrowerName = getBorrowerName();
         String contactNumber = getPhoneNumber();
-        String returnDate = getReturnDate();
+        String returnDateString = returnDate.format(DATE_FORMATTER); // Format LocalDate to DD-MM-YYYY
         String email = getEmail();
-        return title + " | " + borrowerName + " | " + returnDate + 
+        return title + " | " + borrowerName + " | " + returnDateString +
                 " | " + contactNumber + " | " + email;
     }
 
@@ -69,8 +75,25 @@ public class Loan {
     public String toString() {
         return "Title: " + getTitle() + System.lineSeparator()
                 + "    Borrower: " + getBorrowerName() + System.lineSeparator()
-                + "    Return Date: " + getReturnDate() + System.lineSeparator()
+                + "    Return Date: " + returnDate.format(DATE_FORMATTER) + System.lineSeparator()
                 + "    Contact Number: " + getPhoneNumber() + System.lineSeparator()
                 + "    Email: " + getEmail();
+    }
+
+    private LocalDate parseAndValidateDate(String date) {
+        try {
+            LocalDate parsedDate = LocalDate.parse(date, DATE_FORMATTER);
+            validateNotPastDate(parsedDate); // Validate that the date is not in the past
+            return parsedDate;
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Invalid date format. Expected format: DD-MM-YYYY");
+        }
+    }
+
+    private void validateNotPastDate(LocalDate date) {
+        if (date.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("The return date cannot be in the past. " +
+                    "Please provide a valid future date.");
+        }
     }
 }
