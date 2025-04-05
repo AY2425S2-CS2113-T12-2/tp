@@ -313,7 +313,7 @@ Notes:
 Example:
 
 ```
-edit-loan Great Gatsby n/John Doe d/01-11-2025 p/91234567 e/123abc@gmail.com
+edit-loan 1 n/John Doe d/01-11-2025 p/91234567 e/123abc@gmail.com
 ```
 
 Expected Outcome:
