@@ -529,7 +529,7 @@ BookKeeper gives you full control over your collection in a clean, offline-frien
 | `v1.0`  | Librarian     | View on-going loans                                                    | Keep track of what books are loaned out                             |
 | `v2.0`  | Librarian     | Categorize my inventory                                                | Make searching for books more convenient                            |
 | `v2.0`  | Librarian     | Manage/Update book availability, including borrowed and reserved books | Efficiently allocate books                                          |
-| `v2.0`  | Librarian     | Track book conditions (e.g., damages, special editions)                | Maintain detailed records                                           |
+| `v2.0`  | Librarian     | Track book conditions (e.g good, fair, poor)                | Maintain detailed records                                           |
 | `v2.0`  | Librarian     | Add personal notes about individual books                              | Maintain detailed records                                           |
 | `v2.0`  | Librarian     | Edit existing book loans' due dates                                    | Better track by updating book loans                                 |
 | `v2.0`  | Librarian     | Add contact details for borrowers                                      | Easily reach out to borrowers when needed                           |
