@@ -26,7 +26,7 @@ BookKeeper is a Command Line Interface (CLI) library manager application for eff
 4. Edit Loans
     * **What it does**: Allows the user to edit previously saved loans.
     * **Justification**: The features improves the products as it provides a convenient way for users to edit their previously saved loans without first deleting and adding a new loan.
-    * **Highlights**: Ensures that the loan being edited it actually present and the book is actually on loan.
+    * **Highlights**: Ensures that the loan being edited it actually present and the book is actually on loan. Allows for optional inputs of the different fields which allows the user to only input the fields that is needed to be updatd
 
 5. Save Loans
     * **What it does**: Automatically saves all loans to a txt whenever there is a change to the LoanList.
@@ -48,10 +48,12 @@ BookKeeper is a Command Line Interface (CLI) library manager application for eff
     - `list-category`
     - `add-note`
     - `delete-note`
+    - `update-note`
 
 ## Contributions to the DG:
 - Added documentation and UML diagram for the following sections:
     - `delete-loan`
+    - `update-note`
 
 ## Contribution to team-based tasks:
 - Maintained the issue tracker and managed milestones.

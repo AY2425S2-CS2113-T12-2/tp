@@ -110,7 +110,7 @@ The `add-book` feature allows the user to add a new book to the inventory. Each 
 
 `InputHandler` coordinates with `InputParser`, `BookList`, `Formatter`, and `Storage` classes to implement the feature.
 
-The following UML sequence diagram shows how the `add-book add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]` command is handled.
+The following UML sequence diagram shows how the `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]` command is handled.
 
 ![addBook.png](images/addBook.png)
 
@@ -350,7 +350,7 @@ The `update-book` feature allows the user to add update existing book details. T
 
 `InputHandler` coordinates with `InputParser`, `BookList`, `Formatter`, and `Storage` classes to implement the feature.
 
-The following UML sequence diagram shows how the `update-book add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]` command is handled.
+The following UML sequence diagram shows how the `update-book update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]` command is handled.
 
 ![updateBook.png](images/updateBook.png)
 
@@ -449,6 +449,48 @@ The following UML sequence diagram shows how the `edit-loan INDEX [n/BORROWER_NA
 
 7. Success message is displayed:
    `InputHandler` uses `Formatter` to print a message indicating that the loan was successfully updated.
+
+### Update Note
+
+The `update-note` feature allows the user to update a note that is attached to a book in the inventory. The system ensures that the book has note before it can be updated
+
+`InputHandler` coordinates with `InputParser`, `BookList`, `Book`, `Formatter`, and `Storage` classes to implement the feature.
+
+The following UML sequence diagram shows how the `update-note BOOK_TITLE note/NOTE` command is handled.
+
+![updateNote.png](images/updateNote.png)
+
+1. User issues command:
+   The user inputs the command in the CLI with the required arguments, e.g., `update-note The Great Gasby note/Amazing Book`.
+
+2. Command arguments are extracted:
+   `InputHandler` first calls `InputParser.extractCommandArgs(...)` to split the user input into command arguments.
+
+   - For example, the input `update-note The Great Gasby note/Amazing Book` is split into:
+     - `commandArgs[0]`: `update-note`
+     - `commandArgs[1]`: `The Great Gasby note/Amazing Book`
+
+3. Book arguments are parsed:
+   `InputHandler` invokes `InputParser.extractUpdateNoteArgs(...)` to parse the second part of the command (`commandArgs[1]`) into the following components:
+
+   - Book title
+   - Note
+
+4. Book is validated:
+   BookKeeper does not support multiple books of the same title. `InputHandler` calls `BookList.findBookByTitle(bookTitle)` to check if the book exists in the inventory.
+
+   - If the book is not found, `InputHandler` uses `Formatter` to print a "Book not in inventory: {Title}" message and exits early.
+   - If the book does not have a note attached, `InputHandler` uses `Formatter` to print a "Book does not have a note. Please use add-note instead." message and exits early.
+   - If the book is found with a note, the flow continues.
+
+5. Note created:
+   - The new note is used to replace the old note that was attached to the book
+
+6. Changes are saved to persistent storage:
+   `InputHandler` calls `Storage.saveLoans(...)` and `Storage.saveInventory(...)` to save the updated book list and inventory.
+
+7. Success message is displayed:
+   `InputHandler` uses `Formatter` to print a message indicating that the note was successfully updated.
 
 ### Save Inventory
 

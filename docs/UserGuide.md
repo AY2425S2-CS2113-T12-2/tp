@@ -15,6 +15,7 @@
     - [View Book Collection: `view-inventory`](#view-book-collection-view-inventory)
     - [Adding a Note: `add-note`](#adding-a-note-add-note)
     - [Deleting a Note: `delete-note`](#deleting-a-note-delete-note)
+    - [Updating a Note: `update-note`](#updating-a-note-update-note)
     - [List Category: `list-category`](#list-category-list-category)
     - [Adding a Loan: `add-loan`](#adding-a-loan-add-loan)
       - [Adding a Loan for a Book Already on Loan](#adding-a-loan-for-a-book-already-on-loan)
@@ -222,6 +223,23 @@ Expected Outcome:
 
 ```
 Note deleted for book: Great Gatsby
+```
+
+### Updating a Note: `update-note`
+
+Updates a note that is currently attached to a book.
+
+Format: `update-note BOOK_TITLE note/NOTE`
+
+Example:
+
+```
+update-note Great Gatsby
+```
+
+Expected Outcome:
+```
+Note updated for book: Great Gatsby
 ```
 
 ### List Category: `list-category`
