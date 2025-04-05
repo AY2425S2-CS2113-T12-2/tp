@@ -295,7 +295,7 @@ public class InputParser {
     }
 
     public static String[] extractEditLoanArgs(String input) throws IncorrectFormatException {
-        String bookTitle = null;
+        String index = null;
         String borrowerName = null;
         String returnDate = null;
         String phoneNumber = null;
@@ -304,11 +304,10 @@ public class InputParser {
         Set<String> processedPrefixes = new HashSet<>();
         String[] parts = input.trim().split("\\s+(?=\\w+/|$)");
 
-        if (parts.length == 0 || parts[0].startsWith("n/") || parts[0].startsWith("d/") ||
-                parts[0].startsWith("p/") || parts[0].startsWith("e/")) {
-            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_EDIT_LOAN);
+        index = parts[0].trim();
+        if (!index.matches("^[0-9]+$")) {
+            throw new IncorrectFormatException("Please provide a valid index");
         }
-        bookTitle = parts[0].trim();
 
         for (int i = 1; i < parts.length; i++) {
             String part = parts[i].trim();
@@ -338,13 +337,6 @@ public class InputParser {
             }
         }
 
-        if (bookTitle.isEmpty() || borrowerName == null || borrowerName.isEmpty() ||
-                returnDate == null || returnDate.isEmpty() ||
-                phoneNumber == null || phoneNumber.isEmpty() ||
-                email == null || email.isEmpty()) {
-            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_EDIT_LOAN);
-        }
-
-        return new String[]{bookTitle, borrowerName, returnDate, phoneNumber, email};
+        return new String[]{index, borrowerName, returnDate, phoneNumber, email};
     }
 }

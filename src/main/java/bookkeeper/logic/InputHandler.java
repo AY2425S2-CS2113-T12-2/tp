@@ -432,34 +432,48 @@ public class InputHandler {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_EDIT_LOAN);
         }
         String[] editLoanArgs = InputParser.extractEditLoanArgs(commandArgs[1]);
-        assert editLoanArgs.length == 5 : "Book arguments should contain at least 4 elements";
+        assert editLoanArgs.length == 5 : "Book arguments should contain 5 elements";
 
-        String bookTitle = editLoanArgs[0];
+        int index = Integer.parseInt(editLoanArgs[0]);
         String borrowerName = editLoanArgs[1];
         String returnDate = editLoanArgs[2];
         String phoneNumber = editLoanArgs[3];
         String email = editLoanArgs[4];
 
         // Check if book already exists in the inventory
+        Loan loan = loanList.findLoanByIndex(index);
+        if (loan == null) {
+            throw new IncorrectFormatException("Please provide a valid index");
+        } 
+        String bookTitle = loan.getTitle();
         Book book = bookList.findBookByTitle(bookTitle);
-        Loan loan = loanList.findLoan(book);
         if (book == null) {
             throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
         } else if (!book.isOnLoan()) {
             Formatter.printBorderedMessage("The book " + bookTitle + " is not currently out on loan.");
-        } else if (loan == null) {
-            Formatter.printBorderedMessage("No such loan with book title " + bookTitle +
-                    " and borrower " + borrowerName);
         } else {
             try {
-                loan.setReturnDate(returnDate);
-                loan.setPhoneNumber(phoneNumber);
-                loan.setEmail(email);
+                setRelevantFields(loan, borrowerName, returnDate, phoneNumber, email);
                 Formatter.printBorderedMessage("Loan Updated:\n" + loan);
                 Storage.saveLoans(loanList);
             } catch (IllegalArgumentException e) {
                 Formatter.printBorderedMessage(e.getMessage());
             }
         } 
+    }
+
+    private void setRelevantFields(Loan loan, String borrowerName, String returnDate, String phoneNumber, String email) {
+        if (borrowerName != null && !borrowerName.isEmpty()) {
+            loan.setBorrowerName(borrowerName);
+        }
+        if (returnDate != null) {
+            loan.setReturnDate(returnDate);
+        }
+        if (phoneNumber != null) {
+            loan.setPhoneNumber(phoneNumber);
+        }
+        if (email != null) {
+            loan.setEmail(email);
+        }
     }
 }
