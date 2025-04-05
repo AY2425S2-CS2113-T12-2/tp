@@ -2,28 +2,33 @@
 
 ## Table of Contents
 
-- [Introduction](#introduction)
-- [Quick Start](#quick-start)
-- [Features](#features)
-  - [`add-book` - Adding a book](#adding-a-book-add-book)
-  - [`remove-book` - Removing a book](#removing-a-book-remove-book)
-  - [`update-book` - Updating a book's info](#updating-a-book-update-book)
-  - [`search-book` - Searching for a book](#searching-for-a-book-search-book)
-  - [`view-inventory` - Viewing the book collection](#view-book-collection-view-inventory)
-  - [`add-note` - Adding a note to a book](#adding-a-note-add-note)
-  - [`delete-note` - Deleting a note from a book](#deleting-a-note-delete-note)
-  - [`list-category` - Listing books by category](#list-category-list-category)
-  - [`add-loan` - Adding a book loan](#adding-a-loan-add-loan)
-  - [`delete-loan` - Deleting a book loan](#deleting-a-loan-delete-loan)
-  - [`edit-loan` - Editing a book loan](#editing-a-loan-edit-loan)
-  - [`view-loans` - Viewing all current loans](#view-current-loans-view-loans)
-  - [`help` - Displaying help](#displaying-help-help)
-  - [`exit` - Exiting the program](#exiting-the-program-exit)
-- [Persistent State](#persistent-state)
-  - [Manual Editing of Data Files](#editing-data-file)
-  - [Data Validation](#data-validation)
-- [Notes](#notes)
-- [Command Summary](#command-summary)
+- [User Guide (v2.0)](#user-guide-v20)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Quick Start](#quick-start)
+  - [Features](#features)
+    - [Adding a book: `add-book`](#adding-a-book-add-book)
+      - [Adding a Title that already exists in inventory](#adding-a-title-that-already-exists-in-inventory)
+    - [Removing a book: `remove-book`](#removing-a-book-remove-book)
+    - [Updating a Book: `update-book`](#updating-a-book-update-book)
+    - [Searching for a Book: `search-book`](#searching-for-a-book-search-book)
+    - [View Book Collection: `view-inventory`](#view-book-collection-view-inventory)
+    - [Adding a Note: `add-note`](#adding-a-note-add-note)
+    - [Deleting a Note: `delete-note`](#deleting-a-note-delete-note)
+    - [List Category: `list-category`](#list-category-list-category)
+    - [Adding a Loan: `add-loan`](#adding-a-loan-add-loan)
+      - [Adding a Loan for a Book Already on Loan](#adding-a-loan-for-a-book-already-on-loan)
+    - [Deleting a Loan: `delete-loan`](#deleting-a-loan-delete-loan)
+    - [Editing a Loan: `edit-loan`](#editing-a-loan-edit-loan)
+    - [View Current Loans: `view-loans`](#view-current-loans-view-loans)
+    - [Displaying Help: `help`](#displaying-help-help)
+    - [Exiting the program: `exit`](#exiting-the-program-exit)
+  - [Persistent State](#persistent-state)
+    - [Editing data file](#editing-data-file)
+      - [CAUTION: Edits that make the data invalid can cause BookKeeper to behave in unexpected ways. Edit data files only if you are confident that you can update it correctly.](#caution-edits-that-make-the-data-invalid-can-cause-bookkeeper-to-behave-in-unexpected-ways-edit-data-files-only-if-you-are-confident-that-you-can-update-it-correctly)
+    - [Data Validation](#data-validation)
+    - [Notes:](#notes)
+  - [Command Summary](#command-summary)
 
 <div style="page-break-after: always;"></div>
 
@@ -38,7 +43,7 @@ BookKeeper is a Command Line Interface (CLI) library manager application for eff
 Welcome to BookKeeper! This guide will help you get started with using the system for managing your library's books and loan records.
 
 1. Ensure that you have Java 17 or above installed.
-2. Download the latest version of `BookKeeper` from [here](https://github.com/AY2425S2-CS2113-T12-2/tp/releases/tag/Release-v1.0).
+2. Download the latest version of `BookKeeper` from [here](https://github.com/AY2425S2-CS2113-T12-2/tp/releases/tag/Release-v2.0).
 3. Copy the file to the folder you want to use as the home folder for BookKeeper.
 4. Open a command prompt/terminal and navigate to the folder where you placed the jar file.
 5. Run the application using: `java -jar BookKeeper.jar`
