@@ -22,7 +22,7 @@ activate InputHandler
             Formatter --> LoanList
             deactivate Formatter
             LoanList --> InputHandler
-        else
+        else else
             LoanList -> Formatter: printLoanList(LoanList)
             activate Formatter
                 loop for each Loan
