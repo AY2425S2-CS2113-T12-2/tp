@@ -25,6 +25,12 @@ public final class ErrorMessages {
     public static final String INVALID_FORMAT_ADD_LOAN_DUPLICATE_PREFIX = "Invalid format for add-loan. " +
             "Duplicate prefixes! \n" +
             "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL";
+            
+    public static final String INVALID_PHONE_NUMBER_ADD_LOAN = "Invalid format for add-loan.\n" +
+            "Invalid phone number";
+            
+    public static final String INVALID_EMAIL_ADD_LOAN = "Invalid format for add-loan.\n" +
+            "Invalid email";
 
     public static final String INVALID_FORMAT_EDIT_LOAN = "Invalid format for edit-loan.\n" +
             "Expected format: edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL";
@@ -32,7 +38,13 @@ public final class ErrorMessages {
     public static final String INVALID_FORMAT_EDIT_LOAN_DUPLICATE_PREFIX = "Invalid format for edit-loan. " +
             "Duplicate prefixes! \n" +
             "Expected format: edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL";
+            
+    public static final String INVALID_PHONE_NUMBER_EDIT_LOAN = "Invalid format for edit-loan.\n" +
+            "Invalid phone number";
 
+    public static final String INVALID_EMAIL_EDIT_LOAN = "Invalid format for edit-loan.\n" +
+            "Invalid email";
+            
     public static final String INVALID_FORMAT_DELETE_LOAN = "Invalid format for delete-loan.\n" +
             "Expected format: delete-loan BOOK_TITLE n/BORROWER_NAME";
 
@@ -49,6 +61,8 @@ public final class ErrorMessages {
             "Expected format: list-category CATEGORY";
     public static final String INVALID_FORMAT_UPDATE_NOTE = "Invalid format for update-note. \n" +
             "Expected format: update-note BOOK_TITLE note/NOTE";
+
+
 
     private ErrorMessages() {
     } //private constructor to prevent instantiation

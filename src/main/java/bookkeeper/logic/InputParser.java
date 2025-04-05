@@ -207,8 +207,14 @@ public class InputParser {
                 returnDate = part.substring(2).trim();
             } else if (part.startsWith("p/")) {
                 phoneNumber = part.substring(2).trim();
+                if (!phoneNumber.matches("^[0-9]+$")) {
+                    throw new IncorrectFormatException(ErrorMessages.INVALID_PHONE_NUMBER_ADD_LOAN);
+                }
             } else if (part.startsWith("e/")) {
                 email = part.substring(2).trim();
+                if (!email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+                    throw new IncorrectFormatException(ErrorMessages.INVALID_EMAIL_ADD_LOAN);
+                }
             }
         }
 
@@ -319,8 +325,14 @@ public class InputParser {
                 returnDate = part.substring(2).trim();
             } else if (part.startsWith("p/")) {
                 phoneNumber = part.substring(2).trim();
+                if (!phoneNumber.matches("^[0-9]+$")) {
+                    throw new IncorrectFormatException(ErrorMessages.INVALID_PHONE_NUMBER_EDIT_LOAN);
+                }
             } else if (part.startsWith("e/")) {
                 email = part.substring(2).trim();
+                if (!email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+                    throw new IncorrectFormatException(ErrorMessages.INVALID_EMAIL_EDIT_LOAN);
+                }
             } else {
                 throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_EDIT_LOAN);
             }
