@@ -35,8 +35,6 @@ public class InputHandler {
 
         while (isAskingInput) {
 
-            Storage.validateStorage(bookList, loanList);
-
             System.out.println("Enter a command:");
 
             if (!scanner.hasNextLine()) {  // Prevents NoSuchElementException
@@ -45,7 +43,11 @@ public class InputHandler {
             userInputLine = scanner.nextLine();
             if (userInputLine.isEmpty()) {
                 Formatter.printBorderedMessage("Please enter a command");
+            }
+            else if (userInputLine.contains("|")){
+                Formatter.printBorderedMessage("Please do not use \"|\" in your inputs");
             } else {
+                Storage.validateStorage(bookList, loanList);
                 try {
                     String[] commandArgs = InputParser.extractCommandArgs(userInputLine);
                     assert commandArgs.length > 0 : "commandArgs should have at least one element";
