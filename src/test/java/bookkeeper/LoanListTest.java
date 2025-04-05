@@ -12,28 +12,33 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
 
 public class LoanListTest {
     private LoanList loanList;
     private Book book1;
     private Book book2;
     private Loan loan1;
-    //private Loan loan2;
 
     @BeforeEach
     public void setUp() {
         loanList = new LoanList("Test Loan List", new ArrayList<Loan>());
         BookList bookList = new BookList("Test Book List", new ArrayList<Book>());
 
-        book1 = new Book("The Great Gatsby", "F. Scott Fitzgerald", "Fiction", "Good", "Shelf 1");
-        book2 = new Book("To Kill a Mockingbird", "Harper Lee", "Fiction", "fair", "Shelf 2");
+        book1 = new Book("The Great Gatsby", "F. Scott Fitzgerald", "Fiction",
+                "Good", "Shelf 1");
+        book2 = new Book("To Kill a Mockingbird", "Harper Lee", "Fiction",
+                "Fair", "Shelf 2");
 
         bookList.addBook(book1);
         bookList.addBook(book2);
 
-        loan1 = new Loan(book1, "John Doe", "2023-12-01", "98765432", "abc123@gmail.com");
+        // Set loan1 to 21 days from the current date (valid)
+        String futureDate = LocalDate.now().plusDays(21).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        loan1 = new Loan(book1, "John Doe", futureDate, "98765432", "abc123@gmail.com");
+
     }
 
     @Test
@@ -84,7 +89,8 @@ public class LoanListTest {
     @Test
     void deleteLoan_nonExistingLoan() {
         loanList.addLoan(loan1);
-        Loan nonExistingLoan = new Loan(book2, "Nonexistent Borrower", "2024-01-10", "87654321", "def321@gmail.com");
+        Loan nonExistingLoan = new Loan(book2, "Nonexistent Borrower", "10-01-2027",
+                "87654321", "def321@gmail.com");
         loanList.deleteLoan(nonExistingLoan); // Attempt to delete a non-existing loan
         assertEquals(1, loanList.getLoanList().size(),
                 "Deleting a non-existing loan should not affect the list");

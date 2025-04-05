@@ -34,7 +34,7 @@ class Book {
 
 class Loan {
     - borrowerName : String
-    - returnDate : String
+    - returnDate : LocalDate
     - phoneNumber : String
     - email : String
     + Loan(Book book, String borrowerName...)

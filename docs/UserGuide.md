@@ -255,10 +255,14 @@ Adds a loan using the book title.
 
 Format: `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`
 
+Notes:
+- The RETURN_DATE must be in the format DD-MM-YYYY.
+- The return date cannot be in the past.
+
 Example:
 
 ```
-add-loan Great Gatsby n/John Doe d/2023-12-01 p/98765432 e/abc123@gmail.com
+add-loan Great Gatsby n/John Doe d/01-12-2025 p/98765432 e/abc123@gmail.com
 ```
 
 Expected Output:
@@ -298,10 +302,15 @@ Edits loan return date of the loan, borrower's phone number and email.
 
 Format: `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`
 
+Notes:
+
+The RETURN_DATE must be in the format DD-MM-YYYY.
+The return date cannot be in the past.
+
 Example:
 
 ```
-edit-loan Great Gatsby n/John Doe d/15-March-2025 p/91234567 e/123abc@gmail.com
+edit-loan Great Gatsby n/John Doe d/01-11-2025 p/91234567 e/123abc@gmail.com
 ```
 
 Expected Outcome:
@@ -310,7 +319,7 @@ Expected Outcome:
 Loan Updated:
 Title: Great Gatsby
     Borrower: John Doe
-    Return Date: 15-March-2025
+    Return Date: 01-11-2025
     Contact Number: 91234567
     Email: 123abc@gmail.com
 ```

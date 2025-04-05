@@ -8,9 +8,12 @@ import bookkeeper.storage.Storage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+
 import java.io.File;
-import java.util.ArrayList;
 import java.io.FileWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -126,10 +129,12 @@ public class StorageTest {
         bookList.addBook(book2);
 
         // Add loans to the LoanList
-        loanList.addLoan(new Loan(book1, "John Doe", "2023-12-01",
-                "1234567890", "johndoe@example.com"));
-        loanList.addLoan(new Loan(book2, "Jane Doe", "2023-12-15",
-                "0987654321", "janedoe@example.com"));
+        String futureDate1 = LocalDate.now().plusDays(21).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        String futureDate2 = LocalDate.now().plusDays(30).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        loanList.addLoan(new Loan(book1, "John Doe", futureDate1, "1234567890",
+                "johndoe@example.com"));
+        loanList.addLoan(new Loan(book2, "Jane Doe", futureDate2, "0987654321",
+                "janedoe@example.com"));
 
         // Save the loans
         Storage.saveLoans(loanList);
@@ -151,8 +156,8 @@ public class StorageTest {
 
         // Create a test file with valid loan data
         try (FileWriter writer = new FileWriter(TEST_LOAN_LIST_FILE_PATH)) {
-            writer.write("The Great Gatsby | John Doe | 2023-12-01 | 1234567890 | johndoe@example.com\n");
-            writer.write("To Kill a Mockingbird | Jane Doe | 2023-12-15 | 0987654321 | janedoe@example.com\n");
+            writer.write("The Great Gatsby | John Doe | 21-12-2026 | 1234567890 | johndoe@example.com\n");
+            writer.write("To Kill a Mockingbird | Jane Doe | 30-12-2026 | 0987654321 | janedoe@example.com\n");
         } catch (Exception e) {
             fail("Failed to create test file: " + e.getMessage());
         }
@@ -168,4 +173,31 @@ public class StorageTest {
         assertEquals("Jane Doe", loadedLoans.get(1).getBorrowerName());
     }
 
+    @Test
+    void loadLoans_invalidLines_invalidLinesSkipped() {
+        // Add books to the BookList
+        Book book1 = new Book("The Great Gatsby", "F. Scott Fitzgerald", "Fiction",
+                "Good", "Shelf 1", "Classic novel");
+        Book book2 = new Book("To Kill a Mockingbird", "Harper Lee", "Fiction",
+                "Fair", "Shelf 2", "Pulitzer Prize winner");
+        bookList.addBook(book1);
+        bookList.addBook(book2);
+
+        // Create a test file with invalid lines
+        try (FileWriter writer = new FileWriter(TEST_LOAN_LIST_FILE_PATH)) {
+            writer.write("The Great Gatsby | John Doe | 21-12-2026 | 1234567890 | johndoe@example.com\n");
+            writer.write("Invalid Loan Entry\n");
+            writer.write("To Kill a Mockingbird | Jane Doe | 30-12-2026 | 0987654321 | janedoe@example.com\n");
+        } catch (Exception e) {
+            fail("Failed to create test file: " + e.getMessage());
+        }
+
+        // Load the loans
+        ArrayList<Loan> loadedLoans = Storage.loadLoans(bookList);
+
+        // Verify the loaded loans
+        assertEquals(2, loadedLoans.size());
+        assertEquals("The Great Gatsby", loadedLoans.get(0).getBook().getTitle());
+        assertEquals("To Kill a Mockingbird", loadedLoans.get(1).getBook().getTitle());
+    }
 }

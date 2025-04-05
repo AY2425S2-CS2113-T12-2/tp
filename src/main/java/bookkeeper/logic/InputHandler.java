@@ -414,11 +414,15 @@ public class InputHandler {
             Formatter.printBorderedMessage("No such loan with book title " + bookTitle +
                     " and borrower " + borrowerName);
         } else {
-            loan.setReturnDate(returnDate);
-            loan.setPhoneNumber(phoneNumber);
-            loan.setEmail(email);
-            Formatter.printBorderedMessage("Loan Updated:\n" + loan);
-            Storage.saveLoans(loanList);
-        }
+            try {
+                loan.setReturnDate(returnDate);
+                loan.setPhoneNumber(phoneNumber);
+                loan.setEmail(email);
+                Formatter.printBorderedMessage("Loan Updated:\n" + loan);
+                Storage.saveLoans(loanList);
+            } catch (IllegalArgumentException e) {
+                Formatter.printBorderedMessage(e.getMessage());
+            }
+        } 
     }
 }
