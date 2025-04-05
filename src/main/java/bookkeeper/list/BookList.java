@@ -38,7 +38,9 @@ public class BookList {
     public ArrayList<Book> findBooksByKeyword(String keyword){
         ArrayList<Book> filteredBookList = new ArrayList<>();
         for (Book book : bookList) {
-            if (book.getTitle().contains(keyword)) {
+            String titleLowerCase = book.getTitle().toLowerCase();
+            String keywordLowerCase = keyword.toLowerCase();
+            if (titleLowerCase.contains(keywordLowerCase)) {
                 filteredBookList.add(book);
             }
         }
