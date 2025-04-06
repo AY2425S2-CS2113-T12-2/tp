@@ -144,6 +144,7 @@ The following UML sequence diagram shows how the `add-book BOOK_TITLE a/AUTHOR c
    If the book does not exist in the inventory:
 
    - A new `Book` object is created using the parsed arguments. The `note` field is optional and defaults to an empty string if not provided.
+   - The `category` string is converted to a `Category` enum using `Category.fromString(...)`.
    - The `condition` string is converted to a `Condition` enum using `Condition.fromString(...)`.
    - The book is added to the `BookList` using `bookList.addBook(...)`.
 
@@ -639,22 +640,23 @@ BookKeeper gives you full control over your collection in a clean, offline-frien
 
 ## Appendix B: User Stories
 
-| Version | As a...       | I want to...                                                           | So that I can                                                       |
-| ------- | ------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `v1.0`  | Librarian     | View inventory, including book count                                   | See my existing books                                               |
-| `v1.0`  | Librarian     | Add new books to the system easily                                     | Update my inventory when acquiring new books                        |
-| `v1.0`  | Librarian     | Remove books when lost or permanently borrowed                         | Maintain an accurate inventory                                      |
-| `v1.0`  | Librarian     | Add book loans, including borrower details and return dates            | Ensure books are returned on time and inform others of availability |
-| `v1.0`  | Librarian     | Delete book loans, including borrower details and return dates         | Maintain accurate loan records                                      |
-| `v1.0`  | Librarian     | View on-going loans                                                    | Keep track of what books are loaned out                             |
-| `v2.0`  | Librarian     | Categorize my inventory                                                | Make searching for books more convenient                            |
-| `v2.0`  | Librarian     | Manage/Update book availability, including borrowed and reserved books | Efficiently allocate books                                          |
-| `v2.0`  | Librarian     | Track book conditions (e.g good, fair, poor)                | Maintain detailed records                                           |
-| `v2.0`  | Librarian     | Add personal notes about individual books                              | Maintain detailed records                                           |
-| `v2.0`  | Librarian     | Edit existing book loans' due dates                                    | Better track by updating book loans                                 |
-| `v2.0`  | Librarian     | Add contact details for borrowers                                      | Easily reach out to borrowers when needed                           |
-| `v2.0`  | Librarian     | Keep track of where available books are in the library                 | Help visitors find books                                            |
+| Version | As a...  | I want to...                                                           | So that I can                                                       |
+|---------| -------- |------------------------------------------------------------------------|---------------------------------------------------------------------|
+| `v1.0`  | Librarian | View inventory, including book count                                   | See my existing books                                               |
+| `v1.0`  | Librarian | Add new books to the system easily                                     | Update my inventory when acquiring new books                        |
+| `v1.0`  | Librarian | Remove books when lost or permanently borrowed                         | Maintain an accurate inventory                                      |
+| `v1.0`  | Librarian | Add book loans, including borrower details and return dates            | Ensure books are returned on time and inform others of availability |
+| `v1.0`  | Librarian | Delete book loans, including borrower details and return dates         | Maintain accurate loan records                                      |
+| `v1.0`  | Librarian | View on-going loans                                                    | Keep track of what books are loaned out                             |
+| `v2.0`  | Librarian | Categorize my inventory                                                | Make searching for books more convenient                            |
+| `v2.0`  | Librarian | Manage/Update book availability, including borrowed and reserved books | Efficiently allocate books                                          |
+| `v2.0`  | Librarian | Track book conditions (e.g good, fair, poor)                           | Maintain detailed records                                           |
+| `v2.0`  | Librarian | Add personal notes about individual books                              | Maintain detailed records                                           |
+| `v2.0`  | Librarian | Edit existing book loans' due dates                                    | Better track by updating book loans                                 |
+| `v2.0`  | Librarian | Add contact details for borrowers                                      | Easily reach out to borrowers when needed                           |
+| `v2.0`  | Librarian | Keep track of where available books are in the library                 | Help visitors find books                                            |
 | `v2.0`  | New Librarian | View a list of available commands                                      | Learn how to use the application                                    |
+| `v2.1`  |Librarian | Update existing personal notes about individual books                  | Maintain accurate records                                           |
 
 ## Appendix C: Non-Functional Requirements
 
