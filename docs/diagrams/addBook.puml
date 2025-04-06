@@ -39,7 +39,7 @@ alt commandArgs[0] == add-book
     InputHandler -> BookList: findBookByTitle(BOOK_TITLE)
     activate BookList
 
-    BookList --> InputHandler: Book or null
+    BookList --> InputHandler: Book
     deactivate BookList
 
     opt Book != null

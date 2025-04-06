@@ -22,7 +22,10 @@ alt commandArgs[0] == edit-loan
     activate InputHandler
 
     opt commandArgs.length < 2
-        InputHandler -> Formatter: printBorderedMessage("Invalid format for edit-loan.")
+        note right
+        rest of sequence is cancelled in error cases denoted in opt frames
+        end note
+        InputHandler -> Formatter: Print exception message
         activate Formatter
         Formatter --> InputHandler
         deactivate Formatter
@@ -38,7 +41,12 @@ alt commandArgs[0] == edit-loan
 
     LoanList --> InputHandler: Loan or null
     deactivate LoanList
-
+    opt Loan == null
+    InputHandler -> Formatter: Print exception message
+    activate Formatter
+    Formatter --> InputHandler
+    deactivate Formatter
+    end
     InputHandler -> Loan: getTitle()
     activate Loan
 
@@ -48,7 +56,7 @@ alt commandArgs[0] == edit-loan
     InputHandler -> BookList: findBookByTitle(title)
     activate BookList
 
-    BookList --> InputHandler: Book or null
+    BookList --> InputHandler: Book
     deactivate BookList
 
         alt Book == null

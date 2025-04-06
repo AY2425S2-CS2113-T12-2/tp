@@ -7,7 +7,7 @@ participant Book as ":Book"
 participant Formatter as ":Formatter"
 participant Storage as ":Storage"
 
-User -> InputHandler: "update-book BOOK_TITLE \n a/AUTHOR cat/CATEGORY \n cond/CONDITION loc/LOCATION [note/NOTE]"
+User -> InputHandler: userInputLine
 activate InputHandler
 
 InputHandler -> InputParser: extractCommandArgs(userInputLine)
@@ -20,7 +20,16 @@ alt commandArgs[0] == update-book
     InputHandler -> InputHandler : updateBook()
     activate InputHandler
 
-alt commandArgs.length >= 2
+    opt commandArgs.length < 2
+        note right
+        rest of sequence is cancelled in error cases denoted in opt frames
+        end note
+        InputHandler -> Formatter: Print exception message
+        activate Formatter
+        Formatter --> InputHandler
+        deactivate Formatter
+    end
+
     InputHandler -> InputParser: extractUpdateBookArgs(commandArgs[1])
     activate InputParser
 
@@ -30,59 +39,31 @@ alt commandArgs.length >= 2
     InputHandler -> BookList: findBookByTitle(BOOK_TITLE)
     activate BookList
 
-    BookList --> InputHandler: Book or null
+    BookList --> InputHandler: Book
     deactivate BookList
 
-    alt Book != null
-        InputHandler -> Book : setAuthor(AUTHOR)
-        activate Book
-        Book --> InputHandler
-        deactivate Book
-
-        InputHandler -> Book : setCategory(CATEGORY)
-        activate Book
-        Book --> InputHandler
-        deactivate Book
-        InputHandler -> Book : setCondition(CONDITION)
-        activate Book
-        Book --> InputHandler
-        deactivate Book
-        InputHandler -> Book : setLocation(LOCATION)
-        activate Book
-        Book --> InputHandler
-        deactivate Book
-        InputHandler -> Book : setNote(NOTE)
-        activate Book
-        Book --> InputHandler
-        deactivate Book
-        
-
-        InputHandler -> Formatter: printBorderedMessage("Book Updated: {BOOK_TITLE}")
-        activate Formatter
-
-        Formatter --> InputHandler
-        deactivate Formatter
-
-        InputHandler -> Storage: saveInventory(bookList)
-        activate Storage
-
-        Storage --> InputHandler
-        deactivate Storage
-
-
-    else else
-        InputHandler -> Formatter: printBorderedMessage("Book not found in inventory: {BOOK_TITLE}")
+    opt Book == null
+        InputHandler -> Formatter: Print exception message
         activate Formatter
         Formatter --> InputHandler
         deactivate Formatter
     end
+    InputHandler -> Book : setRelevantFields(...)
+    activate Book
+    Book --> InputHandler
+    deactivate Book
 
-    else else
-        InputHandler -> Formatter: printBorderedMessage("Invalid format for update-book")
-        activate Formatter
-        Formatter --> InputHandler
-        deactivate Formatter
-    end
+    InputHandler -> Formatter: printBorderedMessage("Book Updated: {BOOK_TITLE}")
+    activate Formatter
+
+    Formatter --> InputHandler
+    deactivate Formatter
+
+    InputHandler -> Storage: saveInventory(bookList)
+    activate Storage
+
+    Storage --> InputHandler
+    deactivate Storage
 
 InputHandler --> InputHandler
 deactivate InputHandler
