@@ -7,7 +7,7 @@ participant Book as ":Book"
 participant Formatter as ":Formatter"
 participant Storage as ":Storage"
 
-User -> InputHandler: "add-book BOOK_TITLE \n a/AUTHOR cat/CATEGORY \n cond/CONDITION loc/LOCATION [note/NOTE]"
+User -> InputHandler: userInputLine
 activate InputHandler
 
 InputHandler -> InputParser: extractCommandArgs(userInputLine)
@@ -20,7 +20,16 @@ alt commandArgs[0] == add-book
     InputHandler -> InputHandler : addBook()
     activate InputHandler
 
-alt commandArgs.length >= 2
+    opt commandArgs.length < 2
+        note right
+        rest of sequence is cancelled in error cases denoted in opt frames
+        end note
+        InputHandler -> Formatter: Print exception message
+        activate Formatter
+        Formatter --> InputHandler
+        deactivate Formatter
+    end
+
     InputHandler -> InputParser: extractAddBookArgs(commandArgs[1])
     activate InputParser
 
@@ -33,46 +42,37 @@ alt commandArgs.length >= 2
     BookList --> InputHandler: Book or null
     deactivate BookList
 
-    alt Book == null
-        InputHandler -> Book ** : Book(parsedArgs)
-        activate Book 
-
-        Book --> InputHandler : newBook
-        deactivate Book
-
-        InputHandler -> BookList: addBook(newBook)
-        activate BookList
-
-
-        BookList --> InputHandler: Book added
-        deactivate BookList
-
-        InputHandler -> Formatter: printBorderedMessage("New book added: {BOOK_TITLE}")
-        activate Formatter
-
-        Formatter --> InputHandler
-        deactivate Formatter
-
-        InputHandler -> Storage: saveInventory(bookList)
-        activate Storage
-
-        Storage --> InputHandler
-        deactivate Storage
-
-
-    else else
-        InputHandler -> Formatter: printBorderedMessage("Book already exists in inventory: {BOOK_TITLE}")
+    opt Book != null
+        InputHandler -> Formatter: Print exception message
         activate Formatter
         Formatter --> InputHandler
         deactivate Formatter
     end
 
-    else else
-        InputHandler -> Formatter: printBorderedMessage("Invalid format for add-book")
-        activate Formatter
-        Formatter --> InputHandler
-        deactivate Formatter
-    end
+    InputHandler -> Book ** : Book(parsedArgs)
+    activate Book
+
+    Book --> InputHandler : newBook
+    deactivate Book
+
+    InputHandler -> BookList: addBook(newBook)
+    activate BookList
+
+
+    BookList --> InputHandler: Book added
+    deactivate BookList
+
+    InputHandler -> Formatter: printBorderedMessage("New book added: {BOOK_TITLE}")
+    activate Formatter
+
+    Formatter --> InputHandler
+    deactivate Formatter
+
+    InputHandler -> Storage: saveInventory(bookList)
+    activate Storage
+
+    Storage --> InputHandler
+    deactivate Storage
 
 InputHandler --> InputHandler
 deactivate InputHandler
