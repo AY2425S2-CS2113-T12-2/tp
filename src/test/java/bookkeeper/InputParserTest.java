@@ -72,7 +72,8 @@ public class InputParserTest {
     }
 
     @Test
-    void extractAddLoanArgs_validInput_threeArgumentStringArray() throws IncorrectFormatException {
+    void extractAddLoanArgs_validInput_threeArgumentStringArray() throws IncorrectFormatException, 
+            InvalidArgumentException {
         String[] arguments = InputParser.extractAddLoanArgs("The Great Gatsby n/Mary d/13-Mar-2025" +
                 " p/12345678 e/abc123@gmail.com");
         String[] output = new String[]{"The Great Gatsby", "Mary", "13-Mar-2025", "12345678", "abc123@gmail.com"};
@@ -80,7 +81,8 @@ public class InputParserTest {
     }
 
     @Test
-    void extractAddLoanArgs_inputWithExtraSpace_threeArgumentStringArray() throws IncorrectFormatException {
+    void extractAddLoanArgs_inputWithExtraSpace_threeArgumentStringArray() throws IncorrectFormatException, 
+            InvalidArgumentException {
         String[] arguments = InputParser.extractAddLoanArgs("The Great Gatsby    n/Mary d/13-Mar-2025   " +
                 "p/12345678  e/abc123@gmail.com");
         String[] output = new String[]{"The Great Gatsby", "Mary", "13-Mar-2025", "12345678", "abc123@gmail.com"};
@@ -117,7 +119,8 @@ public class InputParserTest {
     }
 
     @Test
-    void extractEditLoanArgs_inputWithExtraSpace_twoArgumentArray() throws IncorrectFormatException, InvalidArgumentException {
+    void extractEditLoanArgs_inputWithExtraSpace_twoArgumentArray() throws IncorrectFormatException, 
+            InvalidArgumentException {
         String[] arguments = InputParser.extractEditLoanArgs("Great Gatsby    n/Mary d/13-03-2025     " +
                 "p/12345678   e/abc123@gmail.com");
         String[] output = new String[]{"Great Gatsby", "Mary", "13-03-2025", "12345678", "abc123@gmail.com"};
@@ -166,7 +169,7 @@ public class InputParserTest {
     }
 
     @Test
-    void extractAddLoanArgs_validInput_success() throws IncorrectFormatException {
+    void extractAddLoanArgs_validInput_success() throws IncorrectFormatException, InvalidArgumentException {
         String input = "The Great Gatsby n/John Doe d/2023-12-01 p/1234567890 e/johndoe@example.com";
         String[] result = InputParser.extractAddLoanArgs(input);
         String[] expected = {"The Great Gatsby", "John Doe", "2023-12-01", "1234567890", "johndoe@example.com"};
@@ -214,7 +217,8 @@ public class InputParserTest {
     }
 
     @Test
-    void extractEditLoanArgs_missingFields_sucessWithoutMissingFields() throws IncorrectFormatException, InvalidArgumentException {
+    void extractEditLoanArgs_missingFields_sucessWithoutMissingFields() throws IncorrectFormatException, 
+            InvalidArgumentException {
         String input = "1 n/John Doe d/2023-12-01 e/johndoe@example.com";
         String[] result = InputParser.extractEditLoanArgs(input);
         String[] expected = {"1", "John Doe", "2023-12-01", null, "johndoe@example.com"};
