@@ -409,7 +409,4 @@ public class InputHandler {
             }
         }
     }
-
-
-
 }
