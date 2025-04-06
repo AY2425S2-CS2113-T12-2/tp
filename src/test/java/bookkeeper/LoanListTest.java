@@ -109,4 +109,68 @@ public class LoanListTest {
         Loan foundLoan = loanList.findLoan(book1);
         assertNull(foundLoan, "Loan should not be found in the list for a nonexistent borrower");
     }
+
+    @Test
+    void getListName_test() {
+        assertEquals("Test Loan List", loanList.getListName(),
+                "getListName() should return the list name provided in the constructor");
+    }
+
+    @Test
+    void findLoanByIndex_validIndex() {
+        loanList.addLoan(loan1);
+        Loan found = loanList.findLoanByIndex(1);
+        assertEquals(loan1, found, "findLoanByIndex(1) should return the first loan");
+    }
+
+    @Test
+    void findLoanByIndex_invalidIndex() {
+        loanList.addLoan(loan1);
+        // Index 0 or an index greater than list size should return null.
+        assertNull(loanList.findLoanByIndex(0),
+                "findLoanByIndex(0) should return null (invalid index)");
+        assertNull(loanList.findLoanByIndex(2),
+                "findLoanByIndex(2) should return null when no loan exists at that position");
+    }
+
+    @Test
+    void removeLoansByBook_valid() {
+        // Add two loans for book1 and one for book2.
+        loanList.addLoan(loan1);
+        Loan loan2 = new Loan(book1, "Jane Smith",
+                LocalDate.now().plusDays(30).format(DateTimeFormatter.ofPattern("dd-MM-yyyy")),
+                "12345678", "jane@example.com");
+        Loan loan3 = new Loan(book2, "Bob Brown",
+                LocalDate.now().plusDays(25).format(DateTimeFormatter.ofPattern("dd-MM-yyyy")),
+                "87654321", "bob@example.com");
+        loanList.addLoan(loan2);
+        loanList.addLoan(loan3);
+
+        // Verify that three loans are in the list.
+        assertEquals(3, loanList.getLoanList().size(),
+                "There should be three loans before removal");
+
+        // Remove all loans associated with book1.
+        loanList.removeLoansByBook(book1);
+
+        // Only the loan associated with book2 should remain.
+        assertEquals(1, loanList.getLoanList().size(),
+                "After removal, only loans not associated with book1 should remain");
+        assertEquals(loan3, loanList.getLoanList().get(0),
+                "The remaining loan should be the one associated with book2");
+
+        // Additionally, findLoan() for book1 should now return null.
+        assertNull(loanList.findLoan(book1),
+                "No loan for book1 should be found after removal");
+    }
+
+    @Test
+    void removeLoansByBook_nullBook() {
+        // Passing null should trigger an assertion.
+        AssertionError error = assertThrows(AssertionError.class,
+                () -> loanList.removeLoansByBook(null),
+                "Passing null to removeLoansByBook() should throw an AssertionError");
+        assertEquals("Book cannot be null", error.getMessage(),
+                "Error message should indicate that the book cannot be null");
+    }
 }
