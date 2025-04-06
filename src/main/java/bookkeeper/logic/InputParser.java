@@ -309,7 +309,7 @@ public class InputParser {
     }
 
     public static String[] extractEditLoanArgs(String input) throws IncorrectFormatException {
-        String index = null;
+        String title = null;
         String borrowerName = null;
         String returnDate = null;
         String phoneNumber = null;
@@ -318,10 +318,7 @@ public class InputParser {
         Set<String> processedPrefixes = new HashSet<>();
         String[] parts = input.trim().split("\\s+(?=\\w+/|$)");
 
-        index = parts[0].trim();
-        if (!index.matches("^[0-9]+$")) {
-            throw new IncorrectFormatException("Please provide a valid index");
-        }
+        title = parts[0].trim();
 
         for (int i = 1; i < parts.length; i++) {
             String part = parts[i].trim();
@@ -351,6 +348,6 @@ public class InputParser {
             }
         }
 
-        return new String[]{index, borrowerName, returnDate, phoneNumber, email};
+        return new String[]{title, borrowerName, returnDate, phoneNumber, email};
     }
 }

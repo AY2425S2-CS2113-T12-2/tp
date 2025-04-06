@@ -202,8 +202,7 @@ public class Storage {
         // Normalize case for title, author, and category
         try { 
             book = new Book(title, author, category, condition, location, note);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             // Handle invalid book creation
             Formatter.printBorderedMessage("Invalid book entry skipped: " + line + "\nReason: " + e.getMessage());
             return null; // Skip this book
