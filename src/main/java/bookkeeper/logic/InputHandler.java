@@ -43,8 +43,7 @@ public class InputHandler {
             userInputLine = scanner.nextLine();
             if (userInputLine.isEmpty()) {
                 Formatter.printBorderedMessage("Please enter a command");
-            }
-            else if (userInputLine.contains("|")){
+            } else if (userInputLine.contains("|")){
                 Formatter.printBorderedMessage("Please do not use \"|\" in your inputs");
             } else {
                 Storage.validateStorage(bookList, loanList);
@@ -120,9 +119,9 @@ public class InputHandler {
             | Update Book    | `update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`|
             | Search Book    | `search-book KEYWORD`                                                                 |
             | View Inventory | `view-inventory`                                                                      |
-            | Add note       | `add-note BOOK_TITLE note/NOTE`                                                       |
-            | Update note    | `update-note BOOK_TITLE note/NOTE`                                                    |
-            | Delete note    | `delete-note BOOK_TITLE`                                                              |
+            | Add Note       | `add-note BOOK_TITLE note/NOTE`                                                       |
+            | Update Note    | `update-note BOOK_TITLE note/NOTE`                                                    |
+            | Delete Note    | `delete-note BOOK_TITLE`                                                              |
             | List Category  | `list-category CATEGORY`                                                              |
             | Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`            |
             | Delete Loan    | `delete-loan BOOK_TITLE`                                                              |
@@ -444,7 +443,7 @@ public class InputHandler {
         Loan loan = loanList.findLoanByIndex(index);
         if (loan == null) {
             throw new IncorrectFormatException("Please provide a valid index");
-        } 
+        }
         String bookTitle = loan.getTitle();
         Book book = bookList.findBookByTitle(bookTitle);
         if (book == null) {
@@ -459,7 +458,7 @@ public class InputHandler {
             } catch (IllegalArgumentException e) {
                 Formatter.printBorderedMessage(e.getMessage());
             }
-        } 
+        }
     }
 
     private void setFields(Loan loan, String borrowerName, String returnDate, String phoneNumber, String email) {
