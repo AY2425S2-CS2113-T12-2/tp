@@ -185,17 +185,17 @@ public class InputParserTest {
     }
 
     @Test
-    void extractAddLoanArgs_invalidPhoneNumber_exceptionThrown() throws IncorrectFormatException {
+    void extractAddLoanArgs_invalidPhoneNumber_exceptionThrown() {
         String input = "The Great Gatsby n/John Doe d/2023-12-01 p/9@3!#49 e/johndoe@example.com";
-        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, 
+        InvalidArgumentException exception = assertThrows(InvalidArgumentException.class, 
                 () -> InputParser.extractAddLoanArgs(input));
         assertEquals(ErrorMessages.INVALID_PHONE_NUMBER_ADD_LOAN, exception.getMessage());
     }
 
     @Test
-    void extractAddLoanArgs_invalidEmail_exceptionThrown() throws IncorrectFormatException {
+    void extractAddLoanArgs_invalidEmail_exceptionThrown() {
         String input = "The Great Gatsby n/John Doe d/2023-12-01 p/91222999 e/johndoeexample.com";
-        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, 
+        InvalidArgumentException exception = assertThrows(InvalidArgumentException.class, 
                 () -> InputParser.extractAddLoanArgs(input));
         assertEquals(ErrorMessages.INVALID_EMAIL_ADD_LOAN, exception.getMessage());
     }
@@ -226,17 +226,17 @@ public class InputParserTest {
     }
 
     @Test
-    void extractEditLoanArgs_invalidPhoneNumber_exceptionThrown() throws IncorrectFormatException {
+    void extractEditLoanArgs_invalidPhoneNumber_exceptionThrown() {
         String input = "1 n/John Doe d/2023-12-01 p/9@3!#49 e/johndoe@example.com";
-        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, 
+        InvalidArgumentException exception = assertThrows(InvalidArgumentException.class, 
                 () -> InputParser.extractEditLoanArgs(input));
         assertEquals(ErrorMessages.INVALID_PHONE_NUMBER_EDIT_LOAN, exception.getMessage());
     }
 
     @Test
-    void extractEditLoanArgs_invalidEmail_exceptionThrown() throws IncorrectFormatException {
+    void extractEditLoanArgs_invalidEmail_exceptionThrown() {
         String input = "1 n/John Doe d/2023-12-01 p/91222999 e/johndoeexample.com";
-        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, 
+        InvalidArgumentException exception = assertThrows(InvalidArgumentException.class, 
                 () -> InputParser.extractEditLoanArgs(input));
         assertEquals(ErrorMessages.INVALID_EMAIL_EDIT_LOAN, exception.getMessage());
     }
