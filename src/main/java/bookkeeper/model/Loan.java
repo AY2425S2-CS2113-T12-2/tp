@@ -9,7 +9,7 @@ public class Loan {
 
     private Book book;
     private String borrowerName;
-    private LocalDate returnDate; 
+    private LocalDate returnDate;
     private String phoneNumber;
     private String email;
 
@@ -101,13 +101,13 @@ public class Loan {
             if (!date.matches("\\d{2}-\\d{2}-\\d{4}")) {
                 throw new IllegalArgumentException("Invalid date format. Expected format: DD-MM-YYYY");
             }
-    
+
             // Split the date string into day, month, and year
             String[] dateParts = date.split("-");
             int day = Integer.parseInt(dateParts[0]);
             int month = Integer.parseInt(dateParts[1]);
             int year = Integer.parseInt(dateParts[2]);
-    
+
             // Validate the day, month, and year
             if (month < 1 || month > 12) {
                 throw new IllegalArgumentException("Invalid month: " + month + ". Month must be between 01 and 12.");
@@ -115,18 +115,18 @@ public class Loan {
             if (day < 1 || day > 31) {
                 throw new IllegalArgumentException("Invalid day: " + day + ". Day must be between 01 and 31.");
             }
-    
+
             // Check if the day is valid for the given month and year
             if (!isValidDayForMonth(day, month, year)) {
                 throw new IllegalArgumentException("Invalid date: " + date + ". Please provide a valid date.");
             }
-    
+
             // Parse the date into a LocalDate
             LocalDate parsedDate = LocalDate.parse(date, DATE_FORMATTER);
-    
+
             // Validate that the date is not in the past
             validateNotPastDate(parsedDate);
-    
+
             return parsedDate;
         } catch (DateTimeParseException e) {
             throw new IllegalArgumentException("Invalid date format. Expected format: DD-MM-YYYY");
@@ -135,19 +135,22 @@ public class Loan {
 
     private boolean isValidDayForMonth(int day, int month, int year) {
         switch (month) {
-            case 2: // February
-                if (isLeapYear(year)) {
-                    return day <= 29; // Leap year
-                } else {
-                    return day <= 28; // Non-leap year
-                }
-            case 4: case 6: case 9: case 11: // Months with 30 days
-                return day <= 30;
-            default: // Months with 31 days
-                return day <= 31;
+        case 2: // February
+            if (isLeapYear(year)) {
+                return day <= 29; // Leap year
+            } else {
+                return day <= 28; // Non-leap year
+            }
+        case 4:
+        case 6:
+        case 9:
+        case 11: // Months with 30 days
+            return day <= 30;
+        default: // Months with 31 days
+            return day <= 31;
         }
     }
-    
+
     private boolean isLeapYear(int year) {
         return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
     }
