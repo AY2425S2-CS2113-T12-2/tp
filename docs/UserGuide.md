@@ -1,8 +1,8 @@
-# User Guide (v2.0)
+# User Guide (v2.1)
 
 ## Table of Contents
 
-- [User Guide (v2.0)](#user-guide-v20)
+- [User Guide (v2.1)](#user-guide-v21)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Quick Start](#quick-start)
@@ -44,7 +44,7 @@ BookKeeper is a Command Line Interface (CLI) library manager application for eff
 Welcome to BookKeeper! This guide will help you get started with using the system for managing your library's books and loan records.
 
 1. Ensure that you have Java 17 or above installed.
-2. Download the latest version of `BookKeeper` from [here](https://github.com/AY2425S2-CS2113-T12-2/tp/releases/tag/Release-v2.0).
+2. Download the latest version of `BookKeeper` from [here](https://github.com/AY2425S2-CS2113-T12-2/tp/releases/tag/Release-v2.1).
 3. Copy the file to the folder you want to use as the home folder for BookKeeper.
 4. Open a command prompt/terminal and navigate to the folder where you placed the jar file.
 5. Run the application using: `java -jar BookKeeper.jar`
@@ -62,6 +62,9 @@ This version of the system focuses on key functionalities for managing inventory
 Adds a book to the library collection.
 
 Format: `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`
+
+Notes:
+- Valid categories are: romance, adventure, action, horror, mystery, fiction, nonfiction, scifi, education.
 
 Example:
 
