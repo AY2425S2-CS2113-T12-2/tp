@@ -102,25 +102,18 @@ public class InputParserTest {
 
     @Test
     void extractEditLoanArgs_validInput_twoArgumentArray() throws IncorrectFormatException {
-        String[] arguments = InputParser.extractEditLoanArgs("1 n/Mary d/13-03-2025 " +
+        String[] arguments = InputParser.extractEditLoanArgs("Great Gatsby n/Mary d/13-03-2025 " +
                 "p/12345678 e/abc123@gmail.com");
-        String[] output = new String[]{"1", "Mary", "13-03-2025", "12345678", "abc123@gmail.com"};
+        String[] output = new String[]{"Great Gatsby", "Mary", "13-03-2025", "12345678", "abc123@gmail.com"};
         assertArrayEquals(arguments, output);
     }
 
     @Test
     void extractEditLoanArgs_inputWithExtraSpace_twoArgumentArray() throws IncorrectFormatException {
-        String[] arguments = InputParser.extractEditLoanArgs("1    n/Mary d/13-03-2025     " +
+        String[] arguments = InputParser.extractEditLoanArgs("Great Gatsby    n/Mary d/13-03-2025     " +
                 "p/12345678   e/abc123@gmail.com");
-        String[] output = new String[]{"1", "Mary", "13-03-2025", "12345678", "abc123@gmail.com"};
+        String[] output = new String[]{"Great Gatsby", "Mary", "13-03-2025", "12345678", "abc123@gmail.com"};
         assertArrayEquals(arguments, output);
-    }
-
-    @Test
-    void extractEditLoanArgs_missingArguments_exceptionThrown() {
-        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, ()
-                -> InputParser.extractEditLoanArgs("The Great Gatsby"));
-        assertEquals("Please provide a valid index", exception.getMessage());
     }
 
     @Test
