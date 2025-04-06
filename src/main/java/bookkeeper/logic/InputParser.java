@@ -155,7 +155,7 @@ public class InputParser {
         String category = null;
         String condition = null;
         String location = null;
-        String note = "";
+        String note = null;
 
         Set<String> processedPrefixes = new HashSet<>();
         String[] parts = input.trim().split("\\s+(?=\\w+/|$)");

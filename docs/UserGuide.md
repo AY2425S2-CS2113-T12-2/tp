@@ -11,11 +11,9 @@
       - [Adding a Title that already exists in inventory](#adding-a-title-that-already-exists-in-inventory)
     - [Removing a book: `remove-book`](#removing-a-book-remove-book)
     - [Updating a Book: `update-book`](#updating-a-book-update-book)
+    - [Updating a Title: `update-title`](#updating-a-title-update-title)
     - [Searching for a Book: `search-book`](#searching-for-a-book-search-book)
     - [View Book Collection: `view-inventory`](#view-book-collection-view-inventory)
-    - [Adding a Note: `add-note`](#adding-a-note-add-note)
-    - [Deleting a Note: `delete-note`](#deleting-a-note-delete-note)
-    - [Updating a Note: `update-note`](#updating-a-note-update-note)
     - [List Category: `list-category`](#list-category-list-category)
     - [Adding a Loan: `add-loan`](#adding-a-loan-add-loan)
       - [Adding a Loan for a Book Already on Loan](#adding-a-loan-for-a-book-already-on-loan)
@@ -64,6 +62,7 @@ Adds a book to the library collection.
 Format: `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`
 
 Notes:
+
 - Valid categories are: romance, adventure, action, horror, mystery, fiction, nonfiction, scifi, education.
 
 Example:
@@ -115,7 +114,7 @@ Removed book: Great Gatsby
 
 Updates the author, category, condition, location and note with the information provided.
 
-Format: `update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`
+Format: `update-book BOOK_TITLE [a/AUTHOR] [cat/CATEGORY] [cond/CONDITION] [loc/LOCATION] [note/NOTE]`
 
 Example:
 
@@ -241,6 +240,7 @@ update-note Great Gatsby note/Best Seller
 ```
 
 Expected Outcome:
+
 ```
 Note updated for book: Great Gatsby
 ```
@@ -277,6 +277,7 @@ Adds a loan using the book title.
 Format: `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`
 
 Notes:
+
 - The RETURN_DATE must be in the format DD-MM-YYYY.
 - The RETURN_DATE cannot be in the past.
 - The PHONE_NUMBER will only accept numeric strings to cater for different countries phone number
@@ -443,19 +444,19 @@ Warning Message:
 
 ## Command Summary
 
-| Action         | Format                                                                 |
-| -------------- | ---------------------------------------------------------------------- |
-| Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]` |
-| Remove Book    | `remove-book BOOK_TITLE`                                               |
+| Action         | Format                                                                                 |
+| -------------- | -------------------------------------------------------------------------------------- |
+| Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`    |
+| Remove Book    | `remove-book BOOK_TITLE`                                                               |
 | Update Book    | `update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]` |
-| Search Book    | `search-book KEYWORD`                                                  |
-| View Inventory | `view-inventory`                                                       |
-| Add Note       | `add-note BOOK_TITLE note/NOTE`                                        |
-| Delete Note    | `delete-note BOOK_TITLE`                                               |
-| List Category  | `list-category CATEGORY`                                               |
-| Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL` |
-| Delete Loan    | `delete-loan BOOK_TITLE`                                               |
-| Edit Loan      | `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL` |
-| View Loans     | `view-loans`                                                           |
-| Display Help   | `help`                                                                 |
-| Exit Program   | `exit`                                                                 |
+| Search Book    | `search-book KEYWORD`                                                                  |
+| View Inventory | `view-inventory`                                                                       |
+| Add Note       | `add-note BOOK_TITLE note/NOTE`                                                        |
+| Delete Note    | `delete-note BOOK_TITLE`                                                               |
+| List Category  | `list-category CATEGORY`                                                               |
+| Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`             |
+| Delete Loan    | `delete-loan BOOK_TITLE`                                                               |
+| Edit Loan      | `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`            |
+| View Loans     | `view-loans`                                                                           |
+| Display Help   | `help`                                                                                 |
+| Exit Program   | `exit`                                                                                 |

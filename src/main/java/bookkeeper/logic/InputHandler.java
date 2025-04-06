@@ -318,6 +318,14 @@ public class InputHandler {
             throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
         }
 
+        if (author == null || author.isBlank() ||
+                category == null || category.isBlank() ||
+                condition == null || condition.isBlank() ||
+                location == null || location.isBlank() ||
+                note == null || note.isBlank()) {
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_BOOK_NO_UPDATES);
+        }
+
         try {
             book.setBookFields(author, category, condition, location, note);
             Formatter.printBorderedMessage("Book Updated:\n" + book);
@@ -387,6 +395,14 @@ public class InputHandler {
         } else if (!book.isOnLoan()) {
             Formatter.printBorderedMessage("The book " + bookTitle + " is not currently out on loan.");
         } else {
+            
+            if ((borrowerName == null || borrowerName.isBlank()) &&
+                    (returnDate == null || returnDate.isBlank()) &&
+                    (phoneNumber == null || phoneNumber.isBlank()) &&
+                    (email == null || email.isBlank())) {
+                throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_EDIT_LOAN_NO_EDITS);
+            }
+                
             try {
                 loan.setLoanFields(borrowerName, returnDate, phoneNumber, email);
                 Formatter.printBorderedMessage("Loan Updated:\n" + loan);

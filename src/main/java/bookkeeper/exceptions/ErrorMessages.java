@@ -12,6 +12,9 @@ public final class ErrorMessages {
     public static final String INVALID_FORMAT_UPDATE_BOOK = "Invalid format for update-book.\n" +
             "Expected format: update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]";
 
+    public static final String INVALID_FORMAT_UPDATE_BOOK_NO_UPDATES = "Invalid format for update-book.\n" +
+            "No fields provided to update.";
+
     public static final String INVALID_FORMAT_UPDATE_BOOK_DUPLICATE_PREFIX = "Invalid format for update-book. " +
             "Duplicate prefixes! \n" +
             "Expected format: update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]";
@@ -48,6 +51,9 @@ public final class ErrorMessages {
     public static final String INVALID_FORMAT_EDIT_LOAN_DUPLICATE_PREFIX = "Invalid format for edit-loan. " +
             "Duplicate prefixes! \n" +
             "Expected format: edit-loan INDEX n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL";
+
+    public static final String INVALID_FORMAT_EDIT_LOAN_NO_EDITS = "Invalid format for edit-loan.\n" +
+            "No fields provided for edits";
             
     public static final String INVALID_PHONE_NUMBER_EDIT_LOAN = "Invalid format for edit-loan.\n" +
             "Invalid phone number";
