@@ -336,7 +336,7 @@ public class InputHandler {
         }
     }
 
-      /**
+    /**
      * Updates the title of an existing book.
      *
      * @param commandArgs The parsed command arguments.
@@ -345,7 +345,7 @@ public class InputHandler {
      */
 
     private void updateTitle(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException, 
-        IllegalArgumentException {
+            IllegalArgumentException {
         if (commandArgs.length < 2) {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_TITLE);
         }
@@ -395,7 +395,6 @@ public class InputHandler {
         } else if (!book.isOnLoan()) {
             Formatter.printBorderedMessage("The book " + bookTitle + " is not currently out on loan.");
         } else {
-            
             if ((borrowerName == null || borrowerName.isBlank()) &&
                     (returnDate == null || returnDate.isBlank()) &&
                     (phoneNumber == null || phoneNumber.isBlank()) &&
