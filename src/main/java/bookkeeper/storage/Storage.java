@@ -200,7 +200,7 @@ public class Storage {
 
         Book book;
         // Normalize case for title, author, and category
-        try { 
+        try {
             book = new Book(title, author, category, condition, location, note);
         } catch (IllegalArgumentException e) {
             // Handle invalid book creation
