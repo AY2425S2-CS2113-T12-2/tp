@@ -35,9 +35,11 @@ BookKeeper is a Command Line Interface (CLI) library manager application for eff
     * **Highlights:** Increases user convenience in updating notes.
 
 6. **Enhancements to existing features**:
-    * Consolidated error messages to constants
+    * Consolidated error messages to constants in `ErrorMessages` class.
     * Updated existing features to support new attribute `location` of Book.
-    * Wrote JUnit tests for BookList and updated tests in other classes to reflect expected behaviour when new features are added.
+    * Updated `delete-loan` to no longer require borrower name based on user feedback from PE-D.
+    * Contributed JUnit tests for `BookList`, `LoanList` and `InputParser`.
+    * Updated tests to reflect expected behaviour when new features are added.
 
 ### Contributions to User Guide
 - Wrote the Introduction and Quick Start sections to help new users get started quickly. 
