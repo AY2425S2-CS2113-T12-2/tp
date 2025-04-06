@@ -85,6 +85,53 @@ public class InputParser {
         return new String[]{bookTitle, author, category, condition, location, note};
     }
 
+
+    /**
+     * Extracts the arguments for the update-title command.
+     * <p>
+     * The expected input format is:
+     * update-title BOOK_TITLE new/NEW_TITL
+     * Example: "Cheese Chronicles new/Cheese Adventures"
+     *
+     * @param input The user input for the update-title command.
+     * @return An array of strings containing the arguments for the update-book command:
+     *      [0] - Old title
+     *      [1] - New title
+     * @throws IncorrectFormatException if the input format is invalid.
+     */
+    public static String[] extractUpdateTitleArgs(String input) throws IncorrectFormatException {
+        String[] parts = input.trim().split("\\s+(?=\\w+/|$)");
+        Set<String> processedPrefixes = new HashSet<>();
+
+        if (parts.length == 0 || parts[0].startsWith("new/")) {
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_TITLE);
+        }
+
+        String oldTitle = parts[0].trim();
+        String newTitle = null;
+
+        for (int i = 1; i < parts.length; i++) {
+            String part = parts[i].trim();
+            String prefix = part.substring(0, part.indexOf("/") + 1);
+
+            if (processedPrefixes.contains(prefix)) {
+                throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_TITLE_DUPLICATE_PREFIX);
+            }
+            processedPrefixes.add(prefix);
+
+            if (part.startsWith("new/")) {
+                newTitle = part.substring(4).trim();
+            } else {
+                throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_TITLE);
+            }
+        }
+
+        if (oldTitle.isEmpty() || newTitle == null || newTitle.isEmpty()) {
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_TITLE);
+        }
+        return new String[]{oldTitle, newTitle};
+    }
+
     /**
      * Extracts the arguments for the update-book command.
      * <p>
@@ -108,7 +155,7 @@ public class InputParser {
         String category = null;
         String condition = null;
         String location = null;
-        String note = "";
+        String note = null;
 
         Set<String> processedPrefixes = new HashSet<>();
         String[] parts = input.trim().split("\\s+(?=\\w+/|$)");
@@ -143,10 +190,7 @@ public class InputParser {
             }
         }
 
-        if (bookTitle.isEmpty() || author == null || author.isEmpty() ||
-                category == null || category.isEmpty() ||
-                condition == null || condition.isEmpty() ||
-                location == null || location.isEmpty()) {
+        if (bookTitle.isEmpty()) {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_BOOK);
         }
 
@@ -258,40 +302,6 @@ public class InputParser {
         }
 
         return commandArgs;
-    }
-
-    public static String[] extractAddNoteArgs(String input) throws IncorrectFormatException {
-        String[] splitInput = input.trim().split(" note/", 2);
-
-        if (splitInput.length != 2) {
-            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_NOTE);
-        }
-
-        String bookTitle = splitInput[0].trim();
-        String note = splitInput[1].trim();
-
-        if (bookTitle.isBlank() || note.isBlank()) {
-            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_NOTE);
-        }
-
-        return new String[]{bookTitle, note};
-    }
-
-    public static String[] extractUpdateNoteArgs(String input) throws IncorrectFormatException {
-        String[] splitInput = input.trim().split(" note/", 2);
-
-        if (splitInput.length != 2) {
-            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_NOTE);
-        }
-
-        String bookTitle = splitInput[0].trim();
-        String note = splitInput[1].trim();
-
-        if (bookTitle.isBlank() || note.isBlank()) {
-            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_NOTE);
-        }
-
-        return new String[]{bookTitle, note};
     }
 
     public static String[] extractEditLoanArgs(String input) throws IncorrectFormatException {

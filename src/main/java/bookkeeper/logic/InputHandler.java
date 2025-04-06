@@ -73,15 +73,6 @@ public class InputHandler {
                     case "view-loans":
                         loanList.viewLoanList();
                         break;
-                    case "add-note":
-                        addNote(commandArgs);
-                        break;
-                    case "update-note":
-                        updateNote(commandArgs);
-                        break;
-                    case "delete-note":
-                        deleteNote(commandArgs);
-                        break;
                     case "update-book":
                         updateBook(commandArgs);
                         break;
@@ -90,6 +81,9 @@ public class InputHandler {
                         break;
                     case "list-category":
                         listCategory(commandArgs);
+                        break;
+                    case "update-title":
+                        updateTitle(commandArgs);
                         break;
                     case "help":
                         displayHelp();
@@ -296,103 +290,12 @@ public class InputHandler {
     }
 
     /**
-     * Adds a note to a specified book.
-     *
-     * @param commandArgs The parsed command arguments.
-     * @throws IncorrectFormatException If the input format is invalid.
-     * @throws BookNotFoundException    If the book is not found in the inventory.
-     */
-    private void addNote(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
-        if (commandArgs.length < 2) {
-            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_NOTE);
-        }
-
-        String[] noteArgs = InputParser.extractAddNoteArgs(commandArgs[1]);
-        String bookTitle = noteArgs[0];
-        String note = noteArgs[1];
-
-        Book book = bookList.findBookByTitle(bookTitle);
-        if (book == null) {
-            throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
-        }
-
-        if (!book.getNote().isEmpty()) {
-            Formatter.printBorderedMessage("Book already has a note:\n" + book.getNote());
-            return;
-        }
-
-        book.setNote(note);
-        Formatter.printBorderedMessage("Note added to book: " + bookTitle);
-        Storage.saveInventory(bookList);
-    }
-
-    /**
-     * Deletes the note from a specified book.
-     *
-     * @param commandArgs The parsed command arguments.
-     * @throws IncorrectFormatException If the input format is invalid.
-     * @throws BookNotFoundException    If the book is not found in the inventory.
-     */
-    private void deleteNote(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
-        if (commandArgs.length != 2) {
-            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_DELETE_NOTE);
-        }
-
-        String bookTitle = commandArgs[1].trim();
-
-        Book book = bookList.findBookByTitle(bookTitle);
-        if (book == null) {
-            throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
-        }
-
-        if (book.getNote().isEmpty()) {
-            Formatter.printBorderedMessage("No note exists for the book: " + bookTitle);
-            return;
-        }
-
-        book.setNote("");
-        Formatter.printBorderedMessage("Note deleted for book: " + bookTitle);
-        Storage.saveInventory(bookList);
-    }
-
-    /**
-     * Updates a note of a specified book.
-     *
-     * @param commandArgs The parsed command arguments.
-     * @throws IncorrectFormatException If the input format is invalid.
-     * @throws BookNotFoundException    If the book is not found in the inventory.
-     */
-    private void updateNote(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
-        if (commandArgs.length < 2) {
-            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_NOTE);
-        }
-
-        String[] noteArgs = InputParser.extractUpdateNoteArgs(commandArgs[1]);
-        String bookTitle = noteArgs[0];
-        String note = noteArgs[1];
-
-        Book book = bookList.findBookByTitle(bookTitle);
-        if (book == null) {
-            throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
-        }
-
-        if (book.getNote().isEmpty()) {
-            Formatter.printBorderedMessage("Book does not have a note. Please use add-note instead.");
-            return;
-        }
-
-        book.setNote(note);
-        Formatter.printBorderedMessage("Note updated for book: " + bookTitle);
-        Storage.saveInventory(bookList);
-    }
-
-    /**
      * Updates details of an existing book.
      *
      * @param commandArgs The parsed command arguments.
      * @throws IncorrectFormatException If the input format is invalid.
      * @throws BookNotFoundException    If the book is not found in the inventory.
-     * @throws IllegalArgumentException If the condition is invalid.
+     * @throws IllegalArgumentException If the category or condition is invalid.
      */
     private void updateBook(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException,
             IllegalArgumentException {
@@ -400,9 +303,14 @@ public class InputHandler {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_BOOK);
         }
         String[] bookArgs = InputParser.extractUpdateBookArgs(commandArgs[1]);
-        assert bookArgs.length >= 4 : "Book arguments should contain at least 4 elements";
+        assert bookArgs.length >= 5 : "Book arguments should contain at least 5 elements";
 
-        String bookTitle = bookArgs[0].trim();
+        String bookTitle = bookArgs[0];
+        String author = bookArgs[1];
+        String category = bookArgs[2];
+        String condition = bookArgs[3];
+        String location = bookArgs[4];
+        String note = bookArgs[5];
 
         // Check if book already exists in the inventory
         Book book = bookList.findBookByTitle(bookTitle);
@@ -410,14 +318,16 @@ public class InputHandler {
             throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
         }
 
+        if (author == null || author.isBlank() ||
+                category == null || category.isBlank() ||
+                condition == null || condition.isBlank() ||
+                location == null || location.isBlank() ||
+                note == null || note.isBlank()) {
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_BOOK_NO_UPDATES);
+        }
+
         try {
-            book.setAuthor(bookArgs[1]);
-            book.setCategory(bookArgs[2]);
-            book.setCondition(bookArgs[3]);
-            book.setLocation(bookArgs[4]);
-            if (bookArgs.length == 6 && !bookArgs[5].isBlank()) {
-                book.setNote(bookArgs[5]);
-            }
+            book.setBookFields(author, category, condition, location, note);
             Formatter.printBorderedMessage("Book Updated:\n" + book);
             Storage.saveInventory(bookList);
         } catch
@@ -425,6 +335,40 @@ public class InputHandler {
             Formatter.printBorderedMessage(e.getMessage());
         }
     }
+
+    /**
+     * Updates the title of an existing book.
+     *
+     * @param commandArgs The parsed command arguments.
+     * @throws IncorrectFormatException If the input format is invalid.
+     * @throws BookNotFoundException    If the book is not found in the inventory.
+     */
+
+    private void updateTitle(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException, 
+            IllegalArgumentException {
+        if (commandArgs.length < 2) {
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_TITLE);
+        }
+        String[] updateTitleArgs = InputParser.extractUpdateTitleArgs(commandArgs[1]);
+        String oldTitle = updateTitleArgs[0];
+        String newTitle = updateTitleArgs[1];
+
+        if(oldTitle.equals(newTitle)){
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_SAME_TITLE);
+        }
+
+        // Check if book already exists in the inventory
+        Book book = bookList.findBookByTitle(oldTitle);
+        if (book == null) {
+            throw new BookNotFoundException("Book not found in inventory: " + oldTitle);
+        }
+
+        book.setTitle(newTitle);
+        Formatter.printBorderedMessage("Book Updated:\n" + book);
+        Storage.saveInventory(bookList);
+
+    }
+    
 
     private void editLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
         if (commandArgs.length < 2) {
@@ -451,8 +395,15 @@ public class InputHandler {
         } else if (!book.isOnLoan()) {
             Formatter.printBorderedMessage("The book " + bookTitle + " is not currently out on loan.");
         } else {
+            if ((borrowerName == null || borrowerName.isBlank()) &&
+                    (returnDate == null || returnDate.isBlank()) &&
+                    (phoneNumber == null || phoneNumber.isBlank()) &&
+                    (email == null || email.isBlank())) {
+                throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_EDIT_LOAN_NO_EDITS);
+            }
+                
             try {
-                setFields(loan, borrowerName, returnDate, phoneNumber, email);
+                loan.setLoanFields(borrowerName, returnDate, phoneNumber, email);
                 Formatter.printBorderedMessage("Loan Updated:\n" + loan);
                 Storage.saveLoans(loanList);
             } catch (IllegalArgumentException e) {
@@ -461,18 +412,6 @@ public class InputHandler {
         }
     }
 
-    private void setFields(Loan loan, String borrowerName, String returnDate, String phoneNumber, String email) {
-        if (borrowerName != null && !borrowerName.isEmpty()) {
-            loan.setBorrowerName(borrowerName);
-        }
-        if (returnDate != null) {
-            loan.setReturnDate(returnDate);
-        }
-        if (phoneNumber != null) {
-            loan.setPhoneNumber(phoneNumber);
-        }
-        if (email != null) {
-            loan.setEmail(email);
-        }
-    }
+
+
 }

@@ -50,7 +50,7 @@ public class InputParserTest {
     void extractUpdateBookArgs_validInput_fiveArgumentStringArray() throws IncorrectFormatException {
         String[] arguments = InputParser.extractUpdateBookArgs("The Great Gatsby " +
                 "a/F. Scott Fitzgerald cat/Fiction cond/Good loc/Shelf 2");
-        String[] output = new String[]{"The Great Gatsby", "F. Scott Fitzgerald", "Fiction", "Good", "Shelf 2", ""};
+        String[] output = new String[]{"The Great Gatsby", "F. Scott Fitzgerald", "Fiction", "Good", "Shelf 2", null};
         assertArrayEquals(arguments, output);
     }
 
@@ -58,16 +58,8 @@ public class InputParserTest {
     void extractUpdateBookArgs_inputWithExtraSpace_fiveArgumentStringArray() throws IncorrectFormatException {
         String[] arguments = InputParser.extractUpdateBookArgs("The Great Gatsby " +
                 "a/F. Scott Fitzgerald    cat/Fiction cond/Good loc/Shelf 2  ");
-        String[] output = new String[]{"The Great Gatsby", "F. Scott Fitzgerald", "Fiction", "Good", "Shelf 2", ""};
+        String[] output = new String[]{"The Great Gatsby", "F. Scott Fitzgerald", "Fiction", "Good", "Shelf 2", null};
         assertArrayEquals(arguments, output);
-    }
-
-    @Test
-    void extractUpdateBookArgs_missingAuthor_exceptionThrown() {
-        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, ()
-                -> InputParser.extractUpdateBookArgs("The Great Gatsby cat/Fiction cond/Good"));
-        assertEquals(ErrorMessages.INVALID_FORMAT_UPDATE_BOOK,
-                exception.getMessage());
     }
 
     @Test
@@ -191,14 +183,6 @@ public class InputParserTest {
         String[] result = InputParser.extractUpdateBookArgs(input);
         String[] expected = {"The Great Gatsby", "F. Scott Fitzgerald", "Fiction", "Good", "Shelf 1", "Classic novel"};
         assertArrayEquals(expected, result);
-    }
-
-    @Test
-    void extractUpdateBookArgs_missingFields_exceptionThrown() {
-        String input = "The Great Gatsby a/F. Scott Fitzgerald loc/Shelf 1";
-        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, () ->
-                InputParser.extractUpdateBookArgs(input));
-        assertEquals(ErrorMessages.INVALID_FORMAT_UPDATE_BOOK, exception.getMessage());
     }
 
     @Test
