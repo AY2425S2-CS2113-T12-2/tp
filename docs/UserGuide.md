@@ -112,7 +112,7 @@ Removed book: Great Gatsby
 
 ### Updating a Book: `update-book`
 
-Updates the author, category, condition, location and note with the information provided.
+Updates the author, category, condition, location and note with the information provided. While the 4 fields are optional, `update-book` expects at least one field to be updated.
 
 Format: `update-book BOOK_TITLE [a/AUTHOR] [cat/CATEGORY] [cond/CONDITION] [loc/LOCATION] [note/NOTE]`
 
@@ -127,6 +127,31 @@ Expected Outcome:
 ```
 Book Updated:
 Title: Great Gatsby
+    Author: Fitzgerald
+    Category: Fiction
+    Condition: POOR
+    On Loan: false
+    Location: Shelf B3
+    Note: Replace ASAP
+```
+
+### Updating a Title: `update-title`
+
+Updates the title of a book.
+
+Format: `update-title BOOK_TITLE new/NEW_TITLE`
+
+Example:
+
+```
+update-book Great Gatsby new/ The Great Gatsby
+```
+
+Expected Outcome:
+
+```
+Book Updated:
+Title: The Great Gatsby
     Author: Fitzgerald
     Category: Fiction
     Condition: POOR
@@ -189,60 +214,6 @@ Here are the books in your inventory:
 2. Title: Cheese Chronicles
     Author: Jerry
     ...
-```
-
-### Adding a Note: `add-note`
-
-Add a personal note to a book.
-
-Format: `add-note BOOK_TITLE note/NOTE`
-
-Example:
-
-```
-add-note Great Gatsby note/Very good book
-```
-
-Expected Outcome:
-
-```
-Note added to book: Great Gatsby
-```
-
-### Deleting a Note: `delete-note`
-
-Deletes a note currently attached to a book.
-
-Format: `delete-note BOOK_TITLE`
-
-Example:
-
-```
-delete-note Great Gatsby
-```
-
-Expected Outcome:
-
-```
-Note deleted for book: Great Gatsby
-```
-
-### Updating a Note: `update-note`
-
-Updates an **existing** note that is currently attached to a book.
-
-Format: `update-note BOOK_TITLE note/NOTE`
-
-Example:
-
-```
-update-note Great Gatsby note/Best Seller
-```
-
-Expected Outcome:
-
-```
-Note updated for book: Great Gatsby
 ```
 
 ### List Category: `list-category`
@@ -321,7 +292,7 @@ Loan deleted successfully for book: Great Gatsby
 
 ### Editing a Loan: `edit-loan`
 
-Edits loan return date of the loan, borrower's phone number and email.
+Edits loan borrower name, return date of the loan, borrower's phone number and email. While the 4 fields are optional, `edit-loan` expects at least one field to be updated.
 
 Format: `edit-loan INDEX [n/BORROWER_NAME] [d/RETURN_DATE] [p/PHONE_NUMBER] [e/EMAIL]`
 
