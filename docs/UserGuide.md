@@ -227,14 +227,14 @@ Note deleted for book: Great Gatsby
 
 ### Updating a Note: `update-note`
 
-Updates a note that is currently attached to a book.
+Updates an **existing** note that is currently attached to a book.
 
 Format: `update-note BOOK_TITLE note/NOTE`
 
 Example:
 
 ```
-update-note Great Gatsby
+update-note Great Gatsby note/Best Seller
 ```
 
 Expected Outcome:

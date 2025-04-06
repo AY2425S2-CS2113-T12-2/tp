@@ -251,7 +251,6 @@ public class Storage {
 
         saveLoans(loanList);
         saveInventory(bookList);
-        Formatter.printBorderedMessage("Storage validated and updated successfully.");
     }
 
 }
