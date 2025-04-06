@@ -410,6 +410,9 @@ Warning Message:
 
 - **Commands Are Case-Sensitive**: Ensure that commands and inputs (e.g., book titles, borrower names) match the exact case.
 - **Books Are Unique**: Each book in the inventory is unique and identified by its title. Duplicate books are not allowed.
+- **Input Character Limitations**: We guarantee support for the English keyboard only. Please do not use the character `|` in your inputs. 
+- **Data Size/Length Limitations**: Inventory size, loan list length and no. of characters in user input should not exceed `2147483647` (>2 billion).
+- **User Responsibility**: User is responsible for text between flags (demarcated by `/`), e.g. `" "` is considered a valid book title if user follows proper command syntax.
 
 <div style="page-break-after: always;"></div>
 
@@ -420,14 +423,16 @@ Warning Message:
 | Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`    |
 | Remove Book    | `remove-book BOOK_TITLE`                                                               |
 | Update Book    | `update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]` |
-| Search Book    | `search-book KEYWORD`                                                                  |
-| View Inventory | `view-inventory`                                                                       |
-| Add Note       | `add-note BOOK_TITLE note/NOTE`                                                        |
-| Delete Note    | `delete-note BOOK_TITLE`                                                               |
-| List Category  | `list-category CATEGORY`                                                               |
-| Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`             |
-| Delete Loan    | `delete-loan BOOK_TITLE`                                                               |
-| Edit Loan      | `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`            |
-| View Loans     | `view-loans`                                                                           |
-| Display Help   | `help`                                                                                 |
-| Exit Program   | `exit`                                                                                 |
+| Search Book    | `search-book KEYWORD`                                                  |
+| View Inventory | `view-inventory`                                                       |
+| Add Note       | `add-note BOOK_TITLE note/NOTE`                                        |
+| Update note    | `update-note BOOK_TITLE note/NOTE`                                     |
+| Delete Note    | `delete-note BOOK_TITLE`                                               |
+| List Category  | `list-category CATEGORY`                                               |
+| Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL` |
+| Delete Loan    | `delete-loan BOOK_TITLE`                                               |
+| Edit Loan      | `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL` |
+| View Loans     | `view-loans`                                                           |
+| Display Help   | `help`                                                                 |
+| Exit Program   | `exit`                                                                 |
+

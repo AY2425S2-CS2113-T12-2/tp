@@ -15,7 +15,10 @@ return commandArgs
 
 alt commandArgs[0] == update-note
     InputHandler -> InputHandler : updateNote()
-    opt commandArgs.length < 2 
+    opt commandArgs.length < 2
+        note right
+        rest of sequence is cancelled in error cases denoted in opt frames
+        end note
         InputHandler -> Formatter : printBorderedMessage(Invalid Format)
         return
     end

@@ -8,7 +8,7 @@ participant Loan as ":Loan"
 participant Formatter as ":Formatter"
 participant Storage as ":Storage"
 
-User -> InputHandler: "edit-loan BOOK_TITLE \n n/BORROWER_NAME d/RETURN_DATE \n p/PHONE_NUMBER e/EMAIL"
+User -> InputHandler: userInputLine
 activate InputHandler
 
 InputHandler -> InputParser: extractCommandArgs(userInputLine)
@@ -21,30 +21,43 @@ alt commandArgs[0] == edit-loan
     InputHandler -> InputHandler : editLoan()
     activate InputHandler
 
-    alt commandArgs.length >= 2
-        InputHandler -> InputParser: extractEditLoanArgs(commandArgs[1])
-        activate InputParser
+    opt commandArgs.length < 2
+        note right
+        rest of sequence is cancelled in error cases denoted in opt frames
+        end note
+        InputHandler -> Formatter: Print exception message
+        activate Formatter
+        Formatter --> InputHandler
+        deactivate Formatter
+    end
+    InputHandler -> InputParser: extractEditLoanArgs(commandArgs[1])
+    activate InputParser
 
-        InputParser --> InputHandler: parsedArgs
-        deactivate InputParser
+    InputParser --> InputHandler: parsedArgs
+    deactivate InputParser
 
-        InputHandler -> LoanList: findLoanByIndex(index)
-        activate LoanList
+    InputHandler -> LoanList: findLoanByIndex(index)
+    activate LoanList
 
-        LoanList --> InputHandler: Loan or null
-        deactivate LoanList
+    LoanList --> InputHandler: Loan or null
+    deactivate LoanList
+    opt Loan == null
+    InputHandler -> Formatter: Print exception message
+    activate Formatter
+    Formatter --> InputHandler
+    deactivate Formatter
+    end
+    InputHandler -> Loan: getTitle()
+    activate Loan
 
-        InputHandler -> Loan: getTitle() 
-        activate Loan
+    Loan --> InputHandler: title
+    deactivate Loan
 
-        Loan --> InputHandler: title
-        deactivate Loan
+    InputHandler -> BookList: findBookByTitle(title)
+    activate BookList
 
-        InputHandler -> BookList: findBookByTitle(title)
-        activate BookList
-
-        BookList --> InputHandler: Book or null
-        deactivate BookList
+    BookList --> InputHandler: Book
+    deactivate BookList
 
         alt Book == null
             InputHandler -> Formatter: printBorderedMessage("Book is not found in inventory: {BOOK_TITLE}")
@@ -52,14 +65,14 @@ alt commandArgs[0] == edit-loan
             Formatter --> InputHandler
             deactivate Formatter
         
-        else Book.isonLoan()
+        else !book.isOnLoan()
             InputHandler -> Formatter: printBorderedMessage("The book {BOOK_TITLE} is not currently out on loan.")
             activate Formatter
             Formatter --> InputHandler
             deactivate Formatter
         
         else else
-            InputHandler -> InputHandler : setRelaventFields(...)
+            InputHandler -> InputHandler : setRelevantFields(...)
             activate InputHandler
             InputHandler --> InputHandler
             deactivate InputHandler       
@@ -76,12 +89,6 @@ alt commandArgs[0] == edit-loan
 
         end
 
-    else else
-        InputHandler -> Formatter: printBorderedMessage("Invalid format for edit-loan.")
-        activate Formatter
-        Formatter --> InputHandler
-        deactivate Formatter
-    end
 
 InputHandler --> InputHandler
 deactivate InputHandler
