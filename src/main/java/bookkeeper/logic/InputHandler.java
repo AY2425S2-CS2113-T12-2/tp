@@ -91,6 +91,9 @@ public class InputHandler {
                     case "list-category":
                         listCategory(commandArgs);
                         break;
+                    case "update-title":
+                        updateTitle(commandArgs);
+                        break;
                     case "help":
                         displayHelp();
                         break;
@@ -424,6 +427,36 @@ public class InputHandler {
             Formatter.printBorderedMessage(e.getMessage());
         }
     }
+
+    private void updateTitle(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException, 
+        IllegalArgumentException {
+        if (commandArgs.length < 2) {
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_BOOK);
+        }
+        String[] updateTitleArgs = InputParser.extractUpdateTitleArgs(commandArgs[1]);
+        String oldTitle = updateTitleArgs[0];
+        String newTitle = updateTitleArgs[1];
+
+        if(oldTitle.equals(newTitle)){
+            //some exception
+        }
+
+        // Check if book already exists in the inventory
+        Book book = bookList.findBookByTitle(oldTitle);
+        if (book == null) {
+            throw new BookNotFoundException("Book not found in inventory: " + oldTitle);
+        }
+
+        try {
+            book.setTitle(newTitle);
+            Formatter.printBorderedMessage("Book Updated:\n" + book);
+            Storage.saveInventory(bookList);
+        } catch
+        (IllegalArgumentException e) {
+            Formatter.printBorderedMessage(e.getMessage());
+        }
+    }
+    
 
     private void editLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
         if (commandArgs.length < 2) {

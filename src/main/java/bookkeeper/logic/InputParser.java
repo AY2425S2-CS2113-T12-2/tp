@@ -85,6 +85,40 @@ public class InputParser {
         return new String[]{bookTitle, author, category, condition, location, note};
     }
 
+
+    public static String[] extractUpdateTitleArgs(String input) throws IncorrectFormatException {
+        String[] parts = input.trim().split("\\s+(?=\\w+/|$)");
+        Set<String> processedPrefixes = new HashSet<>();
+
+        if (parts.length == 0 || parts[0].startsWith("new/")) {
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_BOOK);
+        }
+
+        String oldTitle = parts[0].trim();
+        String newTitle = null;
+
+        for (int i = 1; i < parts.length; i++) {
+            String part = parts[i].trim();
+            String prefix = part.substring(0, part.indexOf("/") + 1);
+
+            if (processedPrefixes.contains(prefix)) {
+                throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_BOOK_DUPLICATE_PREFIX);
+            }
+            processedPrefixes.add(prefix);
+
+            if (part.startsWith("new/")) {
+                newTitle = part.substring(4).trim();
+            } else {
+                throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_BOOK);
+            }
+        }
+
+        if (oldTitle.isEmpty() || newTitle == null || newTitle.isEmpty()) {
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_BOOK);
+        }
+        return new String[]{oldTitle, newTitle};
+    }
+
     /**
      * Extracts the arguments for the update-book command.
      * <p>
