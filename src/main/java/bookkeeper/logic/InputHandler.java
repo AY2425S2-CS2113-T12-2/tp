@@ -136,7 +136,8 @@ public class InputHandler {
      * @throws BookNotFoundException    If the book is already on loan.
      * @throws InvalidArgumentException 
      */
-    private void addLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException, InvalidArgumentException {
+    private void addLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException, 
+            InvalidArgumentException {
         if (commandArgs.length < 2) {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_LOAN);
         }
@@ -371,7 +372,8 @@ public class InputHandler {
     }
     
 
-    private void editLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException, InvalidArgumentException {
+    private void editLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException, 
+            InvalidArgumentException {
         if (commandArgs.length < 2) {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_EDIT_LOAN);
         }

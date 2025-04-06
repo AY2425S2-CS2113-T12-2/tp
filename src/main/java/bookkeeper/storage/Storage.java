@@ -235,11 +235,13 @@ public class Storage {
         }
 
         if (!phoneNumber.matches("^[0-9]+$")) {
-            throw new InvalidArgumentException("Invalid loan entry skipped: " + line + "\nReason: " + "Illegal phone number");
+            throw new InvalidArgumentException("Invalid loan entry skipped: " + line + "\nReason: " + 
+                    "Illegal phone number");
         }
 
         if (!email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
-            throw new InvalidArgumentException("Invalid loan entry skipped: " + line + "\nReason: " + "Illegal email");
+            throw new InvalidArgumentException("Invalid loan entry skipped: " + line + "\nReason: " 
+                    + "Illegal email");
         }
 
         try {
