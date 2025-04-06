@@ -143,10 +143,7 @@ public class InputParser {
             }
         }
 
-        if (bookTitle.isEmpty() || author == null || author.isEmpty() ||
-                category == null || category.isEmpty() ||
-                condition == null || condition.isEmpty() ||
-                location == null || location.isEmpty()) {
+        if (bookTitle.isEmpty()) {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_BOOK);
         }
 

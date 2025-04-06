@@ -400,9 +400,14 @@ public class InputHandler {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_BOOK);
         }
         String[] bookArgs = InputParser.extractUpdateBookArgs(commandArgs[1]);
-        assert bookArgs.length >= 4 : "Book arguments should contain at least 4 elements";
+        assert bookArgs.length >= 5 : "Book arguments should contain at least 5 elements";
 
-        String bookTitle = bookArgs[0].trim();
+        String bookTitle = bookArgs[0];
+        String author = bookArgs[1];
+        String category = bookArgs[2];
+        String condition = bookArgs[3];
+        String location = bookArgs[4];
+        String note = bookArgs[5];
 
         // Check if book already exists in the inventory
         Book book = bookList.findBookByTitle(bookTitle);
@@ -411,13 +416,7 @@ public class InputHandler {
         }
 
         try {
-            book.setAuthor(bookArgs[1]);
-            book.setCategory(bookArgs[2]);
-            book.setCondition(bookArgs[3]);
-            book.setLocation(bookArgs[4]);
-            if (bookArgs.length == 6 && !bookArgs[5].isBlank()) {
-                book.setNote(bookArgs[5]);
-            }
+            setBookFields(book, author, category, condition, location, note);
             Formatter.printBorderedMessage("Book Updated:\n" + book);
             Storage.saveInventory(bookList);
         } catch
@@ -452,7 +451,7 @@ public class InputHandler {
             Formatter.printBorderedMessage("The book " + bookTitle + " is not currently out on loan.");
         } else {
             try {
-                setFields(loan, borrowerName, returnDate, phoneNumber, email);
+                setLoanFields(loan, borrowerName, returnDate, phoneNumber, email);
                 Formatter.printBorderedMessage("Loan Updated:\n" + loan);
                 Storage.saveLoans(loanList);
             } catch (IllegalArgumentException e) {
@@ -461,7 +460,7 @@ public class InputHandler {
         }
     }
 
-    private void setFields(Loan loan, String borrowerName, String returnDate, String phoneNumber, String email) {
+    private void setLoanFields(Loan loan, String borrowerName, String returnDate, String phoneNumber, String email) {
         if (borrowerName != null && !borrowerName.isEmpty()) {
             loan.setBorrowerName(borrowerName);
         }
@@ -473,6 +472,24 @@ public class InputHandler {
         }
         if (email != null) {
             loan.setEmail(email);
+        }
+    }
+
+    private void setBookFields(Book book, String author, String category, String condition, String location, String note) {
+        if(author != null){
+            book.setAuthor(author);
+        }
+        if(category != null){
+            book.setCategory(category);
+        }
+        if(condition != null){
+            book.setCondition(condition);
+        }
+        if(location != null){
+            book.setLocation(location);
+        }
+        if(note != null && !note.isBlank()){
+            book.setNote(note);
         }
     }
 }
