@@ -30,34 +30,24 @@ alt commandArgs[0] == edit-loan
         Formatter --> InputHandler
         deactivate Formatter
     end
+
     InputHandler -> InputParser: extractEditLoanArgs(commandArgs[1])
     activate InputParser
 
     InputParser --> InputHandler: parsedArgs
     deactivate InputParser
 
-    InputHandler -> LoanList: findLoanByIndex(index)
-    activate LoanList
-
-    LoanList --> InputHandler: Loan or null
-    deactivate LoanList
-    opt Loan == null
-    InputHandler -> Formatter: Print exception message
-    activate Formatter
-    Formatter --> InputHandler
-    deactivate Formatter
-    end
-    InputHandler -> Loan: getTitle()
-    activate Loan
-
-    Loan --> InputHandler: title
-    deactivate Loan
-
-    InputHandler -> BookList: findBookByTitle(title)
+    InputHandler -> BookList: findBookByTitle(BOOK_TITLE)
     activate BookList
 
-    BookList --> InputHandler: Book
+    BookList --> InputHandler: Book or null
     deactivate BookList
+
+    InputHandler -> LoanList: findLoan(book)
+    activate LoanList
+
+    LoanList --> InputHandler: loan
+    deactivate LoanList
 
         alt Book == null
             InputHandler -> Formatter: printBorderedMessage("Book is not found in inventory: {BOOK_TITLE}")
@@ -72,10 +62,10 @@ alt commandArgs[0] == edit-loan
             deactivate Formatter
         
         else else
-            InputHandler -> InputHandler : setRelevantFields(...)
-            activate InputHandler
-            InputHandler --> InputHandler
-            deactivate InputHandler       
+            InputHandler -> Loan : setLoanFields(...)
+            activate Loan
+            Loan --> InputHandler
+            deactivate Loan       
 
             InputHandler -> Formatter: printBorderedMessage("Loan Updated: {Loan}")
             activate Formatter

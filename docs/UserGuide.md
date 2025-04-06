@@ -294,7 +294,7 @@ Loan deleted successfully for book: Great Gatsby
 
 Edits loan borrower name, return date of the loan, borrower's phone number and email. While the 4 fields are optional, `edit-loan` expects at least one field to be updated.
 
-Format: `edit-loan INDEX [n/BORROWER_NAME] [d/RETURN_DATE] [p/PHONE_NUMBER] [e/EMAIL]`
+Format: `edit-loan BOOK_TITLE [n/BORROWER_NAME] [d/RETURN_DATE] [p/PHONE_NUMBER] [e/EMAIL]`
 
 Notes:
 
@@ -306,7 +306,7 @@ Notes:
 Example:
 
 ```
-edit-loan 1 n/John Doe d/01-11-2025 p/91234567 e/123abc@gmail.com
+edit-loan Great Gatsby n/John Doe d/01-11-2025 p/91234567 e/123abc@gmail.com
 ```
 
 Expected Outcome:

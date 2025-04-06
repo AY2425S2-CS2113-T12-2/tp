@@ -15,23 +15,21 @@
      Creating a new text file at ./data/bookKeeper_loanList.txt.
     ____________________________________________________________________
 
-     ----------------------------------------------------------------------------------------------------------
-     | Action         | Format                                                                                |
-     |----------------|---------------------------------------------------------------------------------------|
-     | Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`   |
-     | Remove Book    | `remove-book BOOK_TITLE`                                                              |
-     | Update Book    | `update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`|
-     | Search Book    | `search-book KEYWORD`                                                                 |
-     | View Inventory | `view-inventory`                                                                      |
-     | Add Note       | `add-note BOOK_TITLE note/NOTE`                                                       |
-     | Update Note    | `update-note BOOK_TITLE note/NOTE`                                                    |
-     | Delete Note    | `delete-note BOOK_TITLE`                                                              |
-     | List Category  | `list-category CATEGORY`                                                              |
-     | Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`            |
-     | Delete Loan    | `delete-loan BOOK_TITLE`                                                              |
-     | Edit Loan      | `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`           |
-     | View Loans     | `view-loans`                                                                          |
-     | Display Help   | `help`                                                                                |
-     | Exit Program   | `exit`                                                                                |
-     ----------------------------------------------------------------------------------------------------------
+    -------------------------------------------------------------------------------------------------------------------
+    | Action         | Format                                                                                         |
+    |----------------|------------------------------------------------------------------------------------------------|
+    | Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`            |
+    | Remove Book    | `remove-book BOOK_TITLE`                                                                       |
+    | Update Book    | `update-book BOOK_TITLE [a/AUTHOR] [cat/CATEGORY] [cond/CONDITION] [loc/LOCATION] [note/NOTE]` |
+    | Update Title   | `update-title BOOK_TITLE new/NEW_TITLE                                                         |
+    | Search Book    | `search-book KEYWORD`                                                                          |
+    | View Inventory | `view-inventory`                                                                               |
+    | List Category  | `list-category CATEGORY`                                                                       |
+    | Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`                     |
+    | Delete Loan    | `delete-loan BOOK_TITLE`                                                                       |
+    | Edit Loan      | `edit-loan BOOK_TITLE [n/BORROWER_NAME] [d/RETURN_DATE] [p/PHONE_NUMBER] [e/EMAIL]`            |
+    | View Loans     | `view-loans`                                                                                   |
+    | Display Help   | `help`                                                                                         |
+    | Exit Program   | `exit`                                                                                         |
+    -------------------------------------------------------------------------------------------------------------------
 Enter a command:
