@@ -101,7 +101,7 @@ public class Book {
                 + "    Category: " + getCategory() + System.lineSeparator()
                 + "    Condition: " + getCondition() + System.lineSeparator()
                 + "    On Loan: " + isOnLoan() + System.lineSeparator()
-                + "    Location: " + getLocation() + System.lineSeparator()
+                + "    Location: " + (isOnLoan() ? "Out on loan" : getLocation()) + System.lineSeparator()
                 + "    Note: " + (note.isEmpty() ? "No notes available" : getNote());
     }
 }
