@@ -10,12 +10,15 @@ participant Formatter as ":Formatter"
 participant Book as ":Book"
 
 User -> InputHandler : delete-note(BOOK_TITLE)
-InputHandler -> InputParser : extractCommandArgs(User input)
+InputHandler -> InputParser : extractCommandArgs(userInputLine)
 return commandArgs
 
 alt commandArgs[0] == delete-note
     InputHandler -> InputHandler : deleteNote()
-    opt commandArgs.length < 2 
+    opt commandArgs.length < 2
+        note right
+        rest of sequence is cancelled in error cases denoted in opt frames
+        end note
         InputHandler -> Formatter : printBorderedMessage(Invalid Format)
         return
     end
@@ -29,7 +32,7 @@ alt commandArgs[0] == delete-note
     end
 
     opt book has no note
-        InputHandler -> Formatter : printBorderedmessage(Book has no note)
+        InputHandler -> Formatter : printBorderedMessage(Book has no note)
         return
     end
 

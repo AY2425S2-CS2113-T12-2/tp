@@ -8,8 +8,8 @@ participant BookList as ":BookList"
 participant LoanList as ":LoanList"
 participant Formatter as ":Formatter"
 participant Storage as ":Storage"
-User -> InputHandler : delete-loan TITLE
-    InputHandler -> InputParser : extractCommandArgs(User Input)
+User -> InputHandler : userInputLine
+    InputHandler -> InputParser : extractCommandArgs(userInputLine)
     return commandArgs
 alt commandArgs[0] == delete-loan
     InputHandler -> InputHandler : deleteLoan()
@@ -20,27 +20,26 @@ alt commandArgs[0] == delete-loan
     InputHandler -> LoanList : findLoan(loanedBook)
     return loan
 
-    alt No book with provided title
-        InputHandler -> Formatter : printBorderedMessage(Error Message)
-        return
-    else Book is not on loan
-        InputHandler -> Formatter : printBorderedMessage(Error Message)
-        return
-    else loan does not exist 
-        InputHandler -> Formatter : printBorderedMessage(Error Message)
-        return
-    else successful case
-        InputHandler -> LoanList : deleteLoan(loan)
-        return 
-        InputHandler -> Book : setOnLoan(true)
-        return 
-        InputHandler -> Formatter : printBorderedMessage(Success Message)
-        return
-        InputHandler -> Storage : saveLoans(loanList)
-        return
-        InputHandler -> Storage : saveInventory(bookList)
+    opt No book with provided title OR Book not on loan OR Loan does not exist
+        note right
+        rest of sequence is cancelled in
+        error cases denoted in opt frame
+        end note
+        InputHandler -> Formatter : Print exception message
         return
     end
+
+    InputHandler -> LoanList : deleteLoan(loan)
+    return
+    InputHandler -> Book : setOnLoan(true)
+    return
+    InputHandler -> Formatter : printBorderedMessage(Success Message)
+    return
+    InputHandler -> Storage : saveLoans(loanList)
+    return
+    InputHandler -> Storage : saveInventory(bookList)
+    return
+
     return
 
 else else
