@@ -242,9 +242,7 @@ public class InputHandler {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_DELETE_LOAN);
         }
         try {
-            String[] deleteLoanArgs = InputParser.extractDeleteLoanArgs(commandArgs[1]);
-            assert deleteLoanArgs.length == 2;
-            String bookTitle = deleteLoanArgs[0];
+            String bookTitle = commandArgs[1];
             Book loanedBook = bookList.findBookByTitle(bookTitle);
             Loan loan = loanList.findLoan(loanedBook);
             if (loanedBook == null) {

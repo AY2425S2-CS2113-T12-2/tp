@@ -230,36 +230,6 @@ public class InputParser {
         return new String[]{bookTitle, borrowerName, returnDate, phoneNumber, email};
     }
 
-    /**
-     * Extracts the arguments for the delete-loan command.
-     * <p>
-     * The expected input format is: BOOK_TITLE
-     * Example: "The Great Gatsby"
-     *
-     * @param input The user input for the delete-loan command.
-     * @return An array of strings containing the arguments for the add-loan command:
-     *      [0] - Book title
-     *      [1] - Borrower's name
-     * @throws IncorrectFormatException if the input format is invalid.
-     */
-    public static String[] extractDeleteLoanArgs(String input) throws IncorrectFormatException {
-        String[] commandArgs = new String[2];
-        String[] splitInput = input.trim().split("( n/)", 2);
-
-        if (splitInput.length < 2) {
-            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_DELETE_LOAN);
-        }
-
-        commandArgs[0] = splitInput[0].trim();
-        commandArgs[1] = splitInput[1].trim();
-
-        if (commandArgs[0].isEmpty() || commandArgs[1].isEmpty()) {
-            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_DELETE_LOAN);
-        }
-
-        return commandArgs;
-    }
-
     public static String[] extractAddNoteArgs(String input) throws IncorrectFormatException {
         String[] splitInput = input.trim().split(" note/", 2);
 

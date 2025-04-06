@@ -109,27 +109,6 @@ public class InputParserTest {
     }
 
     @Test
-    void extractDeleteLoanArgs_validInput_twoArgumentArray() throws IncorrectFormatException {
-        String[] arguments = InputParser.extractDeleteLoanArgs("The Great Gatsby n/Mary");
-        String[] output = new String[]{"The Great Gatsby", "Mary"};
-        assertArrayEquals(arguments, output);
-    }
-
-    @Test
-    void extractDeleteLoanArgs_inputWithExtraSpace_twoArgumentArray() throws IncorrectFormatException {
-        String[] arguments = InputParser.extractDeleteLoanArgs("The Great Gatsby   n/Mary  ");
-        String[] output = new String[]{"The Great Gatsby", "Mary"};
-        assertArrayEquals(arguments, output);
-    }
-
-    @Test
-    void extractDeleteLoanArgs_missingArguments_exceptionThrown() {
-        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, ()
-                -> InputParser.extractDeleteLoanArgs("The Great Gatsby"));
-        assertEquals(ErrorMessages.INVALID_FORMAT_DELETE_LOAN, exception.getMessage());
-    }
-
-    @Test
     void extractEditLoanArgs_validInput_twoArgumentArray() throws IncorrectFormatException {
         String[] arguments = InputParser.extractEditLoanArgs("1 n/Mary d/13-03-2025 " +
                 "p/12345678 e/abc123@gmail.com");
@@ -239,22 +218,6 @@ public class InputParserTest {
         IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, () ->
                 InputParser.extractAddLoanArgs(input));
         assertEquals(ErrorMessages.INVALID_FORMAT_ADD_LOAN_DUPLICATE_PREFIX, exception.getMessage());
-    }
-
-    @Test
-    void extractDeleteLoanArgs_validInput_success() throws IncorrectFormatException {
-        String input = "The Great Gatsby n/John Doe";
-        String[] result = InputParser.extractDeleteLoanArgs(input);
-        String[] expected = {"The Great Gatsby", "John Doe"};
-        assertArrayEquals(expected, result);
-    }
-
-    @Test
-    void extractDeleteLoanArgs_missingFields_exceptionThrown() {
-        String input = "The Great Gatsby";
-        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, () ->
-                InputParser.extractDeleteLoanArgs(input));
-        assertEquals(ErrorMessages.INVALID_FORMAT_DELETE_LOAN, exception.getMessage());
     }
 
     @Test
