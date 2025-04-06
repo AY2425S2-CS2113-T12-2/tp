@@ -304,40 +304,6 @@ public class InputParser {
         return commandArgs;
     }
 
-    public static String[] extractAddNoteArgs(String input) throws IncorrectFormatException {
-        String[] splitInput = input.trim().split(" note/", 2);
-
-        if (splitInput.length != 2) {
-            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_NOTE);
-        }
-
-        String bookTitle = splitInput[0].trim();
-        String note = splitInput[1].trim();
-
-        if (bookTitle.isBlank() || note.isBlank()) {
-            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_NOTE);
-        }
-
-        return new String[]{bookTitle, note};
-    }
-
-    public static String[] extractUpdateNoteArgs(String input) throws IncorrectFormatException {
-        String[] splitInput = input.trim().split(" note/", 2);
-
-        if (splitInput.length != 2) {
-            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_NOTE);
-        }
-
-        String bookTitle = splitInput[0].trim();
-        String note = splitInput[1].trim();
-
-        if (bookTitle.isBlank() || note.isBlank()) {
-            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_NOTE);
-        }
-
-        return new String[]{bookTitle, note};
-    }
-
     public static String[] extractEditLoanArgs(String input) throws IncorrectFormatException {
         String index = null;
         String borrowerName = null;

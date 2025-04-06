@@ -73,15 +73,6 @@ public class InputHandler {
                     case "view-loans":
                         loanList.viewLoanList();
                         break;
-                    case "add-note":
-                        addNote(commandArgs);
-                        break;
-                    case "update-note":
-                        updateNote(commandArgs);
-                        break;
-                    case "delete-note":
-                        deleteNote(commandArgs);
-                        break;
                     case "update-book":
                         updateBook(commandArgs);
                         break;
@@ -296,97 +287,6 @@ public class InputHandler {
 
         String category = commandArgs[1].trim();
         Formatter.printBookList(bookList.findBooksByCategory(category));
-    }
-
-    /**
-     * Adds a note to a specified book.
-     *
-     * @param commandArgs The parsed command arguments.
-     * @throws IncorrectFormatException If the input format is invalid.
-     * @throws BookNotFoundException    If the book is not found in the inventory.
-     */
-    private void addNote(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
-        if (commandArgs.length < 2) {
-            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_NOTE);
-        }
-
-        String[] noteArgs = InputParser.extractAddNoteArgs(commandArgs[1]);
-        String bookTitle = noteArgs[0];
-        String note = noteArgs[1];
-
-        Book book = bookList.findBookByTitle(bookTitle);
-        if (book == null) {
-            throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
-        }
-
-        if (!book.getNote().isEmpty()) {
-            Formatter.printBorderedMessage("Book already has a note:\n" + book.getNote());
-            return;
-        }
-
-        book.setNote(note);
-        Formatter.printBorderedMessage("Note added to book: " + bookTitle);
-        Storage.saveInventory(bookList);
-    }
-
-    /**
-     * Deletes the note from a specified book.
-     *
-     * @param commandArgs The parsed command arguments.
-     * @throws IncorrectFormatException If the input format is invalid.
-     * @throws BookNotFoundException    If the book is not found in the inventory.
-     */
-    private void deleteNote(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
-        if (commandArgs.length != 2) {
-            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_DELETE_NOTE);
-        }
-
-        String bookTitle = commandArgs[1].trim();
-
-        Book book = bookList.findBookByTitle(bookTitle);
-        if (book == null) {
-            throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
-        }
-
-        if (book.getNote().isEmpty()) {
-            Formatter.printBorderedMessage("No note exists for the book: " + bookTitle);
-            return;
-        }
-
-        book.setNote("");
-        Formatter.printBorderedMessage("Note deleted for book: " + bookTitle);
-        Storage.saveInventory(bookList);
-    }
-
-    /**
-     * Updates a note of a specified book.
-     *
-     * @param commandArgs The parsed command arguments.
-     * @throws IncorrectFormatException If the input format is invalid.
-     * @throws BookNotFoundException    If the book is not found in the inventory.
-     */
-    private void updateNote(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
-        if (commandArgs.length < 2) {
-            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_NOTE);
-        }
-
-        String[] noteArgs = InputParser.extractUpdateNoteArgs(commandArgs[1]);
-        String bookTitle = noteArgs[0];
-        String note = noteArgs[1];
-
-        Book book = bookList.findBookByTitle(bookTitle);
-        if (book == null) {
-            throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
-        }
-
-        if (book.getNote().isEmpty()) {
-            Formatter.printBorderedMessage("Book does not have a note. Please use add-note instead.");
-            return;
-        }
-
-        book.setNote(note);
-        Formatter.printBorderedMessage("Note updated for book: " + bookTitle);
-        Storage.saveInventory(bookList);
     }
 
     /**
