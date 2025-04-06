@@ -395,7 +395,7 @@ public class InputHandler {
      * @param commandArgs The parsed command arguments.
      * @throws IncorrectFormatException If the input format is invalid.
      * @throws BookNotFoundException    If the book is not found in the inventory.
-     * @throws IllegalArgumentException If the condition is invalid.
+     * @throws IllegalArgumentException If the category or condition is invalid.
      */
     private void updateBook(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException,
             IllegalArgumentException {
@@ -428,17 +428,25 @@ public class InputHandler {
         }
     }
 
+      /**
+     * Updates the title of an existing book.
+     *
+     * @param commandArgs The parsed command arguments.
+     * @throws IncorrectFormatException If the input format is invalid.
+     * @throws BookNotFoundException    If the book is not found in the inventory.
+     */
+
     private void updateTitle(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException, 
         IllegalArgumentException {
         if (commandArgs.length < 2) {
-            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_BOOK);
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_TITLE);
         }
         String[] updateTitleArgs = InputParser.extractUpdateTitleArgs(commandArgs[1]);
         String oldTitle = updateTitleArgs[0];
         String newTitle = updateTitleArgs[1];
 
         if(oldTitle.equals(newTitle)){
-            //some exception
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_SAME_TITLE);
         }
 
         // Check if book already exists in the inventory
@@ -447,14 +455,10 @@ public class InputHandler {
             throw new BookNotFoundException("Book not found in inventory: " + oldTitle);
         }
 
-        try {
-            book.setTitle(newTitle);
-            Formatter.printBorderedMessage("Book Updated:\n" + book);
-            Storage.saveInventory(bookList);
-        } catch
-        (IllegalArgumentException e) {
-            Formatter.printBorderedMessage(e.getMessage());
-        }
+        book.setTitle(newTitle);
+        Formatter.printBorderedMessage("Book Updated:\n" + book);
+        Storage.saveInventory(bookList);
+
     }
     
 

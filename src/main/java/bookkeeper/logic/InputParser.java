@@ -86,12 +86,25 @@ public class InputParser {
     }
 
 
+    /**
+     * Extracts the arguments for the update-title command.
+     * <p>
+     * The expected input format is:
+     * update-title BOOK_TITLE new/NEW_TITL
+     * Example: "Cheese Chronicles new/Cheese Adventures"
+     *
+     * @param input The user input for the update-title command.
+     * @return An array of strings containing the arguments for the update-book command:
+     *      [0] - Old title
+     *      [1] - New title
+     * @throws IncorrectFormatException if the input format is invalid.
+     */
     public static String[] extractUpdateTitleArgs(String input) throws IncorrectFormatException {
         String[] parts = input.trim().split("\\s+(?=\\w+/|$)");
         Set<String> processedPrefixes = new HashSet<>();
 
         if (parts.length == 0 || parts[0].startsWith("new/")) {
-            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_BOOK);
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_TITLE);
         }
 
         String oldTitle = parts[0].trim();
@@ -102,19 +115,19 @@ public class InputParser {
             String prefix = part.substring(0, part.indexOf("/") + 1);
 
             if (processedPrefixes.contains(prefix)) {
-                throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_BOOK_DUPLICATE_PREFIX);
+                throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_TITLE_DUPLICATE_PREFIX);
             }
             processedPrefixes.add(prefix);
 
             if (part.startsWith("new/")) {
                 newTitle = part.substring(4).trim();
             } else {
-                throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_BOOK);
+                throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_TITLE);
             }
         }
 
         if (oldTitle.isEmpty() || newTitle == null || newTitle.isEmpty()) {
-            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_BOOK);
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_TITLE);
         }
         return new String[]{oldTitle, newTitle};
     }
