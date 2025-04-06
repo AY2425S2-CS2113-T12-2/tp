@@ -3,7 +3,7 @@ package bookkeeper.model;
 public class Book {
     private String title;
     private String author;
-    private String category;
+    private Category category;
     private Condition condition;
     private boolean onLoan;
     private String location;
@@ -13,7 +13,7 @@ public class Book {
     public Book(String title, String author, String category, String condition, String location, String note) {
         this.title = title;
         this.author = author;
-        this.category = category;
+        this.category = Category.fromString(category);
         this.condition = Condition.fromString(condition);
         this.note = note;
         this.location = location;
@@ -25,6 +25,7 @@ public class Book {
         this(title, author, category, condition, location, ""); // Default note is an empty string
     }
 
+    // Getters
     public String getTitle() {
         return title;
     }
@@ -33,7 +34,7 @@ public class Book {
         return author;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
@@ -53,6 +54,8 @@ public class Book {
         return note;
     }
 
+    //Setters
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -62,7 +65,7 @@ public class Book {
     }
 
     public void setCategory(String category){
-        this.category = category;
+        this.category = Category.fromString(category);
     }
 
     public void setAuthor(String author){
@@ -81,10 +84,28 @@ public class Book {
         this.location = location;
     }
 
+    public void setBookFields(String author, String category, String condition, String location, String note) {
+        if(author != null){
+            setAuthor(author);
+        }
+        if(category != null){
+            setCategory(category);
+        }
+        if(condition != null){
+            setCondition(condition);
+        }
+        if(location != null){
+            setLocation(location);
+        }
+        if(note != null && !note.isBlank()){
+            setNote(note);
+        }
+    }
+
     public String toFileString() {
         String title = getTitle();
         String author = getAuthor();
-        String category = getCategory();
+        Category category = getCategory();
         Condition condition = getCondition();
         boolean onLoan = isOnLoan();
         String location = getLocation();
@@ -101,7 +122,7 @@ public class Book {
                 + "    Category: " + getCategory() + System.lineSeparator()
                 + "    Condition: " + getCondition() + System.lineSeparator()
                 + "    On Loan: " + isOnLoan() + System.lineSeparator()
-                + "    Location: " + getLocation() + System.lineSeparator()
+                + "    Location: " + (isOnLoan() ? "Out on loan" : getLocation()) + System.lineSeparator()
                 + "    Note: " + (note.isEmpty() ? "No notes available" : getNote());
     }
 }

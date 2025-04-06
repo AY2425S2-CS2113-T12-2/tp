@@ -144,6 +144,7 @@ The following UML sequence diagram shows how the `add-book BOOK_TITLE a/AUTHOR c
    If the book does not exist in the inventory:
 
    - A new `Book` object is created using the parsed arguments. The `note` field is optional and defaults to an empty string if not provided.
+   - The `category` string is converted to a `Category` enum using `Category.fromString(...)`.
    - The `condition` string is converted to a `Condition` enum using `Condition.fromString(...)`.
    - The book is added to the `BookList` using `bookList.addBook(...)`.
 
@@ -506,7 +507,7 @@ The following UML sequence diagram shows how the `delete-note BOOK_TITLE` comman
    `InputHandler` first calls `InputParser.extractCommandArgs(...)` to split the user input into command arguments.
 
    - For example, the input `delete-note The Great Gatsby` is split into:
-     - `commandArgs[0]`: `update-note`
+     - `commandArgs[0]`: `delete-note`
      - `commandArgs[1]`: `The Great Gatsby`
 
 3. Note is validated:
@@ -521,45 +522,6 @@ The following UML sequence diagram shows how the `delete-note BOOK_TITLE` comman
 
 6. Success message is displayed:
    `InputHandler` uses `Formatter` to print a message indicating that the note was successfully deleted
-
-### Update Note
-
-The `update-note` feature allows the user to update a note that is attached to a book in the inventory. The system ensures that the book has note before it can be updated
-
-`InputHandler` coordinates with `InputParser`, `BookList`, `Book`, `Formatter`, and `Storage` classes to implement the feature.
-
-The following UML sequence diagram shows how the `update-note BOOK_TITLE note/NOTE` command is handled.
-
-![updateNote.png](images/updateNote.png)
-
-1. User issues command:
-   The user inputs the command in the CLI with the required arguments, e.g., `update-note The Great Gasby note/Amazing Book`.
-
-2. Command arguments are extracted:
-   `InputHandler` first calls `InputParser.extractCommandArgs(...)` to split the user input into command arguments.
-
-   - For example, the input `update-note The Great Gasby note/Amazing Book` is split into:
-     - `commandArgs[0]`: `update-note`
-     - `commandArgs[1]`: `The Great Gasby note/Amazing Book`
-
-3. Book arguments are parsed:
-   `InputHandler` invokes `InputParser.extractUpdateNoteArgs(...)` to parse the second part of the command (`commandArgs[1]`) into the following components:
-
-   - Book title
-   - Note
-
-4. Note is validated:
-   - If the book does not have a note attached, `InputHandler` uses `Formatter` to print a "Book does not have a note. Please use add-note instead." message and exits early.
-   - If the book is found with a note, the flow continues.
-
-5. Note created:
-   - The new note is used to replace the old note that was attached to the book
-
-6. Changes are saved to persistent storage:
-   `InputHandler` calls `Storage.saveLoans(...)` and `Storage.saveInventory(...)` to save the updated book list and inventory.
-
-7. Success message is displayed:
-   `InputHandler` uses `Formatter` to print a message indicating that the note was successfully updated
 
 ### Update Note
 
@@ -678,22 +640,23 @@ BookKeeper gives you full control over your collection in a clean, offline-frien
 
 ## Appendix B: User Stories
 
-| Version | As a...       | I want to...                                                           | So that I can                                                       |
-| ------- | ------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `v1.0`  | Librarian     | View inventory, including book count                                   | See my existing books                                               |
-| `v1.0`  | Librarian     | Add new books to the system easily                                     | Update my inventory when acquiring new books                        |
-| `v1.0`  | Librarian     | Remove books when lost or permanently borrowed                         | Maintain an accurate inventory                                      |
-| `v1.0`  | Librarian     | Add book loans, including borrower details and return dates            | Ensure books are returned on time and inform others of availability |
-| `v1.0`  | Librarian     | Delete book loans, including borrower details and return dates         | Maintain accurate loan records                                      |
-| `v1.0`  | Librarian     | View on-going loans                                                    | Keep track of what books are loaned out                             |
-| `v2.0`  | Librarian     | Categorize my inventory                                                | Make searching for books more convenient                            |
-| `v2.0`  | Librarian     | Manage/Update book availability, including borrowed and reserved books | Efficiently allocate books                                          |
-| `v2.0`  | Librarian     | Track book conditions (e.g good, fair, poor)                | Maintain detailed records                                           |
-| `v2.0`  | Librarian     | Add personal notes about individual books                              | Maintain detailed records                                           |
-| `v2.0`  | Librarian     | Edit existing book loans' due dates                                    | Better track by updating book loans                                 |
-| `v2.0`  | Librarian     | Add contact details for borrowers                                      | Easily reach out to borrowers when needed                           |
-| `v2.0`  | Librarian     | Keep track of where available books are in the library                 | Help visitors find books                                            |
+| Version | As a...  | I want to...                                                           | So that I can                                                       |
+|---------| -------- |------------------------------------------------------------------------|---------------------------------------------------------------------|
+| `v1.0`  | Librarian | View inventory, including book count                                   | See my existing books                                               |
+| `v1.0`  | Librarian | Add new books to the system easily                                     | Update my inventory when acquiring new books                        |
+| `v1.0`  | Librarian | Remove books when lost or permanently borrowed                         | Maintain an accurate inventory                                      |
+| `v1.0`  | Librarian | Add book loans, including borrower details and return dates            | Ensure books are returned on time and inform others of availability |
+| `v1.0`  | Librarian | Delete book loans, including borrower details and return dates         | Maintain accurate loan records                                      |
+| `v1.0`  | Librarian | View on-going loans                                                    | Keep track of what books are loaned out                             |
+| `v2.0`  | Librarian | Categorize my inventory                                                | Make searching for books more convenient                            |
+| `v2.0`  | Librarian | Manage/Update book availability, including borrowed and reserved books | Efficiently allocate books                                          |
+| `v2.0`  | Librarian | Track book conditions (e.g good, fair, poor)                           | Maintain detailed records                                           |
+| `v2.0`  | Librarian | Add personal notes about individual books                              | Maintain detailed records                                           |
+| `v2.0`  | Librarian | Edit existing book loans' due dates                                    | Better track by updating book loans                                 |
+| `v2.0`  | Librarian | Add contact details for borrowers                                      | Easily reach out to borrowers when needed                           |
+| `v2.0`  | Librarian | Keep track of where available books are in the library                 | Help visitors find books                                            |
 | `v2.0`  | New Librarian | View a list of available commands                                      | Learn how to use the application                                    |
+| `v2.1`  |Librarian | Update existing personal notes about individual books                  | Maintain accurate records                                           |
 
 ## Appendix C: Non-Functional Requirements
 

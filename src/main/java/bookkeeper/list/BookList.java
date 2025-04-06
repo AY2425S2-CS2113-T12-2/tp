@@ -2,6 +2,7 @@ package bookkeeper.list;
 
 import bookkeeper.model.Book;
 import bookkeeper.ui.Formatter;
+import bookkeeper.model.Category;
 
 import java.util.ArrayList;
 
@@ -47,12 +48,19 @@ public class BookList {
         return filteredBookList;
     }
 
-    public ArrayList<Book> findBooksByCategory(String category){
+    public ArrayList<Book> findBooksByCategory(String category) {
         ArrayList<Book> filteredBookList = new ArrayList<>();
-        for (Book book : bookList) {
-            if (book.getCategory().equalsIgnoreCase(category)) {
-                filteredBookList.add(book);
+        try {
+            // Normalize the input category string to a Category enum
+            Category targetCategory = Category.fromString(category);
+            for (Book book : bookList) {
+                if (book.getCategory() == targetCategory) { // Compare using the enum value
+                    filteredBookList.add(book);
+                }
             }
+        } catch (IllegalArgumentException e) {
+            // Handle invalid category input (optional)
+            Formatter.printBorderedMessage("Invalid category: " + category);
         }
         return filteredBookList;
     }

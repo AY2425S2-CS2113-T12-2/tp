@@ -1,8 +1,8 @@
-# User Guide (v2.0)
+# User Guide (v2.1)
 
 ## Table of Contents
 
-- [User Guide (v2.0)](#user-guide-v20)
+- [User Guide (v2.1)](#user-guide-v21)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Quick Start](#quick-start)
@@ -11,11 +11,9 @@
       - [Adding a Title that already exists in inventory](#adding-a-title-that-already-exists-in-inventory)
     - [Removing a book: `remove-book`](#removing-a-book-remove-book)
     - [Updating a Book: `update-book`](#updating-a-book-update-book)
+    - [Updating a Title: `update-title`](#updating-a-title-update-title)
     - [Searching for a Book: `search-book`](#searching-for-a-book-search-book)
     - [View Book Collection: `view-inventory`](#view-book-collection-view-inventory)
-    - [Adding a Note: `add-note`](#adding-a-note-add-note)
-    - [Deleting a Note: `delete-note`](#deleting-a-note-delete-note)
-    - [Updating a Note: `update-note`](#updating-a-note-update-note)
     - [List Category: `list-category`](#list-category-list-category)
     - [Adding a Loan: `add-loan`](#adding-a-loan-add-loan)
       - [Adding a Loan for a Book Already on Loan](#adding-a-loan-for-a-book-already-on-loan)
@@ -44,7 +42,7 @@ BookKeeper is a Command Line Interface (CLI) library manager application for eff
 Welcome to BookKeeper! This guide will help you get started with using the system for managing your library's books and loan records.
 
 1. Ensure that you have Java 17 or above installed.
-2. Download the latest version of `BookKeeper` from [here](https://github.com/AY2425S2-CS2113-T12-2/tp/releases/tag/Release-v2.0).
+2. Download the latest version of `BookKeeper` from [here](https://github.com/AY2425S2-CS2113-T12-2/tp/releases/tag/Release-v2.1).
 3. Copy the file to the folder you want to use as the home folder for BookKeeper.
 4. Open a command prompt/terminal and navigate to the folder where you placed the jar file.
 5. Run the application using: `java -jar BookKeeper.jar`
@@ -62,6 +60,10 @@ This version of the system focuses on key functionalities for managing inventory
 Adds a book to the library collection.
 
 Format: `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`
+
+Notes:
+
+- Valid categories are: romance, adventure, action, horror, mystery, fiction, nonfiction, scifi, education.
 
 Example:
 
@@ -110,9 +112,9 @@ Removed book: Great Gatsby
 
 ### Updating a Book: `update-book`
 
-Updates the author, category, condition, location and note with the information provided.
+Updates the author, category, condition, location and note with the information provided. While the 4 fields are optional, `update-book` expects at least one field to be updated.
 
-Format: `update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`
+Format: `update-book BOOK_TITLE [a/AUTHOR] [cat/CATEGORY] [cond/CONDITION] [loc/LOCATION] [note/NOTE]`
 
 Example:
 
@@ -125,6 +127,31 @@ Expected Outcome:
 ```
 Book Updated:
 Title: Great Gatsby
+    Author: Fitzgerald
+    Category: Fiction
+    Condition: POOR
+    On Loan: false
+    Location: Shelf B3
+    Note: Replace ASAP
+```
+
+### Updating a Title: `update-title`
+
+Updates the title of a book.
+
+Format: `update-title BOOK_TITLE new/NEW_TITLE`
+
+Example:
+
+```
+update-book Great Gatsby new/ The Great Gatsby
+```
+
+Expected Outcome:
+
+```
+Book Updated:
+Title: The Great Gatsby
     Author: Fitzgerald
     Category: Fiction
     Condition: POOR
@@ -189,59 +216,6 @@ Here are the books in your inventory:
     ...
 ```
 
-### Adding a Note: `add-note`
-
-Add a personal note to a book.
-
-Format: `add-note BOOK_TITLE note/NOTE`
-
-Example:
-
-```
-add-note Great Gatsby note/Very good book
-```
-
-Expected Outcome:
-
-```
-Note added to book: Great Gatsby
-```
-
-### Deleting a Note: `delete-note`
-
-Deletes a note currently attached to a book.
-
-Format: `delete-note BOOK_TITLE`
-
-Example:
-
-```
-delete-note Great Gatsby
-```
-
-Expected Outcome:
-
-```
-Note deleted for book: Great Gatsby
-```
-
-### Updating a Note: `update-note`
-
-Updates a note that is currently attached to a book.
-
-Format: `update-note BOOK_TITLE note/NOTE`
-
-Example:
-
-```
-update-note Great Gatsby
-```
-
-Expected Outcome:
-```
-Note updated for book: Great Gatsby
-```
-
 ### List Category: `list-category`
 
 List all books currently in the inventory that belong to the given category.
@@ -274,6 +248,7 @@ Adds a loan using the book title.
 Format: `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`
 
 Notes:
+
 - The RETURN_DATE must be in the format DD-MM-YYYY.
 - The RETURN_DATE cannot be in the past.
 - The PHONE_NUMBER will only accept numeric strings to cater for different countries phone number
@@ -317,7 +292,7 @@ Loan deleted successfully for book: Great Gatsby
 
 ### Editing a Loan: `edit-loan`
 
-Edits loan return date of the loan, borrower's phone number and email.
+Edits loan borrower name, return date of the loan, borrower's phone number and email. While the 4 fields are optional, `edit-loan` expects at least one field to be updated.
 
 Format: `edit-loan INDEX [n/BORROWER_NAME] [d/RETURN_DATE] [p/PHONE_NUMBER] [e/EMAIL]`
 
@@ -443,10 +418,10 @@ Warning Message:
 
 ## Command Summary
 
-| Action         | Format                                                                 |
-| -------------- | ---------------------------------------------------------------------- |
-| Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]` |
-| Remove Book    | `remove-book BOOK_TITLE`                                               |
+| Action         | Format                                                                                 |
+| -------------- | -------------------------------------------------------------------------------------- |
+| Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`    |
+| Remove Book    | `remove-book BOOK_TITLE`                                                               |
 | Update Book    | `update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]` |
 | Search Book    | `search-book KEYWORD`                                                  |
 | View Inventory | `view-inventory`                                                       |
@@ -460,3 +435,4 @@ Warning Message:
 | View Loans     | `view-loans`                                                           |
 | Display Help   | `help`                                                                 |
 | Exit Program   | `exit`                                                                 |
+

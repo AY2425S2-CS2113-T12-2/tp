@@ -25,7 +25,6 @@ class LoanList {
 class Book {
     - title : String
     - author : String
-    - category : String
     - onLoan : boolean
     - location : String
     - note : String
@@ -44,6 +43,18 @@ enum Condition <<enumeration>> {
     GOOD
     FAIR
     POOR
+}
+
+enum Category <<enumeration>> {
+    ROMANCE
+    ADVENTURE
+    ACTION
+    HORROR
+    MYSTERY
+    FICTION
+    NONFICTION
+    SCIFI
+    EDUCATION
 }
 
 class Storage {
@@ -87,6 +98,7 @@ InputHandler ..> Storage
 InputHandler ..> InputParser
 BookKeeper ..> InputHandler
 Book -> "1" Condition
+Book -> "1" Category
 Loan --> "1" Book
 Storage ..> BookList
 Storage ..> LoanList

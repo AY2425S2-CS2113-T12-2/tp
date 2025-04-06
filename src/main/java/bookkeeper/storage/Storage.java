@@ -112,7 +112,6 @@ public class Storage {
 
                 // Skip invalid book entries
                 if (book == null) {
-                    Formatter.printBorderedMessage("Invalid book entry skipped: " + line);
                     continue;
                 }
 
@@ -159,7 +158,6 @@ public class Storage {
 
                 // Skip invalid loans
                 if (loan == null) {
-                    Formatter.printBorderedMessage("Invalid loan entry skipped: " + line);
                     continue;
                 }
 
@@ -200,8 +198,17 @@ public class Storage {
         String location = parts[5].trim();
         String note = (parts.length == 7) ? parts[6].trim() : "";
 
+        Book book;
         // Normalize case for title, author, and category
-        return new Book(title, author, category, condition, location, note);
+        try { 
+            book = new Book(title, author, category, condition, location, note);
+        }
+        catch (IllegalArgumentException e) {
+            // Handle invalid book creation
+            Formatter.printBorderedMessage("Invalid book entry skipped: " + line + "\nReason: " + e.getMessage());
+            return null; // Skip this book
+        }
+        return book;
     }
 
     private static Loan parseLoanFromString(String line, BookList bookList) {
@@ -251,7 +258,6 @@ public class Storage {
 
         saveLoans(loanList);
         saveInventory(bookList);
-        Formatter.printBorderedMessage("Storage validated and updated successfully.");
     }
 
 }
