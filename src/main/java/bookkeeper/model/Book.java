@@ -25,6 +25,7 @@ public class Book {
         this(title, author, category, condition, location, ""); // Default note is an empty string
     }
 
+    // Getters
     public String getTitle() {
         return title;
     }
@@ -53,6 +54,8 @@ public class Book {
         return note;
     }
 
+    //Setters
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -79,6 +82,24 @@ public class Book {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public void setBookFields(String author, String category, String condition, String location, String note) {
+        if(author != null){
+            setAuthor(author);
+        }
+        if(category != null){
+            setCategory(category);
+        }
+        if(condition != null){
+            setCondition(condition);
+        }
+        if(location != null){
+            setLocation(location);
+        }
+        if(note != null && !note.isBlank()){
+            setNote(note);
+        }
     }
 
     public String toFileString() {

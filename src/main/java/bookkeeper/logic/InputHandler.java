@@ -416,7 +416,7 @@ public class InputHandler {
         }
 
         try {
-            setBookFields(book, author, category, condition, location, note);
+            book.setBookFields(author, category, condition, location, note);
             Formatter.printBorderedMessage("Book Updated:\n" + book);
             Storage.saveInventory(bookList);
         } catch
@@ -451,7 +451,7 @@ public class InputHandler {
             Formatter.printBorderedMessage("The book " + bookTitle + " is not currently out on loan.");
         } else {
             try {
-                setLoanFields(loan, borrowerName, returnDate, phoneNumber, email);
+                loan.setLoanFields(borrowerName, returnDate, phoneNumber, email);
                 Formatter.printBorderedMessage("Loan Updated:\n" + loan);
                 Storage.saveLoans(loanList);
             } catch (IllegalArgumentException e) {
@@ -460,36 +460,6 @@ public class InputHandler {
         }
     }
 
-    private void setLoanFields(Loan loan, String borrowerName, String returnDate, String phoneNumber, String email) {
-        if (borrowerName != null && !borrowerName.isEmpty()) {
-            loan.setBorrowerName(borrowerName);
-        }
-        if (returnDate != null) {
-            loan.setReturnDate(returnDate);
-        }
-        if (phoneNumber != null) {
-            loan.setPhoneNumber(phoneNumber);
-        }
-        if (email != null) {
-            loan.setEmail(email);
-        }
-    }
 
-    private void setBookFields(Book book, String author, String category, String condition, String location, String note) {
-        if(author != null){
-            book.setAuthor(author);
-        }
-        if(category != null){
-            book.setCategory(category);
-        }
-        if(condition != null){
-            book.setCondition(condition);
-        }
-        if(location != null){
-            book.setLocation(location);
-        }
-        if(note != null && !note.isBlank()){
-            book.setNote(note);
-        }
-    }
+
 }

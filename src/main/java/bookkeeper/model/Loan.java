@@ -61,6 +61,21 @@ public class Loan {
         this.email = email;
     }
 
+    public void setLoanFields(String borrowerName, String returnDate, String phoneNumber, String email) {
+        if (borrowerName != null && !borrowerName.isEmpty()) {
+            setBorrowerName(borrowerName);
+        }
+        if (returnDate != null) {
+            setReturnDate(returnDate);
+        }
+        if (phoneNumber != null) {
+            setPhoneNumber(phoneNumber);
+        }
+        if (email != null) {
+            setEmail(email);
+        }
+    }
+
     public String toFileString() {
         String title = getTitle();
         String borrowerName = getBorrowerName();
