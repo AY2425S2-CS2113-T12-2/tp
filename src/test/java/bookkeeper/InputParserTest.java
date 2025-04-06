@@ -4,6 +4,7 @@ import bookkeeper.logic.InputParser;
 import org.junit.jupiter.api.Test;
 
 import bookkeeper.exceptions.IncorrectFormatException;
+import bookkeeper.exceptions.InvalidArgumentException;
 import bookkeeper.exceptions.ErrorMessages;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -108,7 +109,7 @@ public class InputParserTest {
     }
 
     @Test
-    void extractEditLoanArgs_validInput_twoArgumentArray() throws IncorrectFormatException {
+    void extractEditLoanArgs_validInput_twoArgumentArray() throws IncorrectFormatException, InvalidArgumentException {
         String[] arguments = InputParser.extractEditLoanArgs("Great Gatsby n/Mary d/13-03-2025 " +
                 "p/12345678 e/abc123@gmail.com");
         String[] output = new String[]{"Great Gatsby", "Mary", "13-03-2025", "12345678", "abc123@gmail.com"};
@@ -116,7 +117,7 @@ public class InputParserTest {
     }
 
     @Test
-    void extractEditLoanArgs_inputWithExtraSpace_twoArgumentArray() throws IncorrectFormatException {
+    void extractEditLoanArgs_inputWithExtraSpace_twoArgumentArray() throws IncorrectFormatException, InvalidArgumentException {
         String[] arguments = InputParser.extractEditLoanArgs("Great Gatsby    n/Mary d/13-03-2025     " +
                 "p/12345678   e/abc123@gmail.com");
         String[] output = new String[]{"Great Gatsby", "Mary", "13-03-2025", "12345678", "abc123@gmail.com"};
@@ -205,7 +206,7 @@ public class InputParserTest {
     }
 
     @Test
-    void extractEditLoanArgs_validInput_success() throws IncorrectFormatException {
+    void extractEditLoanArgs_validInput_success() throws IncorrectFormatException, InvalidArgumentException {
         String input = "1 n/John Doe d/2023-12-01 p/1234567890 e/johndoe@example.com";
         String[] result = InputParser.extractEditLoanArgs(input);
         String[] expected = {"1", "John Doe", "2023-12-01", "1234567890", "johndoe@example.com"};
@@ -213,7 +214,7 @@ public class InputParserTest {
     }
 
     @Test
-    void extractEditLoanArgs_missingFields_sucessWithoutMissingFields() throws IncorrectFormatException {
+    void extractEditLoanArgs_missingFields_sucessWithoutMissingFields() throws IncorrectFormatException, InvalidArgumentException {
         String input = "1 n/John Doe d/2023-12-01 e/johndoe@example.com";
         String[] result = InputParser.extractEditLoanArgs(input);
         String[] expected = {"1", "John Doe", "2023-12-01", null, "johndoe@example.com"};

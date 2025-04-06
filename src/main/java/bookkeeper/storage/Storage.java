@@ -1,5 +1,6 @@
 package bookkeeper.storage;
 
+import bookkeeper.exceptions.InvalidArgumentException;
 import bookkeeper.list.BookList;
 import bookkeeper.list.LoanList;
 import bookkeeper.model.Book;
@@ -178,6 +179,8 @@ public class Storage {
             scanner.close(); // Close the Scanner
         } catch (IOException e) {
             Formatter.printBorderedMessage("Something went wrong while loading loans: " + e.getMessage());
+        } catch (InvalidArgumentException e) {
+            Formatter.printBorderedMessage("Something went wrong while loading loans: " + e.getMessage());
         }
 
         Formatter.printBorderedMessage("Loaded " + loanList.size() + " loans from " + loanListFilePath + ".");
@@ -210,7 +213,7 @@ public class Storage {
         return book;
     }
 
-    private static Loan parseLoanFromString(String line, BookList bookList) {
+    private static Loan parseLoanFromString(String line, BookList bookList) throws InvalidArgumentException {
         String[] parts = line.split(" \\| ");
 
         if (parts.length < 5) {
@@ -229,6 +232,14 @@ public class Storage {
         if (loanedBook == null) {
             Formatter.printBorderedMessage("Invalid loan: Book not found in inventory - " + title);
             return null; // Skip this loan
+        }
+
+        if (!phoneNumber.matches("^[0-9]+$")) {
+            throw new InvalidArgumentException("Invalid loan entry skipped: " + line + "\nReason: " + "Illegal phone number");
+        }
+
+        if (!email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+            throw new InvalidArgumentException("Invalid loan entry skipped: " + line + "\nReason: " + "Illegal email");
         }
 
         try {
