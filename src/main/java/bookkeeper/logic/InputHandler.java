@@ -9,6 +9,7 @@ import bookkeeper.storage.LoggerConfig;
 import bookkeeper.storage.Storage;
 import bookkeeper.exceptions.BookNotFoundException;
 import bookkeeper.exceptions.IncorrectFormatException;
+import bookkeeper.exceptions.InvalidArgumentException;
 import bookkeeper.exceptions.ErrorMessages;
 import bookkeeper.model.Book;
 import bookkeeper.model.Loan;
@@ -95,7 +96,7 @@ public class InputHandler {
                     default:
                         throw new IncorrectFormatException("Unknown command: " + commandArgs[0]);
                     }
-                } catch (IncorrectFormatException | BookNotFoundException e) {
+                } catch (IncorrectFormatException | BookNotFoundException | InvalidArgumentException e) {
                     Formatter.printBorderedMessage(e.getMessage());
                 }
             }
@@ -133,8 +134,10 @@ public class InputHandler {
      * @throws IncorrectFormatException If the input format is invalid.
      * @throws BookNotFoundException    If the book is not found in the inventory.
      * @throws BookNotFoundException    If the book is already on loan.
+     * @throws InvalidArgumentException 
      */
-    private void addLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
+    private void addLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException, 
+            InvalidArgumentException {
         if (commandArgs.length < 2) {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_LOAN);
         }
@@ -369,7 +372,8 @@ public class InputHandler {
     }
     
 
-    private void editLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
+    private void editLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException, 
+            InvalidArgumentException {
         if (commandArgs.length < 2) {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_EDIT_LOAN);
         }
