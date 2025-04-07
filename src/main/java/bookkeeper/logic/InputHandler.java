@@ -134,7 +134,7 @@ public class InputHandler {
      * @throws IncorrectFormatException If the input format is invalid.
      * @throws BookNotFoundException    If the book is not found in the inventory.
      * @throws BookNotFoundException    If the book is already on loan.
-     * @throws InvalidArgumentException 
+     * @throws InvalidArgumentException If any argument is invalid.
      */
     private void addLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException, 
             InvalidArgumentException {
