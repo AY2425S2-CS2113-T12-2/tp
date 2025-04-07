@@ -76,7 +76,7 @@ public class InputHandler {
                     case "update-book":
                         updateBook(commandArgs);
                         break;
-                    case "search-book":
+                    case "search-title":
                         searchBook(commandArgs);
                         break;
                     case "list-category":
@@ -111,7 +111,7 @@ public class InputHandler {
             | Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`   |
             | Remove Book    | `remove-book BOOK_TITLE`                                                              |
             | Update Book    | `update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`|
-            | Search Book    | `search-book KEYWORD`                                                                 |
+            | Search Book    | `search-title KEYWORD`                                                                 |
             | View Inventory | `view-inventory`                                                                      |
             | Add Note       | `add-note BOOK_TITLE note/NOTE`                                                       |
             | Update Note    | `update-note BOOK_TITLE note/NOTE`                                                    |

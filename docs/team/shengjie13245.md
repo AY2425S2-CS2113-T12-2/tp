@@ -15,7 +15,7 @@ BookKeeper is a Command Line Interface (CLI) library manager application for eff
     * **Justification**: This is a key feature in the product, as a librarian will constantly need to delete loans for books that have been returned.
     * **Highlights**: This enhancement work hand in hand with all other basic functions, thus requiring coordination to ensure that there is consistency in the implementation especially when parsing the input by the user.
 
-2. Search-Book
+2. Search-Title
     * **What it does**: Allows the user to get the list of all books that contains the provided keyword in its title.
     * **Justification**: This serves as a convenient way for the user to get a list of all the books that is in the inventory without having to look through the whole list. This is an important feature if there is a large amount of books. 
 
@@ -44,7 +44,7 @@ BookKeeper is a Command Line Interface (CLI) library manager application for eff
 ### Contributions to the UG:
 - Added documentation for the following features:
     - `delete-loan`
-    - `search-book`
+    - `search-title`
     - `list-category`
     - `add-note`
     - `delete-note`
