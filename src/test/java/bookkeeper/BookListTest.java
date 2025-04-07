@@ -11,6 +11,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 class BookListTest {
@@ -19,8 +21,11 @@ class BookListTest {
     private Book book2;
     private Book book3;
 
+    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+
     @BeforeEach
     void setUp() {
+        System.setOut(new PrintStream(outputStreamCaptor));
         bookList = new BookList("My Book List", new ArrayList<Book>());
 
         // Creating mock book objects
@@ -87,5 +92,20 @@ class BookListTest {
         assertNotEquals(foundBooks.get(0), book1);
         assertNotEquals(foundBooks.get(1), book1);
         assertTrue(foundBooks.contains(book4));
+    }
+
+    @Test 
+    void viewBookList_EmptyBookList() {
+        bookList.viewBookList();
+        String output = outputStreamCaptor.toString().trim();
+        assertTrue(output.contains("Book List Empty!"));
+    }
+
+    @Test 
+    void viewBookList_OneBookBookList() {
+        bookList.addBook(book1);
+        bookList.viewBookList();
+        String output = outputStreamCaptor.toString().trim();
+        assertTrue(output.contains("Book One"));
     }
 }
