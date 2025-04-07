@@ -213,7 +213,7 @@ public class InputParser {
      *      [3] - Phone number
      *      [4] - Email
      * @throws IncorrectFormatException if the input format is invalid.
-     * @throws InvalidArgumentException 
+     * @throws InvalidArgumentException if the input argument is invalid.
      */
     public static String[] extractAddLoanArgs(String input) throws IncorrectFormatException, InvalidArgumentException {
         // Initialize variables for each argument
