@@ -48,12 +48,12 @@ alt commandArgs[0] == update-book
         Formatter --> InputHandler
         deactivate Formatter
     end
-    InputHandler -> Book : setBookFields(...)
+    InputHandler -> Book : setRelevantFields(...)
     activate Book
     Book --> InputHandler
     deactivate Book
 
-    InputHandler -> Formatter: printBorderedMessage("Book Updated: {BOOK}")
+    InputHandler -> Formatter: printBorderedMessage("Book Updated: {Book}")
     activate Formatter
 
     Formatter --> InputHandler
