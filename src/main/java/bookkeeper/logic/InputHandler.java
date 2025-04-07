@@ -129,7 +129,7 @@ public class InputHandler {
             | list-category CATEGORY                                                                       |
             |----------------------------------------------------------------------------------------------|
             | Add Loan:                                                                                    |
-            | add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL                     |  
+            | add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL                     |
             |----------------------------------------------------------------------------------------------|
             | Delete Loan:                                                                                 |
             | delete-loan BOOK_TITLE                                                                       |
@@ -144,7 +144,7 @@ public class InputHandler {
             | help                                                                                         |
             |----------------------------------------------------------------------------------------------|
             | Exit Program:                                                                                |
-            | exit                                                                                         | 
+            | exit                                                                                         |
             ------------------------------------------------------------------------------------------------
             """);
     }

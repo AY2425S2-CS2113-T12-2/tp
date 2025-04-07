@@ -38,7 +38,7 @@
      | list-category CATEGORY                                                                       |
      |----------------------------------------------------------------------------------------------|
      | Add Loan:                                                                                    |
-     | add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL                     |  
+     | add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL                     |
      |----------------------------------------------------------------------------------------------|
      | Delete Loan:                                                                                 |
      | delete-loan BOOK_TITLE                                                                       |
@@ -53,6 +53,6 @@
      | help                                                                                         |
      |----------------------------------------------------------------------------------------------|
      | Exit Program:                                                                                |
-     | exit                                                                                         | 
+     | exit                                                                                         |
      ------------------------------------------------------------------------------------------------
 Enter a command:
