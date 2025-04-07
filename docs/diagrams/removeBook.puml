@@ -40,7 +40,7 @@ activate InputHandler
             activate Storage
             Storage --> InputHandler
             deactivate Storage
-            InputHandler -> Formatter: printBorderedMessage("Removed book")
+            InputHandler -> Formatter: printBorderedMessage("Removed book: {BOOK_TITLE}")
             activate Formatter
             Formatter --> InputHandler
             deactivate Formatter
