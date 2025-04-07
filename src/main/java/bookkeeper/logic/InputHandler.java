@@ -86,6 +86,9 @@ public class InputHandler {
                     case "update-title":
                         updateTitle(commandArgs);
                         break;
+                    case "delete-note":
+                        deleteNote(commandArgs);
+                        break;
                     case "help":
                         displayHelp();
                         break;
@@ -140,6 +143,9 @@ public class InputHandler {
             | View Loans:                                                                                  |
             | view-loans                                                                                   |
             |----------------------------------------------------------------------------------------------|
+            | Delete Note:                                                                                 |
+            | delete-note                                                                                  |
+            |----------------------------------------------------------------------------------------------|
             | Display Help:                                                                                |
             | help                                                                                         |
             |----------------------------------------------------------------------------------------------|
@@ -183,6 +189,35 @@ public class InputHandler {
         } catch (IllegalArgumentException e) {
             Formatter.printBorderedMessage(e.getMessage());
         }
+    }
+
+    /**
+     * Deletes the note from a specified book.
+     *
+     * @param commandArgs The parsed command arguments.
+     * @throws IncorrectFormatException If the input format is invalid.
+     * @throws BookNotFoundException    If the book is not found in the inventory.
+     */
+    private void deleteNote(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
+        if (commandArgs.length != 2) {
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_DELETE_NOTE);
+        }
+
+        String bookTitle = commandArgs[1].trim();
+
+        Book book = bookList.findBookByTitle(bookTitle);
+        if (book == null) {
+            throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
+        }
+
+        if (book.getNote().isEmpty()) {
+            Formatter.printBorderedMessage("No note exists for the book: " + bookTitle);
+            return;
+        }
+
+        book.setNote("");
+        Formatter.printBorderedMessage("Note deleted for book: " + bookTitle);
+        Storage.saveInventory(bookList);
     }
 
     /**

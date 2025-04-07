@@ -375,8 +375,8 @@ The following UML sequence diagram shows how the `update-book BOOK_TITLE [a/AUTH
    - Author
    - Category
    - Condition
-   - Location 
-   - Note 
+   - Location
+   - Note
 
 4. Book is validated:
    `InputHandler` calls `BookList.searchBook(bookTitle)` to check if the book exists in the inventory.
@@ -503,6 +503,41 @@ The following UML sequence diagram shows how the `update-book BOOK_TITLE new/NEW
 
 8. Success message is displayed:
    `InputHandler` uses `Formatter` to print a message indicating that the book was successfully updated.
+
+### Delete Note
+
+The `delete-note` feature allows the user to delete a note that is attached to a book in the inventory. The system ensures that the book has a note before it can be updated
+
+`InputHandler` coordinates with `InputParser`, `BookList`, `Book`, `Formatter`, and `Storage` classes to implement the feature.
+
+The following UML sequence diagram shows how the `delete-note BOOK_TITLE` command is handled.
+
+![deleteNote.png](images/deleteNote.png)
+
+1. User issues command:
+   The user inputs the command in the CLI with the required arguments, e.g., `delete-note The Great Gatsby`.
+
+2. Command arguments are extracted:
+   `InputHandler` first calls `InputParser.extractCommandArgs(...)` to split the user input into command arguments.
+
+   - For example, the input `delete-note The Great Gatsby` is split into:
+     - `commandArgs[0]`: `delete-note`
+     - `commandArgs[1]`: `The Great Gatsby`
+
+3. Note is validated:
+
+   - If the book does not have a note attached, `InputHandler` uses `Formatter` to print a "No note exists for the book: Book_Title" message and exits early.
+   - If the book is found with a note, the flow continues.
+
+4. Note deleted:
+
+   - The note is deleted from the book
+
+5. Changes are saved to persistent storage:
+   `InputHandler` calls `Storage.saveLoans(...)` and `Storage.saveInventory(...)` to save the updated book list and inventory.
+
+6. Success message is displayed:
+   `InputHandler` uses `Formatter` to print a message indicating that the note was successfully deleted
 
 ### Save Inventory
 
