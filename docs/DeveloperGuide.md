@@ -347,11 +347,11 @@ The following UML sequence diagram shows how the `view-loans` command is handled
 
 ### Updating Books
 
-The `update-book` feature allows the user to add update existing book details. The system ensures that a book of the same title exists in the inventory and before performing the update. Note that the book title cannot be updated.
+The `update-book` feature allows the user to add update existing book details. The system ensures that a book of the same title exists in the inventory and before performing the update. Note that the book title is updated separately in the `update-title` command.
 
-`InputHandler` coordinates with `InputParser`, `BookList`, `Formatter`, and `Storage` classes to implement the feature.
+`InputHandler` coordinates with `InputParser`, `BookList`, `Book`, `Formatter`, and `Storage` classes to implement the feature.
 
-The following UML sequence diagram shows how the `update-book update-book BOOK_TITLE [a/AUTHOR] [cat/CATEGORY] [cond/CONDITION] [loc/LOCATION] [note/NOTE]` command is handled.
+The following UML sequence diagram shows how the `update-book BOOK_TITLE [a/AUTHOR] [cat/CATEGORY] [cond/CONDITION] [loc/LOCATION] [note/NOTE]` command is handled.
 
 ![updateBook.png](images/updateBook.png)
 
@@ -398,7 +398,7 @@ The following UML sequence diagram shows how the `update-book update-book BOOK_T
 
 ### Updating Loans
 
-The `edit-loan` feature allows the user to add update existing loan details. The system ensures that a book of the same title and a corresponding loan exists before performing the update. Note that the book title and the borrower name cannot be updated.
+The `edit-loan` feature allows the user to add update existing loan details. The system ensures that a book of the same title and a corresponding loan exists before performing the update.
 
 `InputHandler` coordinates with `InputParser`, `BookList`, `LoanList`, `Loan`, `Formatter`, and `Storage` classes to implement the feature.
 
@@ -450,6 +450,57 @@ The following UML sequence diagram shows how the `edit-loan BOOK_TITLE [n/BORROW
 
 7. Success message is displayed:
    `InputHandler` uses `Formatter` to print a message indicating that the loan was successfully updated.
+
+### Updating Titles
+
+The `update-title` feature allows the user to update existing book titles. The system ensures that a book of the current title exists in the inventory and before performing the update.
+
+`InputHandler` coordinates with `InputParser`, `BookList`, `Formatter`, and `Storage` classes to implement the feature.
+
+The following UML sequence diagram shows how the `update-book BOOK_TITLE [a/AUTHOR] [cat/CATEGORY] [cond/CONDITION] [loc/LOCATION] [note/NOTE]` command is handled.
+
+![updateBook.png](images/updateBook.png)
+
+1. User issues command:
+   The user inputs the command in the CLI with the required arguments, e.g., `update-book The Great Gatsby a/F. Scott Fitzgerald cat/Fiction cond/POOR loc/Shelf B3 note/Replace ASAP`.
+
+2. Command arguments are extracted:
+   `InputHandler` first calls `InputParser.extractCommandArgs(...)` to split the user input into command arguments.
+
+   - For example, the input `update-book The Great Gatsby a/F. Scott Fitzgerald cat/Fiction cond/POOR loc/Shelf B3 note/Replace ASAP` is split into:
+     - `commandArgs[0]`: `"update-book"`
+     - `commandArgs[1]`: `"The Great Gatsby a/F. Scott Fitzgerald cat/Fiction cond/POOR loc/Shelf B3 note/Replace ASAP"`
+
+3. Book arguments are parsed:
+   `InputHandler` invokes `InputParser.extractUpdateBookArgs(...)` to parse the second part of the command (`commandArgs[1]`) into the following components:
+
+   - Book title
+   - Author
+   - Category
+   - Condition
+   - Location
+   - Note (Optional)
+
+4. Book is validated:
+   `InputHandler` calls `BookList.findBookByTitle(bookTitle)` to check if the book exists in the inventory.
+
+   - If the book is not found, `InputHandler` uses `Formatter` to print a exception message and exits early.
+   - If the book is found, the flow continues.
+
+5. Book is updated:
+   `InputHandler` updates the book details by invoking the following methods from `Book` class:
+
+   - `Book.setAuthor(newAuthor)`
+   - `Book.setCategory(newCategory)`
+   - `Book.setCondition(newCondition)`
+   - `Book.setLocation(newLocation)`
+   - `Book.setNote(newNote)` (only if note is provided)
+
+6. Changes are saved to persistent storage:
+   `InputHandler` calls `Storage.saveLoans(...)` and `Storage.saveInventory(...)` to save the updated book details.
+
+7. Success message is displayed:
+   `InputHandler` uses `Formatter` to print a message indicating that the book was successfully updated.
 
 ### Save Inventory
 
