@@ -1,6 +1,7 @@
 package bookkeeper.logic;
 
 import bookkeeper.exceptions.IncorrectFormatException;
+import bookkeeper.exceptions.InvalidArgumentException;
 import bookkeeper.exceptions.ErrorMessages;
 
 import java.util.HashSet;
@@ -211,8 +212,9 @@ public class InputParser {
      *      [3] - Phone number
      *      [4] - Email
      * @throws IncorrectFormatException if the input format is invalid.
+     * @throws InvalidArgumentException 
      */
-    public static String[] extractAddLoanArgs(String input) throws IncorrectFormatException {
+    public static String[] extractAddLoanArgs(String input) throws IncorrectFormatException, InvalidArgumentException {
         // Initialize variables for each argument
         String bookTitle = null;
         String borrowerName = null;
@@ -252,12 +254,12 @@ public class InputParser {
             } else if (part.startsWith("p/")) {
                 phoneNumber = part.substring(2).trim();
                 if (!phoneNumber.matches("^[986][0-9]{7}$")) {
-                    throw new IncorrectFormatException(ErrorMessages.INVALID_PHONE_NUMBER_ADD_LOAN);
+                    throw new InvalidArgumentException(ErrorMessages.INVALID_PHONE_NUMBER_ADD_LOAN);
                 }
             } else if (part.startsWith("e/")) {
                 email = part.substring(2).trim();
                 if (!email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
-                    throw new IncorrectFormatException(ErrorMessages.INVALID_EMAIL_ADD_LOAN);
+                    throw new InvalidArgumentException(ErrorMessages.INVALID_EMAIL_ADD_LOAN);
                 }
             }
         }
@@ -308,8 +310,8 @@ public class InputParser {
         return new String[]{bookTitle, note};
     }
 
-    public static String[] extractEditLoanArgs(String input) throws IncorrectFormatException {
-        String index = null;
+    public static String[] extractEditLoanArgs(String input) throws IncorrectFormatException, InvalidArgumentException {
+        String title = null;
         String borrowerName = null;
         String returnDate = null;
         String phoneNumber = null;
@@ -318,10 +320,7 @@ public class InputParser {
         Set<String> processedPrefixes = new HashSet<>();
         String[] parts = input.trim().split("\\s+(?=\\w+/|$)");
 
-        index = parts[0].trim();
-        if (!index.matches("^[0-9]+$")) {
-            throw new IncorrectFormatException("Please provide a valid index");
-        }
+        title = parts[0].trim();
 
         for (int i = 1; i < parts.length; i++) {
             String part = parts[i].trim();
@@ -339,18 +338,18 @@ public class InputParser {
             } else if (part.startsWith("p/")) {
                 phoneNumber = part.substring(2).trim();
                 if (!phoneNumber.matches("^[986][0-9]{7}$")) {
-                    throw new IncorrectFormatException(ErrorMessages.INVALID_PHONE_NUMBER_EDIT_LOAN);
+                    throw new InvalidArgumentException(ErrorMessages.INVALID_PHONE_NUMBER_EDIT_LOAN);
                 }
             } else if (part.startsWith("e/")) {
                 email = part.substring(2).trim();
                 if (!email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
-                    throw new IncorrectFormatException(ErrorMessages.INVALID_EMAIL_EDIT_LOAN);
+                    throw new InvalidArgumentException(ErrorMessages.INVALID_EMAIL_EDIT_LOAN);
                 }
             } else {
                 throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_EDIT_LOAN);
             }
         }
 
-        return new String[]{index, borrowerName, returnDate, phoneNumber, email};
+        return new String[]{title, borrowerName, returnDate, phoneNumber, email};
     }
 }

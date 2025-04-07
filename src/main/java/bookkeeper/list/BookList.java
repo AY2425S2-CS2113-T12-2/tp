@@ -48,20 +48,17 @@ public class BookList {
         return filteredBookList;
     }
 
-    public ArrayList<Book> findBooksByCategory(String category) {
+    public ArrayList<Book> findBooksByCategory(String category) throws IllegalArgumentException {
         ArrayList<Book> filteredBookList = new ArrayList<>();
-        try {
-            // Normalize the input category string to a Category enum
-            Category targetCategory = Category.fromString(category);
-            for (Book book : bookList) {
-                if (book.getCategory() == targetCategory) { // Compare using the enum value
-                    filteredBookList.add(book);
-                }
+
+        // Normalize the input category string to a Category enum
+        Category targetCategory = Category.fromString(category);
+        for (Book book : bookList) {
+            if (book.getCategory() == targetCategory) { // Compare using the enum value
+                filteredBookList.add(book);
             }
-        } catch (IllegalArgumentException e) {
-            // Handle invalid category input (optional)
-            Formatter.printBorderedMessage("Invalid category: " + category);
         }
+        // Handle invalid category input (optional)
         return filteredBookList;
     }
 

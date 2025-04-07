@@ -9,6 +9,7 @@ import bookkeeper.storage.LoggerConfig;
 import bookkeeper.storage.Storage;
 import bookkeeper.exceptions.BookNotFoundException;
 import bookkeeper.exceptions.IncorrectFormatException;
+import bookkeeper.exceptions.InvalidArgumentException;
 import bookkeeper.exceptions.ErrorMessages;
 import bookkeeper.model.Book;
 import bookkeeper.model.Loan;
@@ -95,7 +96,7 @@ public class InputHandler {
                     default:
                         throw new IncorrectFormatException("Unknown command: " + commandArgs[0]);
                     }
-                } catch (IncorrectFormatException | BookNotFoundException e) {
+                } catch (IncorrectFormatException | BookNotFoundException | InvalidArgumentException e) {
                     Formatter.printBorderedMessage(e.getMessage());
                 }
             }
@@ -105,25 +106,23 @@ public class InputHandler {
 
     private void displayHelp() {
         Formatter.printSimpleMessage("""
-            ----------------------------------------------------------------------------------------------------------
-            | Action         | Format                                                                                |
-            |----------------|---------------------------------------------------------------------------------------|
-            | Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`   |
-            | Remove Book    | `remove-book BOOK_TITLE`                                                              |
-            | Update Book    | `update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`|
-            | Search Book    | `search-title KEYWORD`                                                                 |
-            | View Inventory | `view-inventory`                                                                      |
-            | Add Note       | `add-note BOOK_TITLE note/NOTE`                                                       |
-            | Update Note    | `update-note BOOK_TITLE note/NOTE`                                                    |
-            | Delete Note    | `delete-note BOOK_TITLE`                                                              |
-            | List Category  | `list-category CATEGORY`                                                              |
-            | Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`            |
-            | Delete Loan    | `delete-loan BOOK_TITLE`                                                              |
-            | Edit Loan      | `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`           |
-            | View Loans     | `view-loans`                                                                          |
-            | Display Help   | `help`                                                                                |
-            | Exit Program   | `exit`                                                                                |
-            ----------------------------------------------------------------------------------------------------------
+            ---------------------------------------------------------------------------------------------------------
+            | Action         | Format                                                                               |
+            |----------------|--------------------------------------------------------------------------------------|
+            | Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`  |
+            | Remove Book    | `remove-book BOOK_TITLE`                                                             |
+            | Update Book    | `update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION note/NOTE` |
+            | Update Title   | `update-title BOOK_TITLE new/NEW_TITLE                                               |
+            | Search Book    | `search-title KEYWORD`                                                                |
+            | View Inventory | `view-inventory`                                                                     |
+            | List Category  | `list-category CATEGORY`                                                             |
+            | Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`           |
+            | Delete Loan    | `delete-loan BOOK_TITLE`                                                             |
+            | Edit Loan      | `edit-loan BOOK_TITLE [n/BORROWER_NAME] [d/RETURN_DATE] [p/PHONE_NUMBER] [e/EMAIL]`  |
+            | View Loans     | `view-loans`                                                                         |
+            | Display Help   | `help`                                                                               |
+            | Exit Program   | `exit`                                                                               |
+            ---------------------------------------------------------------------------------------------------------
             """);
     }
 
@@ -135,8 +134,10 @@ public class InputHandler {
      * @throws IncorrectFormatException If the input format is invalid.
      * @throws BookNotFoundException    If the book is not found in the inventory.
      * @throws BookNotFoundException    If the book is already on loan.
+     * @throws InvalidArgumentException 
      */
-    private void addLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
+    private void addLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException, 
+            InvalidArgumentException {
         if (commandArgs.length < 2) {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_ADD_LOAN);
         }
@@ -282,9 +283,12 @@ public class InputHandler {
         if (commandArgs.length < 2) {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_LIST_CATEGORY);
         }
-
         String category = commandArgs[1].trim();
-        Formatter.printBookList(bookList.findBooksByCategory(category));
+        try {
+            Formatter.printBookList(bookList.findBooksByCategory(category));
+        } catch (IllegalArgumentException e) {
+            Formatter.printBorderedMessage("Invalid Category: " + category);
+        }
     }
 
     /**
@@ -316,11 +320,11 @@ public class InputHandler {
             throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
         }
 
-        if (author == null || author.isBlank() ||
-                category == null || category.isBlank() ||
-                condition == null || condition.isBlank() ||
-                location == null || location.isBlank() ||
-                note == null || note.isBlank()) {
+        if ((author == null || author.isBlank()) &&
+                (category == null || category.isBlank()) &&
+                (condition == null || condition.isBlank()) &&
+                (location == null || location.isBlank()) &&
+                (note == null || note.isBlank())) {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_UPDATE_BOOK_NO_UPDATES);
         }
 
@@ -368,26 +372,24 @@ public class InputHandler {
     }
     
 
-    private void editLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException {
+    private void editLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException, 
+            InvalidArgumentException {
         if (commandArgs.length < 2) {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_EDIT_LOAN);
         }
         String[] editLoanArgs = InputParser.extractEditLoanArgs(commandArgs[1]);
         assert editLoanArgs.length == 5 : "Book arguments should contain 5 elements";
 
-        int index = Integer.parseInt(editLoanArgs[0]);
+        String bookTitle = editLoanArgs[0];
         String borrowerName = editLoanArgs[1];
         String returnDate = editLoanArgs[2];
         String phoneNumber = editLoanArgs[3];
         String email = editLoanArgs[4];
 
         // Check if book already exists in the inventory
-        Loan loan = loanList.findLoanByIndex(index);
-        if (loan == null) {
-            throw new IncorrectFormatException("Please provide a valid index");
-        }
-        String bookTitle = loan.getTitle();
         Book book = bookList.findBookByTitle(bookTitle);
+        Loan loan = loanList.findLoan(book);
+
         if (book == null) {
             throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
         } else if (!book.isOnLoan()) {
