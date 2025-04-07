@@ -605,6 +605,8 @@ The `search-title` feature allows the user to search for books in the inventory 
 
 `InputHandler` coordinates with `InputParser`, `BookList`, and `Formatter` classes to implement the feature.
 
+![searchTitle.png](images/searchTitle.png)
+
 1. User issues command:
    The user inputs the command in the CLI with the required keyword, e.g., `search-title Gatsby`.
 2. `InputHandler` first calls `InputParser.extractCommandArgs(...)` to split the user input into command arguments.
