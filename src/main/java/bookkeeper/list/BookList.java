@@ -38,7 +38,7 @@ public class BookList {
 
     public Book searchBook(String title) {
         for (Book book : bookList) {
-            if (book.getTitle().equals(title)) { // Use equalsIgnoreCase for case-insensitive comparison
+            if (book.getTitle().equals(title)) { 
                 return book;
             }
         }
