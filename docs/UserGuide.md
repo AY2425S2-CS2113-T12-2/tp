@@ -57,13 +57,14 @@ This version of the system focuses on key functionalities for managing inventory
 
 ### Adding a book: `add-book`
 
-Adds a book to the library collection.
+Adds a book to the library collection. 
 
 Format: `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`
 
 Notes:
-
+- Books in inventory are unique. 
 - Valid categories are: romance, adventure, action, horror, mystery, fiction, nonfiction, scifi, education.
+- Valid conditions are: poor, fair, good.
 
 Example:
 
@@ -243,12 +244,12 @@ Here are the books in your inventory:
 
 ### Adding a Loan: `add-loan`
 
-Adds a loan using the book title.
+Adds a loan using the book title. 
 
 Format: `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`
 
 Notes:
-
+- The book to be loaned out must exist in the inventory.
 - The RETURN_DATE must be in the format DD-MM-YYYY.
 - The RETURN_DATE cannot be in the past.
 - The PHONE_NUMBER accepts Singapore numbers only (8 numbers, starting with 9, 8 or 6).
@@ -418,21 +419,19 @@ Warning Message:
 
 ## Command Summary
 
-| Action         | Format                                                                                 |
-| -------------- |----------------------------------------------------------------------------------------|
-| Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`    |
-| Remove Book    | `remove-book BOOK_TITLE`                                                               |
-| Update Book    | `update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]` |
-| Search Book    | `search-title KEYWORD`                                                                 |
-| View Inventory | `view-inventory`                                                                       |
-| Add Note       | `add-note BOOK_TITLE note/NOTE`                                                        |
-| Update note    | `update-note BOOK_TITLE note/NOTE`                                                     |
-| Delete Note    | `delete-note BOOK_TITLE`                                                               |
-| List Category  | `list-category CATEGORY`                                                               |
-| Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`             |
-| Delete Loan    | `delete-loan BOOK_TITLE`                                                               |
-| Edit Loan      | `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`            |
-| View Loans     | `view-loans`                                                                           |
-| Display Help   | `help`                                                                                 |
-| Exit Program   | `exit`                                                                                 |
-
+| Action          | Format                                                                                         |
+|-----------------|------------------------------------------------------------------------------------------------|
+| Add Book        | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`            |
+| Remove Book     | `remove-book BOOK_TITLE`                                                                       |
+| Update Book     | `update-book BOOK_TITLE [a/AUTHOR] [cat/CATEGORY] [cond/CONDITION] [loc/LOCATION] [note/NOTE]` |
+| Update Title    | `update-title BOOK_TITLE new/NEW_TITLE`                                                        |
+| Search Book     | `search-title KEYWORD`                                                                         |
+| View Inventory  | `view-inventory`                                                                               |
+| Delete Note     | `delete-note BOOK_TITLE`                                                                       |
+| List Category   | `list-category CATEGORY`                                                                       |
+| Add Loan        | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`                     |
+| Delete Loan     | `delete-loan BOOK_TITLE`                                                                       |
+| Edit Loan       | `edit-loan BOOK_TITLE [n/BORROWER_NAME] [d/RETURN_DATE] [p/PHONE_NUMBER] [e/EMAIL]`            |
+| View Loans      | `view-loans`                                                                                   |
+| Display Help    | `help`                                                                                         |
+| Exit Program    | `exit`                                                                                         |
