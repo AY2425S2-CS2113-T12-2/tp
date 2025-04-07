@@ -44,7 +44,8 @@ public class InputParser {
         String note = "";
 
         Set<String> processedPrefixes = new HashSet<>();
-        String[] parts = input.trim().split("\\s+(?=\\w+/|$)");
+        String[] parts = input.trim().split(" (?=\\b(?:a/\\s*|cat/\\s*|cond/\\s*|loc/\\s*|note/\\s*)\\b)");
+
 
         if (parts.length == 0 || parts[0].startsWith("a/") || parts[0].startsWith("cat/") ||
                 parts[0].startsWith("cond/") || parts[0].startsWith("loc/") || parts[0].startsWith("note/")) {
@@ -159,7 +160,7 @@ public class InputParser {
         String note = null;
 
         Set<String> processedPrefixes = new HashSet<>();
-        String[] parts = input.trim().split("\\s+(?=\\w+/|$)");
+        String[] parts = input.trim().split(" (?=\\b(?:a/\\s*|cat/\\s*|cond/\\s*|loc/\\s*|note/\\s*)\\b)");
 
         if (parts.length == 0 || parts[0].startsWith("a/") || parts[0].startsWith("cat/") ||
                 parts[0].startsWith("cond/") || parts[0].startsWith("loc/") || parts[0].startsWith("note/")) {
@@ -212,7 +213,7 @@ public class InputParser {
      *      [3] - Phone number
      *      [4] - Email
      * @throws IncorrectFormatException if the input format is invalid.
-     * @throws InvalidArgumentException 
+     * @throws InvalidArgumentException if the input argument is invalid.
      */
     public static String[] extractAddLoanArgs(String input) throws IncorrectFormatException, InvalidArgumentException {
         // Initialize variables for each argument
@@ -226,7 +227,7 @@ public class InputParser {
         Set<String> processedPrefixes = new HashSet<>();
 
         // Split the input into parts based on spaces
-        String[] parts = input.trim().split("\\s+(?=\\w+/|$)");
+        String[] parts = input.trim().split(" (?=\\b(?:n/\\s*|d/\\s*|p/\\s*|e/\\s*)\\b)");
 
         // Validate and extract the first argument as the book title
         if (parts.length == 0 || parts[0].startsWith("n/") || parts[0].startsWith("d/") ||
@@ -318,7 +319,7 @@ public class InputParser {
         String email = null;
 
         Set<String> processedPrefixes = new HashSet<>();
-        String[] parts = input.trim().split("\\s+(?=\\w+/|$)");
+        String[] parts = input.trim().split(" (?=\\b(?:n/\\s*|d/\\s*|p/\\s*|e/\\s*)\\b)");
 
         title = parts[0].trim();
 

@@ -1,10 +1,13 @@
 package bookkeeper;
 
+import bookkeeper.exceptions.IncorrectFormatException;
 import bookkeeper.list.BookList;
+import bookkeeper.logic.InputParser;
 import bookkeeper.model.Book;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -107,5 +110,13 @@ class BookListTest {
         bookList.viewBookList();
         String output = outputStreamCaptor.toString().trim();
         assertTrue(output.contains("Book One"));
+    }
+
+    @Test
+    void extractAddBookArgs_authorWithSlash_success() throws IncorrectFormatException {
+        String[] arguments = InputParser.extractAddBookArgs("The Great Gatsby a/F. Scott s/o Fitzgerald " +
+                "cat/Fiction cond/Good loc/Shelf 1");
+        String[] output = new String[]{"The Great Gatsby", "F. Scott s/o Fitzgerald", "Fiction", "Good", "Shelf 1", ""};
+        assertArrayEquals(arguments, output);
     }
 }

@@ -45,7 +45,8 @@ public final class ErrorMessages {
             "Expected format: add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL";
             
     public static final String INVALID_PHONE_NUMBER_ADD_LOAN = "Invalid argument for add-loan.\n" +
-            "Invalid phone number";
+            "Invalid phone number! \n"+
+            "Expected format: Singapore numbers only (8 numbers, starting with 9, 8 or 6)";
             
     public static final String INVALID_EMAIL_ADD_LOAN = "Invalid argument for add-loan.\n" +
             "Invalid email";
@@ -62,7 +63,8 @@ public final class ErrorMessages {
             "No fields provided for edits";
             
     public static final String INVALID_PHONE_NUMBER_EDIT_LOAN = "Invalid argument for edit-loan.\n" +
-            "Invalid phone number";
+            "Invalid phone number! \n"+
+            "Expected format: Singapore numbers only (8 numbers, starting with 9, 8 or 6)";
 
     public static final String INVALID_EMAIL_EDIT_LOAN = "Invalid argument for edit-loan.\n" +
             "Invalid email";
