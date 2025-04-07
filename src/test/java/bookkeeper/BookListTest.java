@@ -45,7 +45,7 @@ class BookListTest {
     @Test
     void testAddBook() {
         bookList.addBook(book1);
-        assertEquals(book1, bookList.findBookByTitle("Book One"));
+        assertEquals(book1, bookList.searchBook("Book One"));
     }
 
     @Test
@@ -53,9 +53,9 @@ class BookListTest {
         bookList.addBook(book1);
         bookList.addBook(book2);
 
-        assertEquals(book1, bookList.findBookByTitle("Book One"));
-        assertEquals(book2, bookList.findBookByTitle("Book Two"));
-        assertNull(bookList.findBookByTitle("Nonexistent Book"));
+        assertEquals(book1, bookList.searchBook("Book One"));
+        assertEquals(book2, bookList.searchBook("Book Two"));
+        assertNull(bookList.searchBook("Nonexistent Book"));
     }
 
     @Test
@@ -64,8 +64,8 @@ class BookListTest {
         bookList.addBook(book2);
 
         bookList.removeBook(book1);
-        assertNull(bookList.findBookByTitle("Book One"));
-        assertNotNull(bookList.findBookByTitle("Book Two"));
+        assertNull(bookList.searchBook("Book One"));
+        assertNotNull(bookList.searchBook("Book Two"));
     }
 
     @Test
