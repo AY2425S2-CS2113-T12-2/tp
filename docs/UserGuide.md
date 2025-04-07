@@ -12,7 +12,7 @@
     - [Removing a book: `remove-book`](#removing-a-book-remove-book)
     - [Updating a Book: `update-book`](#updating-a-book-update-book)
     - [Updating a Title: `update-title`](#updating-a-title-update-title)
-    - [Searching for a Book: `search-book`](#searching-for-a-book-search-book)
+    - [Searching for a Book: `search-title`](#searching-for-a-book-search-title)
     - [View Book Collection: `view-inventory`](#view-book-collection-view-inventory)
     - [List Category: `list-category`](#list-category-list-category)
     - [Adding a Loan: `add-loan`](#adding-a-loan-add-loan)
@@ -160,16 +160,16 @@ Title: The Great Gatsby
     Note: Replace ASAP
 ```
 
-### Searching for a Book: `search-book`
+### Searching for a Book: `search-title`
 
-Search for a book in the inventory based on the keyword.
+Search for a book in the inventory by title based on the keyword.
 
-Format: `search-book KEYWORD`
+Format: `search-title KEYWORD`
 
 Example:
 
 ```
-search-book Great
+search-title Great
 ```
 
 Expected Outcome:
@@ -251,7 +251,7 @@ Notes:
 
 - The RETURN_DATE must be in the format DD-MM-YYYY.
 - The RETURN_DATE cannot be in the past.
-- The PHONE_NUMBER will only accept numeric strings to cater for different countries phone number
+- The PHONE_NUMBER accepts Singapore numbers only (8 numbers, starting with 9, 8 or 6).
 
 Example:
 
@@ -300,7 +300,7 @@ Notes:
 
 - The RETURN_DATE must be in the format DD-MM-YYYY.
 - The RETURN_DATE cannot be in the past.
-- The PHONE_NUMBER will accept all numeric strings
+- The PHONE_NUMBER accepts Singapore numbers only (8 numbers, starting with 9, 8 or 6).
 - Blank Fields will not be updated
 
 Example:
@@ -410,7 +410,7 @@ Warning Message:
 
 - **Commands Are Case-Sensitive**: Ensure that commands and inputs (e.g., book titles, borrower names) match the exact case.
 - **Books Are Unique**: Each book in the inventory is unique and identified by its title. Duplicate books are not allowed.
-- **Input Character Limitations**: We guarantee support for the English keyboard only. Please do not use the character `|` in your inputs. 
+- **Input Character Limitations**: We guarantee support for the English keyboard only. For contact numbers, only Singapore numbers are supported (omit +65). Please do not use the character `|` in your inputs. 
 - **Data Size/Length Limitations**: Inventory size, loan list length and no. of characters in user input should not exceed `2147483647` (>2 billion).
 - **User Responsibility**: User is responsible for text between flags (demarcated by `/`), e.g. `" "` is considered a valid book title if user follows proper command syntax.
 
@@ -419,20 +419,20 @@ Warning Message:
 ## Command Summary
 
 | Action         | Format                                                                                 |
-| -------------- | -------------------------------------------------------------------------------------- |
+| -------------- |----------------------------------------------------------------------------------------|
 | Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`    |
 | Remove Book    | `remove-book BOOK_TITLE`                                                               |
 | Update Book    | `update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]` |
-| Search Book    | `search-book KEYWORD`                                                  |
-| View Inventory | `view-inventory`                                                       |
-| Add Note       | `add-note BOOK_TITLE note/NOTE`                                        |
-| Update note    | `update-note BOOK_TITLE note/NOTE`                                     |
-| Delete Note    | `delete-note BOOK_TITLE`                                               |
-| List Category  | `list-category CATEGORY`                                               |
-| Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL` |
-| Delete Loan    | `delete-loan BOOK_TITLE`                                               |
-| Edit Loan      | `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL` |
-| View Loans     | `view-loans`                                                           |
-| Display Help   | `help`                                                                 |
-| Exit Program   | `exit`                                                                 |
+| Search Book    | `search-title KEYWORD`                                                                 |
+| View Inventory | `view-inventory`                                                                       |
+| Add Note       | `add-note BOOK_TITLE note/NOTE`                                                        |
+| Update note    | `update-note BOOK_TITLE note/NOTE`                                                     |
+| Delete Note    | `delete-note BOOK_TITLE`                                                               |
+| List Category  | `list-category CATEGORY`                                                               |
+| Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`             |
+| Delete Loan    | `delete-loan BOOK_TITLE`                                                               |
+| Edit Loan      | `edit-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`            |
+| View Loans     | `view-loans`                                                                           |
+| Display Help   | `help`                                                                                 |
+| Exit Program   | `exit`                                                                                 |
 

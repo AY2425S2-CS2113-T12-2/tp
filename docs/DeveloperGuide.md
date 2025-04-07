@@ -164,7 +164,7 @@ The following UML sequence diagram shows how the `add-loan BOOK_TITLE n/BORROWER
 
 - The RETURN_DATE must be in the format **DD-MM-YYYY** when provided as input.
 - The RETURN_DATE cannot be in the past.
-- The PHONE_NUMBER can only be in numeric strings
+- The PHONE_NUMBER accepts Singapore numbers only (8 numbers, starting with 9, 8 or 6).
 
 ![addLoan.png](images/addLoan.png)
 
@@ -406,7 +406,7 @@ The following UML sequence diagram shows how the `edit-loan BOOK_TITLE [n/BORROW
 
 - The RETURN_DATE must be in the format **DD-MM-YYYY** when provided as input.
 - The RETURN_DATE cannot be in the past.
-- The PHONE_NUMBER can only be in numeric strings
+- The PHONE_NUMBER accepts Singapore numbers only (8 numbers, starting with 9, 8 or 6).
 
 ![editLoan.png](images/editLoan.png)
 

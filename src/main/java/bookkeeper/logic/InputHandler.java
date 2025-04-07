@@ -77,7 +77,7 @@ public class InputHandler {
                     case "update-book":
                         updateBook(commandArgs);
                         break;
-                    case "search-book":
+                    case "search-title":
                         searchBook(commandArgs);
                         break;
                     case "list-category":
@@ -113,7 +113,7 @@ public class InputHandler {
             | Remove Book    | `remove-book BOOK_TITLE`                                                             |
             | Update Book    | `update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION note/NOTE` |
             | Update Title   | `update-title BOOK_TITLE new/NEW_TITLE                                               |
-            | Search Book    | `search-book KEYWORD`                                                                |
+            | Search Book    | `search-title KEYWORD`                                                               |
             | View Inventory | `view-inventory`                                                                     |
             | List Category  | `list-category CATEGORY`                                                             |
             | Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`           |
@@ -134,7 +134,7 @@ public class InputHandler {
      * @throws IncorrectFormatException If the input format is invalid.
      * @throws BookNotFoundException    If the book is not found in the inventory.
      * @throws BookNotFoundException    If the book is already on loan.
-     * @throws InvalidArgumentException 
+     * @throws InvalidArgumentException If any argument is invalid.
      */
     private void addLoan(String[] commandArgs) throws IncorrectFormatException, BookNotFoundException, 
             InvalidArgumentException {

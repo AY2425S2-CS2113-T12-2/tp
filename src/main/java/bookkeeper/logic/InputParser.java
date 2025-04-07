@@ -253,7 +253,7 @@ public class InputParser {
                 returnDate = part.substring(2).trim();
             } else if (part.startsWith("p/")) {
                 phoneNumber = part.substring(2).trim();
-                if (!phoneNumber.matches("^[0-9]+$")) {
+                if (!phoneNumber.matches("^[986][0-9]{7}$")) {
                     throw new InvalidArgumentException(ErrorMessages.INVALID_PHONE_NUMBER_ADD_LOAN);
                 }
             } else if (part.startsWith("e/")) {
@@ -337,7 +337,7 @@ public class InputParser {
                 returnDate = part.substring(2).trim();
             } else if (part.startsWith("p/")) {
                 phoneNumber = part.substring(2).trim();
-                if (!phoneNumber.matches("^[0-9]+$")) {
+                if (!phoneNumber.matches("^[986][0-9]{7}$")) {
                     throw new InvalidArgumentException(ErrorMessages.INVALID_PHONE_NUMBER_EDIT_LOAN);
                 }
             } else if (part.startsWith("e/")) {
