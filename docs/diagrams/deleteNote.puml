@@ -1,0 +1,52 @@
+@startuml
+autoactivate on
+
+actor User
+participant InputHandler as ":InputHandler"
+participant BookList as ":BookList"
+participant InputParser as ":InputParser"
+participant Storage as ":Storage"
+participant Formatter as ":Formatter"
+participant Book as ":Book"
+
+User -> InputHandler : delete-note(BOOK_TITLE)
+InputHandler -> InputParser : extractCommandArgs(User input)
+return commandArgs
+
+alt commandArgs[0] == delete-note
+    InputHandler -> InputHandler : deleteNote()
+    opt commandArgs.length < 2 
+        InputHandler -> Formatter : printBorderedMessage(Invalid Format)
+        return
+    end
+
+    InputHandler -> BookList : findBookByTitle(bookTitle)
+    return book
+
+    opt book == null 
+        InputHandler -> Formatter : printBorderedMessage(Book Not Found)
+        return 
+    end
+
+    opt book has no note
+        InputHandler -> Formatter : printBorderedmessage(Book has no note)
+        return
+    end
+
+    InputHandler -> Book : setNote("")
+    return
+
+    InputHandler -> Formatter : printBorderedMessage(Note deleted)
+    return 
+
+    InputHandler -> Storage : saveInventory(bookList)
+    return
+
+else else
+note over InputHandler : other commands
+
+end
+
+return
+return
+@enduml

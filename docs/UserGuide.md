@@ -20,6 +20,7 @@
     - [Deleting a Loan: `delete-loan`](#deleting-a-loan-delete-loan)
     - [Editing a Loan: `edit-loan`](#editing-a-loan-edit-loan)
     - [View Current Loans: `view-loans`](#view-current-loans-view-loans)
+    - [Deleting a note: `delete-note`](#deleting-a-note-delete-note)
     - [Displaying Help: `help`](#displaying-help-help)
     - [Exiting the program: `exit`](#exiting-the-program-exit)
   - [Persistent State](#persistent-state)
@@ -57,7 +58,7 @@ This version of the system focuses on key functionalities for managing inventory
 
 ### Adding a book: `add-book`
 
-Adds a book to the library collection. 
+Adds a book to the library collection.
 
 Format: `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`
 
@@ -77,8 +78,6 @@ or
 ```
 add-book Great Gatsby a/Fitzgerald cat/Fiction cond/Good loc/Shelf B1 note/important
 ```
-
-<div style="page-break-after: always;"></div>
 
 Expected Outcome:
 
@@ -349,6 +348,24 @@ Here are the active loans:
   	...
 ```
 
+### Deleting a Note: `delete-note`
+
+Deletes a note currently attached to a book.
+
+Format: `delete-note BOOK_TITLE`
+
+Example:
+
+```
+delete-note Great Gatsby
+```
+
+Expected Outcome:
+
+```
+Note deleted for book: Great Gatsby
+```
+
 ### Displaying Help: `help`
 
 Displays a list of all available commands and their formats.
@@ -411,7 +428,7 @@ Warning Message:
 
 - **Commands Are Case-Sensitive**: Ensure that commands and inputs (e.g., book titles, borrower names) match the exact case.
 - **Books Are Unique**: Each book in the inventory is unique and identified by its title. Duplicate books are not allowed.
-- **Input Character Limitations**: We guarantee support for the English keyboard only. For contact numbers, only Singapore numbers are supported (omit +65). Please do not use the character `|` in your inputs. 
+- **Input Character Limitations**: We guarantee support for the English keyboard only. For contact numbers, only Singapore numbers are supported (omit +65). Please do not use the character `|` in your inputs.
 - **Data Size/Length Limitations**: Inventory size, loan list length and no. of characters in user input should not exceed `2147483647` (>2 billion).
 - **User Responsibility**: User is responsible for text between flags (demarcated by `/`), e.g. `" "` is considered a valid book title if user follows proper command syntax.
 
