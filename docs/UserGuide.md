@@ -27,7 +27,7 @@
     - [Editing data file](#editing-data-file)
       - [CAUTION: Edits that make the data invalid can cause BookKeeper to behave in unexpected ways. Edit data files only if you are confident that you can update it correctly.](#caution-edits-that-make-the-data-invalid-can-cause-bookkeeper-to-behave-in-unexpected-ways-edit-data-files-only-if-you-are-confident-that-you-can-update-it-correctly)
     - [Data Validation](#data-validation)
-    - [Notes:](#notes)
+    - [Notes](#notes)
   - [Command Summary](#command-summary)
 
 <div style="page-break-after: always;"></div>
@@ -63,9 +63,11 @@ Adds a book to the library collection.
 Format: `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`
 
 Notes:
-- Books in inventory are unique. 
+
+- Books in inventory are unique.
 - Valid categories are: romance, adventure, action, horror, mystery, fiction, nonfiction, scifi, education.
 - Valid conditions are: poor, fair, good.
+- BookKeeper considers books of different casing as separate books.
 
 Example:
 
@@ -110,9 +112,13 @@ Expected Outcome:
 Removed book: Great Gatsby
 ```
 
+Notes:
+
+- Removing a book with an existing loan will delete the associated loan as well
+
 ### Updating a Book: `update-book`
 
-Updates the author, category, condition, location and note with the information provided. While the 4 fields are optional, `update-book` expects at least one field to be updated.
+Updates the author, category, condition, location and note with the information provided. While the 4 fields are optional, `update-book` expects at least one field to be updated. If a user wants to update a book title, they should use the `update-title` command instead.
 
 Format: `update-book BOOK_TITLE [a/AUTHOR] [cat/CATEGORY] [cond/CONDITION] [loc/LOCATION] [note/NOTE]`
 
@@ -134,6 +140,12 @@ Title: Great Gatsby
     Location: Shelf B3
     Note: Replace ASAP
 ```
+
+Notes:
+
+- Valid categories are: romance, adventure, action, horror, mystery, fiction, nonfiction, scifi, education.
+- Valid conditions are: poor, fair, good.
+- Blank Fields will not be updated
 
 ### Updating a Title: `update-title`
 
@@ -162,7 +174,7 @@ Title: The Great Gatsby
 
 ### Searching for a Book: `search-title`
 
-Search for a book in the inventory by title based on the keyword.
+Search for a book in the inventory by title based on the keyword. Unlike all other commands, search-title uses _case-insensitive_ searching for a better user experience.
 
 Format: `search-title KEYWORD`
 
@@ -241,13 +253,18 @@ Here are the books in your inventory:
         Note: No notes available
 ```
 
+Notes:
+
+- Valid categories are: romance, adventure, action, horror, mystery, fiction, nonfiction, scifi, education.
+
 ### Adding a Loan: `add-loan`
 
-Adds a loan using the book title. 
+Adds a loan using the book title.
 
 Format: `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`
 
 Notes:
+
 - The book to be loaned out must exist in the inventory.
 - The RETURN_DATE must be in the format DD-MM-YYYY.
 - The RETURN_DATE cannot be in the past.
@@ -338,13 +355,13 @@ Expected Outcome:
 Here are the active loans:
 1. Title: Great Gatsby
     Borrower: John Doe
-    Return Date: 2023-12-01
+    Return Date: 12-01-2023
     Contact Number: 98765432
     Email: abc123@gmail.com
 
 2. Title: Cheese Chronicles
     Borrower: Gerald
-    Return Date: 2043-11-04
+    Return Date: 11-04-2025
   	...
 ```
 
@@ -427,28 +444,29 @@ Warning Message:
 ### Notes:
 
 - **Commands Are Case-Sensitive**: Ensure that commands and inputs (e.g., book titles, borrower names) match the exact case.
-- **Books Are Unique**: Each book in the inventory is unique and identified by its title. Duplicate books are not allowed.
-- **Input Character Limitations**: We guarantee support for the English keyboard only. For contact numbers, only Singapore numbers are supported (omit +65). Please do not use the character `|` in your inputs.
+- **Books Are Unique**: Each book in the inventory is unique and identified by its title. Duplicate books are not allowed. Books are case sensitive.
+- **Input Character Limitations**: We guarantee support for the English keyboard only. For contact numbers, only Singapore numbers are supported (omit +65). Please do not use the character `|` in your inputs. Special sequences such as ANSI escape code are not supported.
 - **Data Size/Length Limitations**: Inventory size, loan list length and no. of characters in user input should not exceed `2147483647` (>2 billion).
 - **User Responsibility**: User is responsible for text between flags (demarcated by `/`), e.g. `" "` is considered a valid book title if user follows proper command syntax.
+- **File Permissions**: Users should not tamper with BookKeeper file permissions to ensure a seamless experience.
 
 <div style="page-break-after: always;"></div>
 
 ## Command Summary
 
-| Action          | Format                                                                                         |
-|-----------------|------------------------------------------------------------------------------------------------|
-| Add Book        | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`            |
-| Remove Book     | `remove-book BOOK_TITLE`                                                                       |
-| Update Book     | `update-book BOOK_TITLE [a/AUTHOR] [cat/CATEGORY] [cond/CONDITION] [loc/LOCATION] [note/NOTE]` |
-| Update Title    | `update-title BOOK_TITLE new/NEW_TITLE`                                                        |
-| Search Book     | `search-title KEYWORD`                                                                         |
-| View Inventory  | `view-inventory`                                                                               |
-| Delete Note     | `delete-note BOOK_TITLE`                                                                       |
-| List Category   | `list-category CATEGORY`                                                                       |
-| Add Loan        | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`                     |
-| Delete Loan     | `delete-loan BOOK_TITLE`                                                                       |
-| Edit Loan       | `edit-loan BOOK_TITLE [n/BORROWER_NAME] [d/RETURN_DATE] [p/PHONE_NUMBER] [e/EMAIL]`            |
-| View Loans      | `view-loans`                                                                                   |
-| Display Help    | `help`                                                                                         |
-| Exit Program    | `exit`                                                                                         |
+| Action         | Format                                                                                         |
+| -------------- | ---------------------------------------------------------------------------------------------- |
+| Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`            |
+| Remove Book    | `remove-book BOOK_TITLE`                                                                       |
+| Update Book    | `update-book BOOK_TITLE [a/AUTHOR] [cat/CATEGORY] [cond/CONDITION] [loc/LOCATION] [note/NOTE]` |
+| Update Title   | `update-title BOOK_TITLE new/NEW_TITLE`                                                        |
+| Search Book    | `search-title KEYWORD`                                                                         |
+| View Inventory | `view-inventory`                                                                               |
+| Delete Note    | `delete-note BOOK_TITLE`                                                                       |
+| List Category  | `list-category CATEGORY`                                                                       |
+| Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`                     |
+| Delete Loan    | `delete-loan BOOK_TITLE`                                                                       |
+| Edit Loan      | `edit-loan BOOK_TITLE [n/BORROWER_NAME] [d/RETURN_DATE] [p/PHONE_NUMBER] [e/EMAIL]`            |
+| View Loans     | `view-loans`                                                                                   |
+| Display Help   | `help`                                                                                         |
+| Exit Program   | `exit`                                                                                         |
