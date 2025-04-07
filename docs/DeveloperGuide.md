@@ -351,7 +351,7 @@ The `update-book` feature allows the user to add update existing book details. T
 
 `InputHandler` coordinates with `InputParser`, `BookList`, `Formatter`, and `Storage` classes to implement the feature.
 
-The following UML sequence diagram shows how the `update-book update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]` command is handled.
+The following UML sequence diagram shows how the `update-book update-book BOOK_TITLE [a/AUTHOR] [cat/CATEGORY] [cond/CONDITION] [loc/LOCATION] [note/NOTE]` command is handled.
 
 ![updateBook.png](images/updateBook.png)
 
