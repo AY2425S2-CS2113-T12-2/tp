@@ -31,6 +31,9 @@ public final class ErrorMessages {
     public static final String INVALID_FORMAT_SAME_TITLE = "Invalid format for update-title.\n" +
             "Titles entered are the same.";
 
+    public static final String INVALID_FORMAT_DUPLICATE_TITLE = "Invalid format for update-title.\n" +
+            "There already is a book of that title.";
+
     public static final String INVALID_FORMAT_REMOVE_BOOK = "Invalid format for remove-book.\n" +
             "Expected format: remove-book BOOK_TITLE";
 

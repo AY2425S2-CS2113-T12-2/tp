@@ -359,6 +359,10 @@ public class InputHandler {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_SAME_TITLE);
         }
 
+        if(bookList.findBookByTitle(newTitle) != null) {
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_DUPLICATE_TITLE);
+        }
+
         // Check if book already exists in the inventory
         Book book = bookList.findBookByTitle(oldTitle);
         if (book == null) {
