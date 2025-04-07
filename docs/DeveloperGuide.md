@@ -599,6 +599,23 @@ The following UML sequence diagram shows how the `delete-note BOOK_TITLE` comman
 
    `InputHandler` uses `Formatter` to print a message indicating that the note was successfully deleted
 
+### Search Title
+
+The `search-title` feature allows the user to search for books in the inventory by providing a keyword. The system returns a list of books whose titles contain the specified keyword.
+
+`InputHandler` coordinates with `InputParser`, `BookList`, and `Formatter` classes to implement the feature.
+
+1. User issues command:
+   The user inputs the command in the CLI with the required keyword, e.g., `search-title Gatsby`.
+2. `InputHandler` first calls `InputParser.extractCommandArgs(...)` to split the user input into command arguments.
+3. `InputHandler` checks if the keyword is valid (non-empty). If invalid, an error message is displayed.
+4. InputHandler calls `BookList.findBooksByKeyword(keyword)` to retrieve a list of books whose titles contain the keyword.
+5. `InputHandler` uses `Formatter` to print the list of matching books.
+
+Design Considerations:
+- Case Insensitivity: The search is case-insensitive to improve usability.
+  
+
 ### Save Inventory
 
 The save inventory feature automatically saves the inventory each time the user makes a change.
@@ -681,6 +698,53 @@ The following UML sequence diagram shows the relevant behaviour:
    - After processing all lines in file, the `Scanner` is closed.
    - A message is printed indicating the number of books loaded.
    - The populated `bookList` is returned.
+
+
+### Save Loans
+
+The save loans feature ensures that all loans are saved to persistent storage whenever there is a change to the `LoanList`. If no existing persistent storage file is detected, it will be created in the default location `./data/bookKeeper_loanList.txt`. The file path can also be customized using the setLoanFilePath() method.
+
+The method `saveLoans(loanList)` is invoked by `InputHandler` after any method call that makes changes to the current loan list.
+
+The following UML sequence diagram shows the relevant behavior:
+
+![saveLoans.png](images/saveLoans.png)
+
+1. Initialization: `InputHandler` invokes `Storage.saveLoans(loanList)`.
+2. Directory Check: A `File` object is created for the directory. If the directory does not exist, it is created using `mkdirs()`.
+3. FileWriter Creation: A new `FileWriter` is created for the file at the path specified by `loanListFilePath`.
+4. Retrieving Loan List: `getLoanList()` is called on the `LoanList` instance passed into `saveLoans(loanList)` to obtain the list of Loan objects.
+5. Writing Each Loan: For each `Loan` in the list, `toFileString()` is called to get a string representation. This string is then written to the file via `FileWriter`.
+6. Closing: After writing all loans, `FileWriter` is closed to complete the writing process.
+
+Error Handling: If an `IOException` occurs during any file operations, an error message is displayed via `Formatter.printBorderedMessage()`.
+
+### Load Loans
+
+The load loans feature loads the loan list from the existing persistent data storage file if it exists. If it does not exist, an empty loan list is used. The file path defaults to `./data/bookKeeper_loanList.txt` but can be customized using the `setLoanFilePath()` method.
+
+The method `loadLoans(bookList)` is called once by `InputHandler` at the start of the program.
+
+The following UML sequence diagram shows the relevant behavior:
+
+![loadLoans.png](images/loadLoans.png)
+
+1. Initialization: 
+
+`InputHandler` invokes `Storage.loadLoans(bookList)`, which initializes an empty `ArrayList<Loan>`.
+
+2. File Existence Check: A `File` object is created for the loan file path.
+- If the file does not exist:
+A message is printed using `Formatter.printBorderedMessage()` indicating no saved loans were found. A new file is created, and an empty `ArrayList<Loan>` is returned.
+
+3. File Reading: If the file exists, a `Scanner` reads the file line by line. Each line is passed to `parseLoanFromString(line, bookList)` to convert it into a Loan object.
+
+4. Loan Validation: If the `Loan` is null, a message is printed indicating the entry was skipped.
+- If valid, duplicates are checked using `loanList.stream().anyMatch(...)`.
+  - If a duplicate is found, a message is printed, and the loan is skipped.
+  - Otherwise, the loan is added to the loanList.
+
+5. Completion: After processing all lines in the file, the `Scanner` is closed. A message is printed indicating the number of loans loaded. The populated `loanList` is returned.
 
 ## Appendix A: Product scope
 

@@ -78,7 +78,7 @@ public class InputHandler {
                         updateBook(commandArgs);
                         break;
                     case "search-title":
-                        searchBook(commandArgs);
+                        searchTitle(commandArgs);
                         break;
                     case "list-category":
                         listCategory(commandArgs);
@@ -172,7 +172,7 @@ public class InputHandler {
         }
         try {
             String[] loanArgs = InputParser.extractAddLoanArgs(commandArgs[1]);
-            Book loanedBook = bookList.findBookByTitle(loanArgs[0]);
+            Book loanedBook = bookList.searchBook(loanArgs[0]);
             if (loanedBook == null) {
                 Formatter.printBorderedMessage("Book not found in inventory: " + loanArgs[0]);
             } else if (loanedBook.isOnLoan()) {
@@ -205,7 +205,7 @@ public class InputHandler {
 
         String bookTitle = commandArgs[1].trim();
 
-        Book book = bookList.findBookByTitle(bookTitle);
+        Book book = bookList.searchBook(bookTitle);
         if (book == null) {
             throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
         }
@@ -236,7 +236,7 @@ public class InputHandler {
         String bookTitle = bookArgs[0]; //Already trimmed whitespaces in extractAddBookArgs
 
         // Check if book already exists in the inventory
-        if (bookList.findBookByTitle(bookTitle) != null) {
+        if (bookList.searchBook(bookTitle) != null) {
             Formatter.printBorderedMessage("Book already exists in inventory: " + bookTitle);
             return;
         }
@@ -268,7 +268,7 @@ public class InputHandler {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_REMOVE_BOOK);
         }
         String bookTitle = commandArgs[1].trim();
-        Book toRemove = bookList.findBookByTitle(bookTitle);
+        Book toRemove = bookList.searchBook(bookTitle);
 
         if (toRemove == null) {
             Formatter.printBorderedMessage("Book not found in inventory: " + bookTitle);
@@ -295,7 +295,7 @@ public class InputHandler {
         }
         try {
             String bookTitle = commandArgs[1];
-            Book loanedBook = bookList.findBookByTitle(bookTitle);
+            Book loanedBook = bookList.searchBook(bookTitle);
             Loan loan = loanList.findLoan(loanedBook);
             if (loanedBook == null) {
                 Formatter.printBorderedMessage("Book not found in inventory: " + bookTitle);
@@ -322,9 +322,9 @@ public class InputHandler {
      * @param commandArgs The parsed command arguments
      * @throws IncorrectFormatException If the input format is invalid
      */
-    private void searchBook(String[] commandArgs) throws IncorrectFormatException {
+    private void searchTitle(String[] commandArgs) throws IncorrectFormatException {
         if (commandArgs.length < 2) {
-            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_SEARCH_BOOK);
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_SEARCH_TITLE);
         }
 
         String keyword = commandArgs[1].trim();
@@ -417,12 +417,12 @@ public class InputHandler {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_SAME_TITLE);
         }
 
-        if(bookList.findBookByTitle(newTitle) != null) {
+        if(bookList.searchBook(newTitle) != null) {
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_DUPLICATE_TITLE);
         }
 
         // Check if book already exists in the inventory
-        Book book = bookList.findBookByTitle(oldTitle);
+        Book book = bookList.searchBook(oldTitle);
         if (book == null) {
             throw new BookNotFoundException("Book not found in inventory: " + oldTitle);
         }
@@ -449,7 +449,7 @@ public class InputHandler {
         String email = editLoanArgs[4];
 
         // Check if book already exists in the inventory
-        Book book = bookList.findBookByTitle(bookTitle);
+        Book book = bookList.searchBook(bookTitle);
         Loan loan = loanList.findLoan(book);
 
         if (book == null) {

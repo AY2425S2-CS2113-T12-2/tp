@@ -27,15 +27,6 @@ public class BookList {
         bookList.add(book);
     }
 
-    public Book findBookByTitle(String title) {
-        for (Book book : bookList) {
-            if (book.getTitle().equalsIgnoreCase(title)) { // Use equalsIgnoreCase for case-insensitive comparison
-                return book;
-            }
-        }
-        return null;
-    }
-
     public Book searchBook(String title) {
         for (Book book : bookList) {
             if (book.getTitle().equals(title)) { 
