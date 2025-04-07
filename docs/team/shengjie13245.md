@@ -41,9 +41,7 @@ BookKeeper is a Command Line Interface (CLI) library manager application for eff
     - `delete-loan`
     - `search-title`
     - `list-category`
-    - `add-note`
-    - `delete-note`
-    - `update-note`
+    - `update/add/delete-note`
 
 ## Contributions to the DG:
 - Added documentation and UML diagram for the following sections:
