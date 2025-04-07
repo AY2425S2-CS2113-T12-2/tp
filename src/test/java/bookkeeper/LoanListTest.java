@@ -188,7 +188,7 @@ public class LoanListTest {
     }
 
     @Test
-    void viewLoanList_OneLoanLoanList() {
+    void viewLoanList_oneLoanLoanList() {
         loanList.addLoan(loan1);
         loanList.viewLoanList();
         String output = outputStreamCaptor.toString().trim();

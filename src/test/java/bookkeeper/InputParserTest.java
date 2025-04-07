@@ -19,7 +19,7 @@ public class InputParserTest {
         String[] arguments = InputParser.extractAddBookArgs("The Great Gatsby " +
                 "a/F. Scott Fitzgerald cat/Fiction cond/Good loc/Shelf 1 note/Amazing Book");
         String[] output = new String[]{"The Great Gatsby", "F. Scott Fitzgerald", "Fiction", "Good", "Shelf 1", 
-                "Amazing Book"};
+            "Amazing Book"};
         assertArrayEquals(arguments, output);
     }
 

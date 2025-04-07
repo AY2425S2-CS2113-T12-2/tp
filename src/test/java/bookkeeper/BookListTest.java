@@ -95,14 +95,14 @@ class BookListTest {
     }
 
     @Test 
-    void viewBookList_EmptyBookList() {
+    void viewBookList_emptyBookList() {
         bookList.viewBookList();
         String output = outputStreamCaptor.toString().trim();
         assertTrue(output.contains("Book List Empty!"));
     }
 
     @Test 
-    void viewBookList_OneBookBookList() {
+    void viewBookList_oneBookBookList() {
         bookList.addBook(book1);
         bookList.viewBookList();
         String output = outputStreamCaptor.toString().trim();
