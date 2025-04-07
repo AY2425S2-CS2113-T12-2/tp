@@ -53,7 +53,7 @@ alt commandArgs[0] == update-book
     Book --> InputHandler
     deactivate Book
 
-    InputHandler -> Formatter: printBorderedMessage("Book Updated: {BOOK_DETAILS}")
+    InputHandler -> Formatter: printBorderedMessage("Book Updated: {Book}")
     activate Formatter
 
     Formatter --> InputHandler
