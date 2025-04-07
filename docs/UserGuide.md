@@ -144,7 +144,7 @@ Format: `update-title BOOK_TITLE new/NEW_TITLE`
 Example:
 
 ```
-update-book Great Gatsby new/ The Great Gatsby
+update-title Great Gatsby new/ The Great Gatsby
 ```
 
 Expected Outcome:
