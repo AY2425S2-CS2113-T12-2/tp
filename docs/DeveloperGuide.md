@@ -57,12 +57,12 @@ The architecture of BookKeeper follows a layered design, with each component res
 
 - **InputHandler (`InputHandler.java`)**: Processes user input and executes the corresponding commands.
 - **InputParser (`InputParser.java`)**: Parses user input into command arguments and validates them.
-- **Command Classes**: Implement specific functionalities using the Command pattern.
 
 #### 4. Model Component
 
 - **Book and Loan Classes**: Define the core data structures for books and loans.
 - **BookList and LoanList**: Manage collections of books and loans, providing methods for adding, removing, and searching.
+- **Category and Condition**: Enumeration classes to classify books
 
 #### 5. Storage Component (`Storage.java`)
 
@@ -86,7 +86,9 @@ bookkeeper/
 │     └── IncorrectFormatException.java
 ├── model/
 │     ├── Book.java           # Represents a book
-│     └── Loan.java           # Represents a loan
+│     ├── Loan.java           # Represents a loan
+|     ├── Condition.java      # Enum for condition of books
+|     └── Category.java       # Enum for category of books
 ├── list/
 │     ├── BookList.java # Manages the collection of books
 │     └── LoanList.java # Manages the collection of loans
@@ -217,9 +219,9 @@ The `remove-book` feature allows the user to remove a book from the inventory us
 The system will first check if the book exists, remove all associated loans (if any) before finally removing the book
 from the inventory. This prevents orphaned loan records from remaining in the system.
 
-`InputHandler` coordinates with `BookList`, `LoanList` and `Formatter` classes to implement the feature.
+`InputHandler` coordinates with `BookList`, `LoanList`, `Formatter` and `Storage` classes to implement the feature.
 
-The following UML sequence diagram shows how the `remove-book TITLE` command is handled.
+The following UML sequence diagram shows how the `remove-book BOOK_TITLE` command is handled.
 
 ![removeBook.png](images/removeBook.png)
 
@@ -253,7 +255,7 @@ The following UML sequence diagram shows how the `remove-book TITLE` command is 
 The `delete-loans` feature allows the user to remove a loan from the list of loans that is being tracked by using the book title and the borrower name as identifiers.
 The program will check if first the book exists, then it will use the book object and the borrower name to search if the loan exist before proceeding to remove it.
 
-The following UML sequence diagram shows the behaviour of `delete-loans TITLE`:
+The following UML sequence diagram shows the behaviour of `delete-loans BOOK_TITLE`:
 
 ![delete_loan.png](images/deleteLoan.png)
 
@@ -263,13 +265,13 @@ The following UML sequence diagram shows the behaviour of `delete-loans TITLE`:
 2. `InputHandler` extract command arguments with `extractCommandArgs(...)` followed by deleteLoan(commandArgs).
 
 3. `InputHandler` calls `BookList.findBookByTitle(bookTitle)` to search for the book.
-   `InputHandler` calls `LoanList.findLoans(bookTitle)` to search for the loan.
+   `InputHandler` calls `LoanList.findLoan(book)` to search for the loan.
 
    - If the book is not found `(loanedBook == null)`, not on loan, or there is no existing loan, `InputHandler` uses `Formatter` to print an error message and stops the command early.
    - If the book is found, the flow continues.
 
 4. Delete corresponding loan:
-   `InputHandler` calls `LoanList.deleteLoans(loan)` to delete the loan.
+   `InputHandler` calls `LoanList.deleteLoan(loan)` to delete the loan.
 
 5. Sets book to not on loan:
    `InputHandler` calls loanedBook.setOnLoan(false).
@@ -351,7 +353,7 @@ The `update-book` feature allows the user to add update existing book details. T
 
 `InputHandler` coordinates with `InputParser`, `BookList`, `Formatter`, and `Storage` classes to implement the feature.
 
-The following UML sequence diagram shows how the `update-book update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]` command is handled.
+The following UML sequence diagram shows how the `update-book BOOK_TITLE [a/AUTHOR] [cat/CATEGORY] [cond/CONDITION] [loc/LOCATION] [note/NOTE]` command is handled.
 
 ![updateBook.png](images/updateBook.png)
 
@@ -366,14 +368,15 @@ The following UML sequence diagram shows how the `update-book update-book BOOK_T
      - `commandArgs[1]`: `"The Great Gatsby a/F. Scott Fitzgerald cat/Fiction cond/POOR loc/Shelf B3 note/Replace ASAP"`
 
 3. Book arguments are parsed:
+   All arguments are optional except Book Title
    `InputHandler` invokes `InputParser.extractUpdateBookArgs(...)` to parse the second part of the command (`commandArgs[1]`) into the following components:
 
    - Book title
    - Author
    - Category
    - Condition
-   - Location
-   - Note (Optional)
+   - Location 
+   - Note 
 
 4. Book is validated:
    `InputHandler` calls `BookList.findBookByTitle(bookTitle)` to check if the book exists in the inventory.
@@ -382,13 +385,13 @@ The following UML sequence diagram shows how the `update-book update-book BOOK_T
    - If the book is found, the flow continues.
 
 5. Book is updated:
-   `InputHandler` updates the book details by invoking the following methods from `Book` class:
+   `InputHandler` updates the book details by invoking the following methods if needed from `Book` class:
 
    - `Book.setAuthor(newAuthor)`
    - `Book.setCategory(newCategory)`
    - `Book.setCondition(newCondition)`
    - `Book.setLocation(newLocation)`
-   - `Book.setNote(newNote)` (only if note is provided)
+   - `Book.setNote(newNote)`
 
 6. Changes are saved to persistent storage:
    `InputHandler` calls `Storage.saveLoans(...)` and `Storage.saveInventory(...)` to save the updated book details.
