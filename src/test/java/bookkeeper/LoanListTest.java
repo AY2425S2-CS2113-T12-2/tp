@@ -1,23 +1,27 @@
 package bookkeeper;
 
+import bookkeeper.exceptions.IncorrectFormatException;
+import bookkeeper.exceptions.InvalidArgumentException;
 import bookkeeper.list.BookList;
 import bookkeeper.list.LoanList;
+import bookkeeper.logic.InputParser;
 import bookkeeper.model.Book;
 import bookkeeper.model.Loan;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LoanListTest {
     private LoanList loanList;
@@ -193,5 +197,14 @@ public class LoanListTest {
         loanList.viewLoanList();
         String output = outputStreamCaptor.toString().trim();
         assertTrue(output.contains("The Great Gatsby"));
+    }
+
+    @Test
+    void extractAddLoanArgs_borrowerWithSlash_success() throws IncorrectFormatException, InvalidArgumentException {
+        String[] arguments = InputParser.extractAddLoanArgs("The Great Gatsby n/John s/o Doe " +
+                "d/01-12-2025 p/98765432 e/john.doe@example.com");
+        String[] output = new String[]{"The Great Gatsby", "John s/o Doe", "01-12-" +
+                "2025", "98765432", "john.doe@example.com"};
+        assertArrayEquals(arguments, output);
     }
 }
