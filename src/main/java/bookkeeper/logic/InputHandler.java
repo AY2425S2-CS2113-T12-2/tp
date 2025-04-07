@@ -78,7 +78,7 @@ public class InputHandler {
                         updateBook(commandArgs);
                         break;
                     case "search-title":
-                        searchBook(commandArgs);
+                        searchTitle(commandArgs);
                         break;
                     case "list-category":
                         listCategory(commandArgs);
@@ -322,9 +322,9 @@ public class InputHandler {
      * @param commandArgs The parsed command arguments
      * @throws IncorrectFormatException If the input format is invalid
      */
-    private void searchBook(String[] commandArgs) throws IncorrectFormatException {
+    private void searchTitle(String[] commandArgs) throws IncorrectFormatException {
         if (commandArgs.length < 2) {
-            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_SEARCH_BOOK);
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_SEARCH_TITLE);
         }
 
         String keyword = commandArgs[1].trim();
