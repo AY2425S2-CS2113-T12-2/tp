@@ -11,7 +11,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -22,8 +25,12 @@ public class LoanListTest {
     private Book book2;
     private Loan loan1;
 
+    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+
     @BeforeEach
     public void setUp() {
+        System.setOut(new PrintStream(outputStreamCaptor));
+
         loanList = new LoanList("Test Loan List", new ArrayList<Loan>());
         BookList bookList = new BookList("Test Book List", new ArrayList<Book>());
 
@@ -38,7 +45,6 @@ public class LoanListTest {
         // Set loan1 to 21 days from the current date (valid)
         String futureDate = LocalDate.now().plusDays(21).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         loan1 = new Loan(book1, "John Doe", futureDate, "98765432", "abc123@gmail.com");
-
     }
 
     @Test
@@ -172,5 +178,20 @@ public class LoanListTest {
                 "Passing null to removeLoansByBook() should throw an AssertionError");
         assertEquals("Book cannot be null", error.getMessage(),
                 "Error message should indicate that the book cannot be null");
+    }
+
+    @Test
+    void viewLoanList_emptyLoanList() {
+        loanList.viewLoanList();
+        String output = outputStreamCaptor.toString().trim();
+        assertTrue(output.contains("Loan List Empty!"));
+    }
+
+    @Test
+    void viewLoanList_oneLoanLoanList() {
+        loanList.addLoan(loan1);
+        loanList.viewLoanList();
+        String output = outputStreamCaptor.toString().trim();
+        assertTrue(output.contains("The Great Gatsby"));
     }
 }

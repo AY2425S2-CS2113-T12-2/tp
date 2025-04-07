@@ -15,10 +15,11 @@ public class InputParserTest {
 
     // extractAddBookArgs gives us 5 arguments: name, author, category, condition, note("" if not provided)
     @Test
-    void extractAddBookArgs_validInput_fiveArgumentStringArray() throws IncorrectFormatException {
+    void extractAddBookArgs_validInput_sixArgumentStringArray() throws IncorrectFormatException {
         String[] arguments = InputParser.extractAddBookArgs("The Great Gatsby " +
-                "a/F. Scott Fitzgerald cat/Fiction cond/Good loc/Shelf 1");
-        String[] output = new String[]{"The Great Gatsby", "F. Scott Fitzgerald", "Fiction", "Good", "Shelf 1", ""};
+                "a/F. Scott Fitzgerald cat/Fiction cond/Good loc/Shelf 1 note/Amazing Book");
+        String[] output = new String[]{"The Great Gatsby", "F. Scott Fitzgerald", "Fiction", "Good", "Shelf 1", 
+            "Amazing Book"};
         assertArrayEquals(arguments, output);
     }
 
