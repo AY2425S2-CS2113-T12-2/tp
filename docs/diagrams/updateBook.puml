@@ -48,7 +48,7 @@ alt commandArgs[0] == update-book
         Formatter --> InputHandler
         deactivate Formatter
     end
-    InputHandler -> Book : setRelevantFields(...)
+    InputHandler -> Book : setBookFields(...)
     activate Book
     Book --> InputHandler
     deactivate Book
