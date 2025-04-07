@@ -4,34 +4,34 @@ participant Storage as ":Storage"
 participant File as ":File"
 participant Formatter as ":Formatter"
 participant Scanner as ":Scanner"
-participant Book as ":Book"
+participant loan as ":Loan"
 
 
 InputHandler -> Storage: loadInventory()
 activate Storage
 
-' Create a new empty bookList
-create BookList as ":BookList"
-Storage -> BookList: new ArrayList<Book>()
-activate BookList
-BookList --> Storage: bookList
-deactivate BookList
+' Create a new empty loanList
+create loanList as ":loanList"
+Storage -> loanList: new ArrayList<loan>()
+activate loanList
+loanList --> Storage: loanList
+deactivate loanList
 
-' Create File object for INVENTORY_FILE_PATH
+' Create File object for LOAN_LIST_FILE_PATH
 Create File
-Storage -> File: new File(INVENTORY_FILE_PATH)
+Storage -> File: new File(LOAN_LIST_FILE_PATH)
 activate File
 File --> Storage: file
 deactivate File
 
 opt !file.exists()
-    Storage -> Formatter: printBorderedMessage("No saved inventory found...")
+    Storage -> Formatter: printBorderedMessage("No saved loans found...")
     activate Formatter
 
     Formatter --> Storage
     deactivate Formatter
     
-    Storage --> InputHandler: empty bookList
+    Storage --> InputHandler: empty loanList
     end
     ' Open the file using a Scanner
     create Scanner
@@ -47,41 +47,41 @@ opt !file.exists()
         Scanner --> Storage: line
         deactivate Scanner
 
-        Storage -> Storage: parseBookFromString(line)
+        Storage -> Storage: parseloanFromString(line)
         activate Storage
         alt line has invalid format
             note over File
             returns null if the line has invalid format
             end note
         else else
-            create Book
-            Storage -> Book: create book with arguments provided in line
-            activate Book
-            Book --> Storage: book
-            deactivate Book
+            create loan
+            Storage -> loan: create loan with arguments provided in line
+            activate loan
+            loan --> Storage: loan
+            deactivate loan
         end
-        Storage --> Storage: book
+        Storage --> Storage: loan
         deactivate Storage
 
-        opt book != null
-            ' Check for duplicate book
-            Storage -> BookList: Check for duplicate book objects using stream
-            activate BookList
-            BookList --> Storage: isDuplicate
-            deactivate BookList
+        opt loan != null
+            ' Check for duplicate loan
+            Storage -> loanList: Check for duplicate loan objects using stream
+            activate loanList
+            loanList --> Storage: isDuplicate
+            deactivate loanList
             alt isDuplicate
-                ' Book already exists, skip adding it
-                Storage -> Formatter: printBorderedMessage("Duplicate book found...")
+                ' loan already exists, skip adding it
+                Storage -> Formatter: printBorderedMessage("Duplicate loan found...")
                 activate Formatter
                 Formatter --> Storage
                 deactivate Formatter
                 
             else else
-                ' Add book to bookList
-                Storage -> BookList: add(book)
-                activate BookList
-                BookList --> Storage
-                deactivate BookList
+                ' Add loan to loanList
+                Storage -> loanList: add(loan)
+                activate loanList
+                loanList --> Storage
+                deactivate loanList
             end 
         end
     end
@@ -93,14 +93,14 @@ opt !file.exists()
     Scanner --> Storage
     deactivate Scanner
     destroy Scanner
-    ' Print message with number of books loaded
+    ' Print message with number of loans loaded
     Storage -> Formatter: printBorderedMessage("Loaded...")
     activate Formatter
     Formatter --> Storage
     deactivate Formatter
     
 
-    Storage --> InputHandler: bookList
+    Storage --> InputHandler: loanList
     destroy File
     deactivate Storage
 

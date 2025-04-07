@@ -1,0 +1,68 @@
+@startuml
+
+participant InputHandler as ":InputHandler"
+participant Storage as ":Storage"
+participant LoanList as ":LoanList"
+participant File as ":File"
+participant FileWriter as ":FileWriter"
+participant Loan as ":Loan"
+participant Formatter as ":Formatter"
+
+activate InputHandler
+
+InputHandler -> Storage: saveLoans(loanList)
+activate Storage
+
+' Check if directory exists
+Storage -> File ** : new File(FOLDER_PATH)
+activate File
+File --> Storage: directory
+deactivate File
+opt Directory does not exist
+    Storage -> File: mkdirs()
+    activate File
+    File --> Storage: 
+    deactivate File
+end
+
+deactivate File
+
+' Create FileWriter for LOAN_LIST_FILE_PATH
+Storage -> FileWriter ** : new FileWriter(LOAN_LIST_FILE_PATH)
+activate FileWriter
+
+FileWriter --> Storage: fileWriter
+deactivate FileWriter
+
+' Retrieve list of Loans from LoanList
+Storage -> LoanList: getLoanList()
+activate LoanList
+LoanList --> Storage: List<Loan>
+deactivate LoanList
+
+' Loop through each Loan and write its file string
+loop for each Loan in LoanList
+    Storage -> Loan: toFileString()
+    activate Loan
+    Loan --> Storage: fileString
+    deactivate Loan
+    Storage -> FileWriter: write(fileString + lineSeparator)
+    activate FileWriter
+    FileWriter --> Storage:
+    deactivate FileWriter
+end
+
+' Close the FileWriter
+Storage -> FileWriter: close()
+activate FileWriter
+
+FileWriter --> Storage
+deactivate FileWriter 
+
+destroy FileWriter
+Storage --> InputHandler 
+deactivate Storage
+
+destroy File
+
+@enduml
