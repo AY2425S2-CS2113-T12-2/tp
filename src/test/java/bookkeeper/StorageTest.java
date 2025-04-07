@@ -156,8 +156,8 @@ public class StorageTest {
 
         // Create a test file with valid loan data
         try (FileWriter writer = new FileWriter(TEST_LOAN_LIST_FILE_PATH)) {
-            writer.write("The Great Gatsby | John Doe | 21-12-2026 | 1234567890 | johndoe@example.com\n");
-            writer.write("To Kill a Mockingbird | Jane Doe | 30-12-2026 | 0987654321 | janedoe@example.com\n");
+            writer.write("The Great Gatsby | John Doe | 21-12-2026 | 81234567 | johndoe@example.com\n");
+            writer.write("To Kill a Mockingbird | Jane Doe | 30-12-2026 | 98765432 | janedoe@example.com\n");
         } catch (Exception e) {
             fail("Failed to create test file: " + e.getMessage());
         }
@@ -185,9 +185,9 @@ public class StorageTest {
 
         // Create a test file with invalid lines
         try (FileWriter writer = new FileWriter(TEST_LOAN_LIST_FILE_PATH)) {
-            writer.write("The Great Gatsby | John Doe | 21-12-2026 | 1234567890 | johndoe@example.com\n");
+            writer.write("The Great Gatsby | John Doe | 21-12-2026 | 1234567 | johndoe@example.com\n");
             writer.write("Invalid Loan Entry\n");
-            writer.write("To Kill a Mockingbird | Jane Doe | 30-12-2026 | 0987654321 | janedoe@example.com\n");
+            writer.write("To Kill a Mockingbird | Jane Doe | 30-12-2026 | 98765432 | janedoe@example.com\n");
         } catch (Exception e) {
             fail("Failed to create test file: " + e.getMessage());
         }
@@ -196,8 +196,7 @@ public class StorageTest {
         ArrayList<Loan> loadedLoans = Storage.loadLoans(bookList);
 
         // Verify the loaded loans
-        assertEquals(2, loadedLoans.size());
-        assertEquals("The Great Gatsby", loadedLoans.get(0).getBook().getTitle());
-        assertEquals("To Kill a Mockingbird", loadedLoans.get(1).getBook().getTitle());
+        assertEquals(1, loadedLoans.size());
+        assertEquals("To Kill a Mockingbird", loadedLoans.get(0).getBook().getTitle());
     }
 }
