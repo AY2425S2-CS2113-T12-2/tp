@@ -78,8 +78,6 @@ or
 add-book Great Gatsby a/Fitzgerald cat/Fiction cond/Good loc/Shelf B1 note/important
 ```
 
-<div style="page-break-after: always;"></div>
-
 Expected Outcome:
 
 ```
