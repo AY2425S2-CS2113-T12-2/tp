@@ -36,7 +36,7 @@ alt commandArgs[0] == update-book
     InputParser --> InputHandler: parsedArgs
     deactivate InputParser
 
-    InputHandler -> BookList: findBookByTitle(BOOK_TITLE)
+    InputHandler -> BookList: searchBook(BOOK_TITLE)
     activate BookList
 
     BookList --> InputHandler: Book
@@ -48,7 +48,7 @@ alt commandArgs[0] == update-book
         Formatter --> InputHandler
         deactivate Formatter
     end
-    InputHandler -> Book : setRelevantFields(...)
+    InputHandler -> Book : setBookFields(...)
     activate Book
     Book --> InputHandler
     deactivate Book

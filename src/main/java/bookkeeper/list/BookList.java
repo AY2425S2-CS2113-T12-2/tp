@@ -36,6 +36,15 @@ public class BookList {
         return null;
     }
 
+    public Book searchBook(String title) {
+        for (Book book : bookList) {
+            if (book.getTitle().equals(title)) { // Use equalsIgnoreCase for case-insensitive comparison
+                return book;
+            }
+        }
+        return null;
+    }
+
     public ArrayList<Book> findBooksByKeyword(String keyword) {
         ArrayList<Book> filteredBookList = new ArrayList<>();
         for (Book book : bookList) {

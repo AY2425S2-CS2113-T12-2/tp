@@ -338,7 +338,7 @@ public class InputHandler {
         String note = bookArgs[5];
 
         // Check if book already exists in the inventory
-        Book book = bookList.findBookByTitle(bookTitle);
+        Book book = bookList.searchBook(bookTitle);
         if (book == null) {
             throw new BookNotFoundException("Book not found in inventory: " + bookTitle);
         }

@@ -379,7 +379,7 @@ The following UML sequence diagram shows how the `update-book BOOK_TITLE [a/AUTH
    - Note 
 
 4. Book is validated:
-   `InputHandler` calls `BookList.findBookByTitle(bookTitle)` to check if the book exists in the inventory.
+   `InputHandler` calls `BookList.searchBook(bookTitle)` to check if the book exists in the inventory.
 
    - If the book is not found, `InputHandler` uses `Formatter` to print a exception message and exits early.
    - If the book is found, the flow continues.
