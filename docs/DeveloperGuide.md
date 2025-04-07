@@ -455,51 +455,50 @@ The following UML sequence diagram shows how the `edit-loan BOOK_TITLE [n/BORROW
 
 The `update-title` feature allows the user to update existing book titles. The system ensures that a book of the current title exists in the inventory and before performing the update.
 
-`InputHandler` coordinates with `InputParser`, `BookList`, `Formatter`, and `Storage` classes to implement the feature.
+`InputHandler` coordinates with `InputParser`, `BookList`, `Book`, `Formatter`, and `Storage` classes to implement the feature.
 
-The following UML sequence diagram shows how the `update-book BOOK_TITLE [a/AUTHOR] [cat/CATEGORY] [cond/CONDITION] [loc/LOCATION] [note/NOTE]` command is handled.
+The following UML sequence diagram shows how the `update-book BOOK_TITLE new/NEW_TITLE` command is handled.
 
-![updateBook.png](images/updateBook.png)
+![updateTitle.png](images/updateTitle.png)
 
 1. User issues command:
-   The user inputs the command in the CLI with the required arguments, e.g., `update-book The Great Gatsby a/F. Scott Fitzgerald cat/Fiction cond/POOR loc/Shelf B3 note/Replace ASAP`.
+   The user inputs the command in the CLI with the required arguments, e.g., `update-title BOOK_TITLE new/NEW_TITLE`.
 
 2. Command arguments are extracted:
    `InputHandler` first calls `InputParser.extractCommandArgs(...)` to split the user input into command arguments.
 
-   - For example, the input `update-book The Great Gatsby a/F. Scott Fitzgerald cat/Fiction cond/POOR loc/Shelf B3 note/Replace ASAP` is split into:
-     - `commandArgs[0]`: `"update-book"`
-     - `commandArgs[1]`: `"The Great Gatsby a/F. Scott Fitzgerald cat/Fiction cond/POOR loc/Shelf B3 note/Replace ASAP"`
+   - For example, the input `update-title Great Gatsby new/The Great Gatsby` is split into:
+     - `commandArgs[0]`: `"update-title"`
+     - `commandArgs[1]`: `"Great Gatsby new/The Great Gatsby"`
 
-3. Book arguments are parsed:
-   `InputHandler` invokes `InputParser.extractUpdateBookArgs(...)` to parse the second part of the command (`commandArgs[1]`) into the following components:
+3. Title arguments are parsed:
+   `InputHandler` invokes `InputParser.extractUpdateTitleArgs(...)` to parse the second part of the command (`commandArgs[1]`) into the following components:
 
-   - Book title
-   - Author
-   - Category
-   - Condition
-   - Location
-   - Note (Optional)
+   - old Title
+   - new Title
 
-4. Book is validated:
-   `InputHandler` calls `BookList.findBookByTitle(bookTitle)` to check if the book exists in the inventory.
+4. Title is validated:
+   `InputHandler` checks if `oldTitle` is the same as `newTitle`. `InputHandler` also calls `BookList.findBookByTitle(newTitle)` to check if there is an existing book with the same title as `newTitle`.
+
+   - If the a `oldTitle` and `newTitle` are the same, `InputHandler` uses `Formatter` to print a exception message and exits early.
+   - If the a book with the same title as `newTitle` is found, `InputHandler` uses `Formatter` to print a exception message and exits early.
+   - If no book is found, the flow continues.
+
+5. Book is validated:
+   `InputHandler` calls `BookList.findBookByTitle(oldTitle)` to check if the book exists in the inventory.
 
    - If the book is not found, `InputHandler` uses `Formatter` to print a exception message and exits early.
    - If the book is found, the flow continues.
 
-5. Book is updated:
+6. Title is updated:
    `InputHandler` updates the book details by invoking the following methods from `Book` class:
 
-   - `Book.setAuthor(newAuthor)`
-   - `Book.setCategory(newCategory)`
-   - `Book.setCondition(newCondition)`
-   - `Book.setLocation(newLocation)`
-   - `Book.setNote(newNote)` (only if note is provided)
+   - `Book.setTitle(newTitle)`
 
-6. Changes are saved to persistent storage:
-   `InputHandler` calls `Storage.saveLoans(...)` and `Storage.saveInventory(...)` to save the updated book details.
+7. Changes are saved to persistent storage:
+   `InputHandler` calls `Storage.saveLoans(...)` and `Storage.saveInventory(...)` to save the updated book title.
 
-7. Success message is displayed:
+8. Success message is displayed:
    `InputHandler` uses `Formatter` to print a message indicating that the book was successfully updated.
 
 ### Save Inventory

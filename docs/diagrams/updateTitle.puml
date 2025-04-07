@@ -1,0 +1,103 @@
+@startuml
+actor User
+participant InputHandler as ":InputHandler"
+participant InputParser as ":InputParser"
+participant BookList as ":BookList"
+participant Book as ":Book"
+participant Formatter as ":Formatter"
+participant Storage as ":Storage"
+
+User -> InputHandler: userInputLine
+activate InputHandler
+
+InputHandler -> InputParser: extractCommandArgs(userInputLine)
+activate InputParser
+
+InputParser --> InputHandler: commandArgs[]
+deactivate InputParser
+
+alt commandArgs[0] == update-title
+    InputHandler -> InputHandler : updateTitle()
+    activate InputHandler
+
+    opt commandArgs.length < 2
+        note right
+        rest of sequence is cancelled in error cases denoted in opt frames
+        end note
+        InputHandler -> Formatter: Print exception message
+        activate Formatter
+        Formatter --> InputHandler
+        deactivate Formatter
+    end
+
+    InputHandler -> InputParser: extractUpdateTitleArgs(commandArgs[1])
+    activate InputParser
+
+    InputParser --> InputHandler: parsedArgs
+    deactivate InputParser
+
+   opt oldTitle.equals(newTitle)
+        InputHandler -> Formatter: Print exception message
+        activate Formatter
+        Formatter --> InputHandler
+        deactivate Formatter
+    end
+   
+    InputHandler -> BookList: findBookByTitle(newTitle)
+    activate BookList
+
+    BookList --> InputHandler: Book
+    deactivate BookList
+    
+    opt Book != null
+        InputHandler -> Formatter: Print exception message
+        activate Formatter
+        Formatter --> InputHandler
+        deactivate Formatter
+    end
+
+    InputHandler -> BookList: findBookByTitle(oldTitle)
+    activate BookList
+
+    BookList --> InputHandler: Book
+    deactivate BookList
+
+    opt Book == null
+        InputHandler -> Formatter: Print exception message
+        activate Formatter
+        Formatter --> InputHandler
+        deactivate Formatter
+    end
+    InputHandler -> Book : setTitle(newTitle)
+    activate Book
+    Book --> InputHandler
+    deactivate Book
+
+    InputHandler -> Formatter: printBorderedMessage("Book Updated: {BOOK}")
+    activate Formatter
+
+    Formatter --> InputHandler
+    deactivate Formatter
+
+    InputHandler -> Storage: saveInventory(bookList)
+    activate Storage
+
+    Storage --> InputHandler
+    deactivate Storage
+
+    InputHandler -> Storage: saveInventory(loanList)
+    activate Storage
+
+    Storage --> InputHandler
+    deactivate Storage
+
+InputHandler --> InputHandler
+deactivate InputHandler
+
+else else
+    note over InputHandler : other commands
+end
+
+InputHandler --> User
+deactivate InputHandler
+@enduml
