@@ -70,8 +70,8 @@ public final class ErrorMessages {
     public static final String INVALID_FORMAT_DELETE_NOTE = "Invalid format for delete-note.\n" +
             "Expected format: delete-note BOOK_TITLE";
 
-    public static final String INVALID_FORMAT_SEARCH_BOOK = "Invalid format for search-book.\n" +
-            "Expected format: search-book KEYWORD";
+    public static final String INVALID_FORMAT_SEARCH_BOOK = "Invalid format for search-title.\n" +
+            "Expected format: search-title KEYWORD";
 
     public static final String INVALID_FORMAT_LIST_CATEGORY = "Invalid format for list-category.\n" +
             "Expected format: list-category CATEGORY";
