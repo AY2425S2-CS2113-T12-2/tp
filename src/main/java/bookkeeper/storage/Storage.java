@@ -117,7 +117,7 @@ public class Storage {
 
                 // Skip duplicate books
                 boolean isDuplicate = bookList.stream()
-                        .anyMatch(existingBook -> existingBook.getTitle().equalsIgnoreCase(book.getTitle()));
+                        .anyMatch(existingBook -> existingBook.getTitle().equals(book.getTitle()));
                 if (isDuplicate) {
                     Formatter.printBorderedMessage("Duplicate book found and skipped: " + book.getTitle());
                     continue;
@@ -225,7 +225,7 @@ public class Storage {
         String email = parts[4].trim();
 
         // Find the book in the inventory
-        Book loanedBook = bookList.findBookByTitle(title);
+        Book loanedBook = bookList.searchBook(title);
         if (loanedBook == null) {
             Formatter.printBorderedMessage("Invalid loan: Book not found in inventory - " + title);
             return null; // Skip this loan
