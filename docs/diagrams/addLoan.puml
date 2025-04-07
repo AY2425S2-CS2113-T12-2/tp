@@ -36,7 +36,7 @@ end
     InputParser --> InputHandler: parsedArgs
     deactivate InputParser
 
-    InputHandler -> BookList: findBookByTitle(BOOK_TITLE)
+    InputHandler -> BookList: searchBook(BOOK_TITLE)
     activate BookList
 
     BookList --> InputHandler: Book
