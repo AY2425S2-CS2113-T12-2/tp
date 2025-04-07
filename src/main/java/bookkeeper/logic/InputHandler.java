@@ -113,7 +113,7 @@ public class InputHandler {
             | Remove Book    | `remove-book BOOK_TITLE`                                                             |
             | Update Book    | `update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION note/NOTE` |
             | Update Title   | `update-title BOOK_TITLE new/NEW_TITLE                                               |
-            | Search Book    | `search-title KEYWORD`                                                                |
+            | Search Book    | `search-title KEYWORD`                                                               |
             | View Inventory | `view-inventory`                                                                     |
             | List Category  | `list-category CATEGORY`                                                             |
             | Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`           |
