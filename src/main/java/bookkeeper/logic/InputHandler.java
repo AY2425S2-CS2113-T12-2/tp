@@ -395,7 +395,7 @@ public class InputHandler {
         book.setTitle(newTitle);
         Formatter.printBorderedMessage("Book Updated:\n" + book);
         Storage.saveInventory(bookList);
-
+        Storage.saveLoans(loanList);
     }
     
 
