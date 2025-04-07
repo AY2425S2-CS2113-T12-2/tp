@@ -61,4 +61,3 @@ BookKeeper is a Command Line Interface (CLI) library manager application for eff
 - Maintained the issue tracker and managed milestones.
 - Assisted in integrating features contributed by team members.
 - Set up Developer Guide and User Guide structure.
-- Documented target user profile and user stories in Developer Guide.
