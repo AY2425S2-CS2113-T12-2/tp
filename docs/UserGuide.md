@@ -410,7 +410,7 @@ Warning Message:
 
 - **Commands Are Case-Sensitive**: Ensure that commands and inputs (e.g., book titles, borrower names) match the exact case.
 - **Books Are Unique**: Each book in the inventory is unique and identified by its title. Duplicate books are not allowed.
-- **Input Character Limitations**: We guarantee support for the English keyboard only. Please do not use the character `|` in your inputs. 
+- **Input Character Limitations**: We guarantee support for the English keyboard only. For contact numbers, only Singapore numbers are supported (omit +65). Please do not use the character `|` in your inputs. 
 - **Data Size/Length Limitations**: Inventory size, loan list length and no. of characters in user input should not exceed `2147483647` (>2 billion).
 - **User Responsibility**: User is responsible for text between flags (demarcated by `/`), e.g. `" "` is considered a valid book title if user follows proper command syntax.
 
