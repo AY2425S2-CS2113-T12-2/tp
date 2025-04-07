@@ -234,7 +234,7 @@ public class Storage {
             return null; // Skip this loan
         }
 
-        if (!phoneNumber.matches("^[0-9]+$")) {
+        if (!phoneNumber.matches("^[986][0-9]{7}$")) {
             throw new InvalidArgumentException("Invalid loan entry skipped: " + line + "\nReason: " + 
                     "Illegal phone number");
         }
