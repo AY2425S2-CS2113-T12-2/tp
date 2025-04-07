@@ -22,7 +22,7 @@ activate InputHandler
         BookList --> InputHandler: toRemove
         deactivate BookList
         alt toRemove == null
-            InputHandler -> Formatter: printBorderedMessage("Book not found")
+            InputHandler -> Formatter: printBorderedMessage("Book not found in inventory: {BOOK_TITLE}")
             activate Formatter
             Formatter --> InputHandler
             deactivate Formatter
@@ -40,7 +40,7 @@ activate InputHandler
             activate Storage
             Storage --> InputHandler
             deactivate Storage
-            InputHandler -> Formatter: printBorderedMessage("Removed book")
+            InputHandler -> Formatter: printBorderedMessage("Removed book: {BOOK_TITLE}")
             activate Formatter
             Formatter --> InputHandler
             deactivate Formatter

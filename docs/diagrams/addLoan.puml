@@ -81,7 +81,7 @@ end
         Book --> InputHandler
         deactivate Book
 
-        InputHandler -> Formatter: printBorderedMessage("Loan added successfully")
+        InputHandler -> Formatter: printBorderedMessage("Loan added successfully for book: {BOOK_TITLE}")
         activate Formatter
 
         Formatter --> InputHandler
