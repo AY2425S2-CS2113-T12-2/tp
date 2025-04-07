@@ -28,16 +28,10 @@ BookKeeper is a Command Line Interface (CLI) library manager application for eff
     * **Justification**: The features improves the products as it provides a convenient way for users to edit their previously saved loans without first deleting and adding a new loan.
     * **Highlights**: Ensures that the loan being edited it actually present and the book is actually on loan. Allows for optional inputs of the different fields which allows the user to only input the fields that is needed to be updated
 
-5. Save Loans
-    * **What it does**: Automatically saves all loans to a txt whenever there is a change to the LoanList.
-    * **Justification**: Removes the need for user to manually save the loans in order to add it whenever they start the program.
-    * **Highlights**: Works hand in hand with load loans to provide convenience to the user. It required an analysis on how to loans should be saved as the book object cannot be saved in plain text.
-
-6. Load Loans
-    * **What it does**: Automaticallty loads all loans from a txt file into the program when it starts.
-    * **ustification**: Removes the need for user to manually load the loans whenever they start the program.
-    * **Highlights**: Works hand in hand with save loans to provide convenience to the user. The implementation was challenging as it require to ensure that the book object is the same as what is saved in the book list.
-    It also has to check for invalid email and phone numbers.
+5. Save/Load Loans
+    * **What it does**: Automatically saves all loans to a txt whenever there is a change to the LoanList and loads them back to program when restarted
+    * **Justification**: Removes the need for user to manually save and import the loans in order to add it whenever they start the program.
+    * **Highlights**: Save and load loans work together to provide convenience to the user. It requires an analysis on how to loans should be saved as the book object cannot be saved in plain text and checks to prevent invalid inputs and format
 
 ### Enhancement to existing features:
 - Wrote JUnit tests for inputParser class.
@@ -54,12 +48,11 @@ BookKeeper is a Command Line Interface (CLI) library manager application for eff
 ## Contributions to the DG:
 - Added documentation and UML diagram for the following sections:
     - `delete-loan`
-    - `update-note`
-    - `add-note`
-    - `delete-note`
+    - `update/add/delete-note`
 - Added UML diagram for following sections:
     - Class Diagram
-    
+- Proof Reading and Fixing errors in DG
+
 ## Contribution to team-based tasks:
 - Maintained the issue tracker and managed milestones.
 - Assisted in integrating features contributed by team members.
