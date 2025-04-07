@@ -106,23 +106,46 @@ public class InputHandler {
 
     private void displayHelp() {
         Formatter.printSimpleMessage("""
-            ---------------------------------------------------------------------------------------------------------
-            | Action         | Format                                                                               |
-            |----------------|--------------------------------------------------------------------------------------|
-            | Add Book       | `add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]`  |
-            | Remove Book    | `remove-book BOOK_TITLE`                                                             |
-            | Update Book    | `update-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION note/NOTE` |
-            | Update Title   | `update-title BOOK_TITLE new/NEW_TITLE                                               |
-            | Search Book    | `search-title KEYWORD`                                                               |
-            | View Inventory | `view-inventory`                                                                     |
-            | List Category  | `list-category CATEGORY`                                                             |
-            | Add Loan       | `add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL`           |
-            | Delete Loan    | `delete-loan BOOK_TITLE`                                                             |
-            | Edit Loan      | `edit-loan BOOK_TITLE [n/BORROWER_NAME] [d/RETURN_DATE] [p/PHONE_NUMBER] [e/EMAIL]`  |
-            | View Loans     | `view-loans`                                                                         |
-            | Display Help   | `help`                                                                               |
-            | Exit Program   | `exit`                                                                               |
-            ---------------------------------------------------------------------------------------------------------
+            ------------------------------------------------------------------------------------------------
+            | Add Book:                                                                                    |
+            | add-book BOOK_TITLE a/AUTHOR cat/CATEGORY cond/CONDITION loc/LOCATION [note/NOTE]            |
+            |----------------------------------------------------------------------------------------------|
+            | Remove Book:                                                                                 |
+            | remove-book BOOK_TITLE                                                                       |
+            |----------------------------------------------------------------------------------------------|
+            | Update Book:                                                                                 |
+            | update-book BOOK_TITLE [a/AUTHOR] [cat/CATEGORY] [cond/CONDITION] [loc/LOCATION] [note/NOTE] |
+            |----------------------------------------------------------------------------------------------|
+            | Update Title:                                                                                |
+            | update-title BOOK_TITLE new/NEW_TITLE                                                        |
+            |----------------------------------------------------------------------------------------------|
+            | Search Book:                                                                                 |
+            | search-title KEYWORD                                                                         |
+            |----------------------------------------------------------------------------------------------|
+            | View Inventory:                                                                              |
+            | view-inventory                                                                               |
+            |----------------------------------------------------------------------------------------------|
+            | List Category:                                                                               |
+            | list-category CATEGORY                                                                       |
+            |----------------------------------------------------------------------------------------------|
+            | Add Loan:                                                                                    |
+            | add-loan BOOK_TITLE n/BORROWER_NAME d/RETURN_DATE p/PHONE_NUMBER e/EMAIL                     |
+            |----------------------------------------------------------------------------------------------|
+            | Delete Loan:                                                                                 |
+            | delete-loan BOOK_TITLE                                                                       |
+            |----------------------------------------------------------------------------------------------|
+            | Edit Loan:                                                                                   |
+            | edit-loan BOOK_TITLE [n/BORROWER_NAME] [d/RETURN_DATE] [p/PHONE_NUMBER] [e/EMAIL]            |
+            |----------------------------------------------------------------------------------------------|
+            | View Loans:                                                                                  |
+            | view-loans                                                                                   |
+            |----------------------------------------------------------------------------------------------|
+            | Display Help:                                                                                |
+            | help                                                                                         |
+            |----------------------------------------------------------------------------------------------|
+            | Exit Program:                                                                                |
+            | exit                                                                                         |
+            ------------------------------------------------------------------------------------------------
             """);
     }
 
@@ -357,6 +380,10 @@ public class InputHandler {
 
         if(oldTitle.equals(newTitle)){
             throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_SAME_TITLE);
+        }
+
+        if(bookList.findBookByTitle(newTitle) != null) {
+            throw new IncorrectFormatException(ErrorMessages.INVALID_FORMAT_DUPLICATE_TITLE);
         }
 
         // Check if book already exists in the inventory

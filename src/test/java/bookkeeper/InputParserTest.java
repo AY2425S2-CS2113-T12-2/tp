@@ -280,11 +280,26 @@ public class InputParserTest {
     }
 
     @Test
+    void extractUpdateTitleArgs_emptyNewTitle_exceptionThrown() {
+        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, () ->
+                InputParser.extractUpdateTitleArgs("Cheese Chronicles new/"));
+        assertEquals(ErrorMessages.INVALID_FORMAT_UPDATE_TITLE, exception.getMessage());
+    }
+
+    @Test
+    void extractUpdateTitleArgs_emptyOldTitle_exceptionThrown() {
+        IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, () ->
+                InputParser.extractUpdateTitleArgs(" new/Cheese Adventures"));
+        assertEquals(ErrorMessages.INVALID_FORMAT_UPDATE_TITLE, exception.getMessage());
+    }
+
+    @Test
     void extractUpdateTitleArgs_duplicatePrefix_exceptionThrown() {
         IncorrectFormatException exception = assertThrows(IncorrectFormatException.class, () ->
                 InputParser.extractUpdateTitleArgs("Cheese Chronicles new/Cheese Adventures new/Extra"));
         assertEquals(ErrorMessages.INVALID_FORMAT_UPDATE_TITLE_DUPLICATE_PREFIX, exception.getMessage());
     }
+    
 
     @Test
     void extractAddNoteArgs_validInput_success() throws IncorrectFormatException {
