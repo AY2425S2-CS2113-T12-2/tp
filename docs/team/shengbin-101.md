@@ -36,7 +36,6 @@ BookKeeper is a Command Line Interface (CLI) library manager application for eff
 - Added documentation for `add-loan`, `delete-loan`, `edit-loan`, `view-loans` commands.
 - Added sections for:
     - Data Validation
-    - Adding a loan for a book already on loan
     - Notes on case sensitivity and unique books
 
 #### **Contributions to the Developer Guide**
