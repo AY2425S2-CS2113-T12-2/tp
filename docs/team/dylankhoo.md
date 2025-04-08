@@ -58,8 +58,7 @@ BookKeeper is a Command Line Interface (CLI) library manager application for eff
 
 ### Contributions to Team-Based Tasks
 
-- Set up the GitHub team org/repo
-- [Set up initial code skeleton for development](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/9c7513042d63e6f80bc9848cab931181e339c74b)
+- Set up the GitHub team org/repo [and initial code skeleton for development](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/9c7513042d63e6f80bc9848cab931181e339c74b)
 - Maintained the issue tracker and managed milestones
 - Assisted in integrating features contributed by team members, such as through
   - bug fixes (some examples: [1](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/1e5dcc25e61e7fccce8dc04965c9c6d083fc955e), [2](<(https://github.com/AY2425S2-CS2113-T12-2/tp/commit/859e97da39cd0f1364779463d6130777d29eb0d2)>), [3](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/13334cbd3be90ecd64ba55f13a5140a3c9b87186))
@@ -72,7 +71,6 @@ BookKeeper is a Command Line Interface (CLI) library manager application for eff
 ### Community Contributions
 
 - Helped to resolve forum questions and help requests
-
-  - [Issue 18](https://github.com/nus-cs2113-AY2425S2/forum/issues/18), [Issue 1](https://github.com/nus-cs2113-AY2425S2/forum/issues/1)
+  ([Issue 18](https://github.com/nus-cs2113-AY2425S2/forum/issues/18), [Issue 1](https://github.com/nus-cs2113-AY2425S2/forum/issues/1))
 
 - Gave advice on technologies team could use for better development experience, such as [oh my posh](https://ohmyposh.dev/) for easy branch identification
