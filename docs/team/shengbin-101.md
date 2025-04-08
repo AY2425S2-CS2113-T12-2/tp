@@ -11,7 +11,7 @@ BookKeeper is a Command Line Interface (CLI) library manager application for eff
 
 #### **Features Implemented**
 1. **`add-loan` command**:
-    - **What it does**: Allows users to add loans for books, specifying borrower details such as name, return date, phone number, and email.
+    - **What it does**: Feature to add loans for books, specifying borrower details such as name, return date, phone number, and email.
     - **Justification**: This feature is essential for tracking which books are currently on loan and who borrowed them. It enhances the core functionality of the library management system.
     - **Highlights**: Includes validation to prevent adding loans for books that are already on loan.
 
@@ -25,21 +25,15 @@ BookKeeper is a Command Line Interface (CLI) library manager application for eff
     - **Justification**: Ensures data integrity when loading from files, preventing crashes and maintaining a consistent state.
     - **Highlights**: Handles invalid entries, duplicate books, invalid loans, and mismatched `onLoan` statuses.
 
-4. **Dynamic Ordering of Arguments**:
+4. **Dynamic Ordering of Arguments in `update-book` and `edit-loan`**:
     - **What it does**: Allows users to input command arguments in any order, as long as all required arguments are provided. For example, the command `edit-loan` accepts arguments like `BORROWER_NAME`, `RETURN_DATE`, `PHONE_NUMBER`, and `EMAIL` in any order.
     - **Justification**: This feature improves the user experience by making commands more flexible and forgiving. Users do not need to memorize a strict order for arguments, reducing the likelihood of input errors.
     - **Highlights**:
-      - Implemented a parser that dynamically identifies and maps arguments based on prefixes (e.g., n/ for name, d/ for return date).
-      - Includes validation to ensure all required arguments are present and correctly formatted.
-      - Supports optional arguments (e.g., note/NOTE for books) without affecting the required arguments.
+      - Implemented InputParser to dynamically map arguments based on prefixes (e.g., n/ for name, d/ for return date).
       - Includes checking of duplicate prefixes/arguments given by user.
 
 #### **Contributions to the User Guide**
-- Added documentation for the following commands:
-    - `add-loan`
-    - `delete-loan`
-    - `edit-loan`
-    - `view-loans`
+- Added documentation for `add-loan`, `delete-loan`, `edit-loan`, `view-loans` commands.
 - Added sections for:
     - Data Validation
     - Adding a loan for a book already on loan
@@ -49,12 +43,11 @@ BookKeeper is a Command Line Interface (CLI) library manager application for eff
 - Wrote the implementation details for:
     - Section on Adding Loans
     - Section on Search Title
-    - Section on Save/Load Inventory
-    - Section on Save/Load Loans
-- Added UML diagrams for:
-    - Sequence Diagram for Adding Loans.
-    - Sequence Diagram for Save/Load Inventory.
-    - Sequence Diagram for Save/Load Loans.
+    - Section on Save/Load Inventory and Loans
+- Added Sequence Diagrams for:
+    - Sequence Diagram for Adding Loans
+    - Sequence Diagram for Save/Load Inventory
+    - Sequence Diagram for Save/Load Loans
 
 #### **Contributions to Team-Based Tasks**
 - Maintained the issue tracker and managed milestones.
