@@ -47,12 +47,8 @@ BookKeeper is a Command Line Interface (CLI) library manager application for eff
 
 - Added implementation details and UML sequence diagrams for::
 
-  - [`add-book`](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/90df5546efa098346ea29c99bd89f3cfe174c144)
-  - [`view-inventory`](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/90df5546efa098346ea29c99bd89f3cfe174c144)
-  - [`view-loans`](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/6a282acbac6c4fff8cd457d313fc5b3a58e7fa0b)
-  - [`update-book`](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/90df5546efa098346ea29c99bd89f3cfe174c144)
-  - [`edit-loan`](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/841b071fd93a5b2cb422777cc63268926150e4d2)
-  - [`update-title`](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/35447d708eba28ebf72fe4cb6dd683c9f3e5ca6d)
+  - [`add-book`](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/90df5546efa098346ea29c99bd89f3cfe174c144), [`update-title`](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/35447d708eba28ebf72fe4cb6dd683c9f3e5ca6d), [`update-book`](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/90df5546efa098346ea29c99bd89f3cfe174c144), [`view-inventory`](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/90df5546efa098346ea29c99bd89f3cfe174c144),
+  - [`edit-loan`](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/841b071fd93a5b2cb422777cc63268926150e4d2),[ `view-loans`](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/6a282acbac6c4fff8cd457d313fc5b3a58e7fa0b)
 
 - Updated documentation and diagrams after discussion, mock PE
 
@@ -77,7 +73,6 @@ BookKeeper is a Command Line Interface (CLI) library manager application for eff
 
 - Helped to resolve forum questions and help requests
 
-  1. [Issue 18](https://github.com/nus-cs2113-AY2425S2/forum/issues/18)
-  2. [Issue 1](https://github.com/nus-cs2113-AY2425S2/forum/issues/1)
+  - [Issue 18](https://github.com/nus-cs2113-AY2425S2/forum/issues/18), [Issue 1](https://github.com/nus-cs2113-AY2425S2/forum/issues/1)
 
 - Gave advice on technologies team could use for better development experience, such as [oh my posh](https://ohmyposh.dev/) for easy branch identification
