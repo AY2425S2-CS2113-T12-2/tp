@@ -21,8 +21,10 @@ BookKeeper is a Command Line Interface (CLI) library manager application for eff
    - **Justification:** This feature is essential as the app should provide a convenient way for the user to view their existing books and their details.
 
 3. [**Update books in inventory**](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/b9de07dd5b6fd1c1391860979b59c0bb767001cc)
+
    - **What it does:** allows the user to update details about books in their inventory.
    - **Justification:** This feature is essential as the app should provide the way for the user to update book details such as their condition and location as it changes.
+
 4. [**Update titles of book**](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/fec3c1972e92294b4ae9f8fd0869be5862b70179)
    - **What it does:** allows the user to update titles of the books in their inventory.
    - **Justification:** This feature is essential as the app should provide the way for the user to update book titles if there are typos.
@@ -38,22 +40,23 @@ BookKeeper is a Command Line Interface (CLI) library manager application for eff
 - [Wrote content page](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/1a93d1ff73d0d7271533485ff7bda658d682bacb)
 - Added [update title](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/e795971a7e76e9fd169d47fbab547efd8ccd3b2e)
 - Added details for all commands, such as [expected outcomes](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/2c72f163fb61d3d59b2b0db5f0df6e89f849b8c4)
-- Added and updated page breaks for formatting as the Guide updated (some examples: [1](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/10e53b37e10fb92efb9027ecb510d19a25a0bb96), [2](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/23c744f5a5243bc9fc831a43fa54fb5211c84516), [3](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/aaf63dfff82daa575414fcfa1fd349dc226feaaf), [4](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/d2b67c2f599c448a991eaa1b80c5b053a15dd190))
+- Maintained page breaks as the Guide updated (some examples: [1](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/10e53b37e10fb92efb9027ecb510d19a25a0bb96), [2](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/23c744f5a5243bc9fc831a43fa54fb5211c84516), [3](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/aaf63dfff82daa575414fcfa1fd349dc226feaaf), [4](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/ae493b8d01ca228df927c638fb6ab63477b9c881))
+- Updated UG as after discussions and mock PE (Some examples: [1](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/ec6e09a9acb0bfad711577dbbf949c47a46cf6b8), [2](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/e795971a7e76e9fd169d47fbab547efd8ccd3b2e))
 
 ### Contributions to Developer Guide
 
 - Added implementation details and UML sequence diagrams for::
+
   - [`add-book`](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/90df5546efa098346ea29c99bd89f3cfe174c144)
   - [`view-inventory`](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/90df5546efa098346ea29c99bd89f3cfe174c144)
   - [`view-loans`](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/6a282acbac6c4fff8cd457d313fc5b3a58e7fa0b)
   - [`update-book`](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/90df5546efa098346ea29c99bd89f3cfe174c144)
   - [`edit-loan`](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/841b071fd93a5b2cb422777cc63268926150e4d2)
   - [`update-title`](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/35447d708eba28ebf72fe4cb6dd683c9f3e5ca6d)
-- Updated diagrams after discussion, mock PE
 
-  - [`add-loan` and `add-book`](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/6e17842200c01d7f2450e4405934173e021bf094)
-  - [`deleteLoan`and `removeBook`](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/8606aefca7a26194c341f1c397553d5f32a9403a)
-  - [`update-book`](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/ecccef04211ee8c086871cf3779d2cc1b0b9213a)
+- Updated documentation and diagrams after discussion, mock PE
+
+  - Some examples: [1](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/6e17842200c01d7f2450e4405934173e021bf094), [2](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/8606aefca7a26194c341f1c397553d5f32a9403a), [3](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/ecccef04211ee8c086871cf3779d2cc1b0b9213a), [4](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/1f2533cee540b73697cc37e35386e3c20bc20854)
 
 - [Wrote Acknowledgements](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/90df5546efa098346ea29c99bd89f3cfe174c144)
 
@@ -68,9 +71,9 @@ BookKeeper is a Command Line Interface (CLI) library manager application for eff
   - [formatting updates](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/928890b5eec16620df2d64f464a991d4c7756fb9)
   - [refactoring code](https://github.com/AY2425S2-CS2113-T12-2/tp/commit/e073f8d7e73f11f661481fa87c4e3f0021392f30)
 - Created new tags such as `disputable` to help organise bugs after mock PE
-- Coordinated Zoom meeting for the team
+- Coordinated Zoom meetings for the team
 
-### Community Conributions
+### Community Contributions
 
 - Helped to resolve forum questions and help requests
 
