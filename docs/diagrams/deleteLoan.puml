@@ -12,7 +12,7 @@ User -> InputHandler : userInputLine
     InputHandler -> InputParser : extractCommandArgs(userInputLine)
     return commandArgs
 alt commandArgs[0] == delete-loan
-    InputHandler -> InputHandler : deleteLoan()
+    InputHandler -> InputHandler : deleteLoan(commandArgs)
     InputHandler -> InputParser : extractDeleteLoanArgs()
     return deleteLoanArgs 
     InputHandler -> BookList : findBookByTitle()

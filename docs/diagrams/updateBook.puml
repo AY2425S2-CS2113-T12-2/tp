@@ -17,7 +17,7 @@ InputParser --> InputHandler: commandArgs[]
 deactivate InputParser
 
 alt commandArgs[0] == update-book
-    InputHandler -> InputHandler : updateBook()
+    InputHandler -> InputHandler : updateBook(commandArgs)
     activate InputHandler
 
     opt commandArgs.length < 2

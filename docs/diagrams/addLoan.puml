@@ -18,7 +18,7 @@ InputParser --> InputHandler: commandArgs[]
 deactivate InputParser
 
 alt commandArgs[0] == add-loan
-    InputHandler -> InputHandler : addLoan()
+    InputHandler -> InputHandler : addLoan(commandArgs)
     activate InputHandler
 
 opt commandArgs.length < 2
