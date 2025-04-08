@@ -14,7 +14,7 @@ InputHandler -> InputParser : extractCommandArgs(User input)
 return commandArgs
 
 alt commandArgs[0] == delete-note
-    InputHandler -> InputHandler : deleteNote()
+    InputHandler -> InputHandler : deleteNote(commandArgs)
     opt commandArgs.length < 2 
         InputHandler -> Formatter : printBorderedMessage(Invalid Format)
         return

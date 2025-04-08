@@ -17,7 +17,7 @@ InputParser --> InputHandler: commandArgs[]
 deactivate InputParser
 
 alt commandArgs[0] == add-book
-    InputHandler -> InputHandler : addBook()
+    InputHandler -> InputHandler : addBook(commandArgs)
     activate InputHandler
 
     opt commandArgs.length < 2
